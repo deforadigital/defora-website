@@ -165,30 +165,22 @@ export default function Navbar({ locale }: { locale: Locale }) {
       <header className="fixed left-0 top-0 z-60 w-full py-5 md:py-6">
         <nav
           aria-label="Primary navigation"
-          className="flex w-full items-center justify-between gap-6 px-5 md:px-7 lg:px-8"
+          className="flex w-full items-center justify-between gap-6 px-6 md:px-8 lg:px-10"
         >
           <Link
             href={homePath}
             aria-label="Defora home"
-            className="group inline-flex h-12 items-center gap-2.5 rounded-full border border-white/10 bg-[#0D172B]/30 px-3.5 backdrop-blur-md transition duration-500 ease-out hover:border-white/18 hover:bg-white/[0.055]"
+            className="group inline-flex h-12 items-center justify-center rounded-full border border-white/12 bg-[#0D172B]/34 px-5 backdrop-blur-md transition duration-500 ease-out hover:border-white/20 hover:bg-white/[0.06] md:h-14 md:px-6"
             onClick={handleHomeClick}
           >
             <Image
-              src="/brand/defora-logo.png"
-              alt=""
-              width={1054}
-              height={977}
+              src="/brand/defora-navbar-logo.svg"
+              alt="Company logo"
+              width={2000}
+              height={2000}
               priority
-              className="h-8 w-8 object-contain transition duration-500 group-hover:scale-[1.02] md:h-9 md:w-9"
+              className="h-8 w-auto object-contain transition duration-500 group-hover:scale-[1.01] md:h-[2.5rem]"
             />
-            <span className="flex flex-col leading-none">
-              <span className="text-[1.55rem] font-semibold tracking-tight text-white md:text-[1.7rem]">
-                Defora
-              </span>
-              <span className="mt-1 text-[0.48rem] font-medium uppercase tracking-[0.42em] text-white/78 md:text-[0.52rem]">
-                Digital
-              </span>
-            </span>
           </Link>
 
           <div className="flex items-center gap-4">

@@ -339,54 +339,55 @@ export default function Hero({ locale }: { locale: Locale }) {
       <div className="relative z-[70] flex min-h-[100svh] items-stretch justify-start px-5 pointer-events-auto md:min-h-[100dvh] md:px-8">
         <div
           ref={contentRef}
-          className="relative z-[71] flex min-h-[100svh] w-full max-w-[min(100%,92rem)] flex-col pointer-events-auto md:min-h-[100dvh]"
+          className="relative z-[71] flex min-h-[100svh] w-full max-w-[min(100%,92rem)] flex-col justify-between pointer-events-auto md:min-h-[100dvh]"
         >
-          <div className="w-full max-w-[min(100%,72rem)] pt-[calc(4rem+4svh)] md:pt-[calc(5.25rem+10vh)]">
-            <div
-              ref={labelRef}
-              className="mb-[clamp(1.1rem,2.8vh,1.9rem)] flex w-full min-w-0 items-center justify-center gap-3 text-white/[0.34] md:mb-[clamp(0.85rem,2.2vh,1.65rem)]"
-            >
-              <span
-                className="hidden h-px w-7 shrink-0 bg-white/[0.18] sm:block md:w-8"
-                aria-hidden
-              />
-              <p
-                ref={eyebrowTrackRef}
-                className="eyebrow-track flex min-w-[min(100%,18rem)] max-w-full flex-col items-center gap-1.5 overflow-visible text-center uppercase leading-snug sm:shrink-0"
+          <div className="flex flex-1 items-center justify-start pt-24 md:pt-28">
+            <div className="flex w-fit max-w-full origin-left -translate-y-[5svh] flex-col items-center md:-translate-y-[5vh] md:scale-[1.12] lg:scale-[1.16]">
+              <div
+                ref={labelRef}
+                className="mb-[clamp(1.1rem,2.8vh,1.9rem)] flex w-fit max-w-full min-w-0 items-center justify-center gap-3 text-white/[0.34] md:mb-[clamp(0.85rem,2.2vh,1.65rem)]"
               >
-                <span className="text-[0.725rem] font-medium tracking-[0.27em] text-white/72 md:text-[0.62rem] md:tracking-[0.22em] md:text-white/36">
-                  {copy.focusLabel}
-                </span>
-                <span className="relative block h-[1.35em] w-full min-w-[11rem] text-[clamp(1.105rem,3vw,1.325rem)] font-semibold tracking-[0.34em] text-white/80 md:min-w-[13.5rem] md:text-[clamp(0.884rem,2.4vw,1.06rem)] md:tracking-[0.32em] md:text-white/78">
-                  {focusWords.map((word, index) => (
-                    <span
-                      key={word}
-                      className={`eyebrow-keyword absolute inset-0 flex items-center justify-center ${index === 0 ? "opacity-100" : "opacity-0"}`}
-                    >
-                      {word}
-                    </span>
-                  ))}
-                </span>
-              </p>
-              <span
-                className="hidden h-px w-7 shrink-0 bg-white/[0.18] sm:block md:w-8"
-                aria-hidden
-              />
-            </div>
-            <div
-              ref={ctaGroupRef}
-              className="mx-auto mt-[clamp(2rem,5.4vh,3rem)] flex w-full max-w-[min(100%,36rem)] flex-col items-center"
-            >
-              <div className="flex w-full max-w-md flex-col items-center">
+                <span
+                  className="hidden h-px w-7 shrink-0 bg-white/[0.18] sm:block md:w-8"
+                  aria-hidden
+                />
+                <p
+                  ref={eyebrowTrackRef}
+                  className="eyebrow-track flex flex-col items-center gap-2 overflow-visible text-center uppercase leading-snug"
+                >
+                  <span className="text-[0.82rem] font-medium tracking-[0.29em] text-white/72 md:text-[0.74rem] md:tracking-[0.24em] md:text-white/42">
+                    {copy.focusLabel}
+                  </span>
+                  <span className="relative block h-[1.35em] w-[12.5rem] text-[clamp(1.25rem,3.35vw,1.5rem)] font-semibold tracking-[0.36em] text-white/80 md:w-[16rem] md:text-[clamp(1.06rem,2.9vw,1.28rem)] md:tracking-[0.34em] md:text-white/78">
+                    {focusWords.map((word, index) => (
+                      <span
+                        key={word}
+                        className={`eyebrow-keyword absolute inset-0 flex items-center justify-center ${index === 0 ? "opacity-100" : "opacity-0"}`}
+                      >
+                        {word}
+                      </span>
+                    ))}
+                  </span>
+                </p>
+                <span
+                  className="hidden h-px w-7 shrink-0 bg-white/[0.18] sm:block md:w-8"
+                  aria-hidden
+                />
+              </div>
+              <div
+                ref={ctaGroupRef}
+                className="flex w-fit max-w-full flex-col items-center"
+              >
+                <div className="flex w-fit max-w-full flex-col items-center">
                 <button
                   type="button"
                   onClick={handleBookingAction}
-                  className="relative z-10 rounded-full border border-white/55 bg-white/[0.13] px-6 py-4 text-[0.76rem] font-medium uppercase leading-tight tracking-[0.2em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_20px_56px_rgba(0,0,0,0.26)] backdrop-blur-md transition-all duration-300 ease-out active:scale-[0.98] hover:border-white/65 hover:bg-white/[0.17] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_0_34px_rgba(92,190,255,0.14),0_24px_68px_rgba(0,0,0,0.34)] focus:outline-none focus:ring-2 focus:ring-white/25 focus-visible:ring-2 focus-visible:ring-white/25 md:border-white/40 md:bg-white/[0.09] md:px-7 md:py-3.5 md:text-[0.7rem] md:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_20px_56px_rgba(0,0,0,0.26)] motion-reduce:transition-none"
+                  className="relative z-10 rounded-full border border-white/55 bg-white/[0.13] px-7 py-[1.1rem] text-[0.86rem] font-medium uppercase leading-tight tracking-[0.2em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_20px_56px_rgba(0,0,0,0.26)] backdrop-blur-md transition-all duration-300 ease-out active:scale-[0.98] hover:border-white/65 hover:bg-white/[0.17] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_0_34px_rgba(92,190,255,0.14),0_24px_68px_rgba(0,0,0,0.34)] focus:outline-none focus:ring-2 focus:ring-white/25 focus-visible:ring-2 focus-visible:ring-white/25 md:border-white/40 md:bg-white/[0.09] md:px-8 md:py-[1.05rem] md:text-[0.84rem] md:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_20px_56px_rgba(0,0,0,0.26)] motion-reduce:transition-none"
                 >
                   {copy.cta}
                 </button>
 
-                <div className="mt-[clamp(1rem,2vh,1.125rem)] flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-[0.76rem] font-medium leading-tight tracking-[0.1em] text-white/76 md:text-white/64">
+                <div className="mt-[clamp(1.1rem,2.2vh,1.25rem)] flex flex-wrap items-center justify-center gap-x-3.5 gap-y-2 text-center text-[0.84rem] font-medium leading-tight tracking-[0.1em] text-white/76 md:text-[0.82rem] md:text-white/64">
                   <a
                     href={locale === "en" ? "tel:+15716006092" : phoneHref}
                     className="group inline-flex items-center gap-1 transition-all duration-200 ease-out hover:-translate-y-px hover:text-white/84 focus:outline-none focus-visible:-translate-y-px focus-visible:text-white/86 focus-visible:ring-2 focus-visible:ring-white/20 md:gap-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0"
@@ -394,7 +395,7 @@ export default function Hero({ locale }: { locale: Locale }) {
                     <svg
                       aria-hidden
                       viewBox="0 0 24 24"
-                      className="h-4 w-4 shrink-0 stroke-current opacity-76 transition-opacity duration-200 ease-out group-hover:opacity-90 md:h-3.5 md:w-3.5 md:opacity-68 motion-reduce:transition-none"
+                      className="h-[1.1rem] w-[1.1rem] shrink-0 stroke-current opacity-76 transition-opacity duration-200 ease-out group-hover:opacity-90 md:h-4 md:w-4 md:opacity-68 motion-reduce:transition-none"
                       fill="none"
                       strokeWidth="1.55"
                       strokeLinecap="round"
@@ -421,7 +422,7 @@ export default function Hero({ locale }: { locale: Locale }) {
                     <svg
                       aria-hidden
                       viewBox="0 0 24 24"
-                      className="h-4 w-4 shrink-0 stroke-current opacity-76 transition-opacity duration-200 ease-out group-hover:opacity-90 md:h-3.5 md:w-3.5 md:opacity-68 motion-reduce:transition-none"
+                      className="h-[1.1rem] w-[1.1rem] shrink-0 stroke-current opacity-76 transition-opacity duration-200 ease-out group-hover:opacity-90 md:h-4 md:w-4 md:opacity-68 motion-reduce:transition-none"
                       fill="none"
                       strokeWidth="1.55"
                       strokeLinecap="round"
@@ -436,8 +437,8 @@ export default function Hero({ locale }: { locale: Locale }) {
                 </div>
               </div>
             </div>
+            </div>
           </div>
-          <div className="min-h-[clamp(1.5rem,4svh,3rem)] flex-1 md:min-h-[clamp(4rem,17vh,12rem)]" aria-hidden />
           <h1
             ref={headlineRef}
             className="flex w-full max-w-[min(100%,92rem)] flex-col gap-[clamp(0.45rem,1.4vh,1.1rem)] pb-[clamp(1.25rem,3svh,2rem)] font-semibold tracking-[-0.04em] text-white md:pb-[clamp(2.25rem,7vh,5.5rem)]"
