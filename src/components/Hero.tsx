@@ -62,6 +62,7 @@ export default function Hero({ locale }: { locale: Locale }) {
   const logoRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const labelRef = useRef<HTMLDivElement | null>(null);
+  const eyebrowTrackRef = useRef<HTMLParagraphElement | null>(null);
   const headlineRef = useRef<HTMLHeadingElement | null>(null);
   const ctaGroupRef = useRef<HTMLDivElement | null>(null);
   const ctaShellRef = useRef<HTMLDivElement | null>(null);
@@ -69,6 +70,7 @@ export default function Hero({ locale }: { locale: Locale }) {
   const [ctaOpen, setCtaOpen] = useState(false);
   const revealId = useId();
   const copy = heroCopy[locale];
+  const labelParts = copy.label.split(" · ");
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
     copy.whatsappMessage,
   )}`;
@@ -133,13 +135,14 @@ export default function Hero({ locale }: { locale: Locale }) {
         autoAlpha: 0,
       });
 
-      gsap.set(
-        [labelRef.current, headlineRef.current, ctaGroupRef.current],
-        {
-          autoAlpha: 0,
-          y: prefersReducedMotion ? 0 : 28,
-        },
-      );
+      gsap.set([headlineRef.current, ctaGroupRef.current], {
+        autoAlpha: 0,
+        y: prefersReducedMotion ? 0 : 28,
+      });
+
+      gsap.set(labelRef.current, {
+        autoAlpha: 1,
+      });
 
       gsap.set(ghostRef.current, {
         autoAlpha: 0,
@@ -208,7 +211,7 @@ export default function Hero({ locale }: { locale: Locale }) {
           1.76,
         )
         .to(
-          [labelRef.current, headlineRef.current, ctaGroupRef.current],
+          [headlineRef.current, ctaGroupRef.current],
           {
             autoAlpha: 1,
             y: 0,
@@ -216,7 +219,7 @@ export default function Hero({ locale }: { locale: Locale }) {
             stagger: prefersReducedMotion ? 0 : 0.12,
             ease: "power4.out",
           },
-          1.72,
+          1.82,
         )
         .set(logoWrapRef.current, {
           display: "none",
@@ -231,6 +234,92 @@ export default function Hero({ locale }: { locale: Locale }) {
 
     return () => ctx.revert();
   }, []);
+
+  useLayoutEffect(() => {
+    const track = eyebrowTrackRef.current;
+    if (!track) return;
+
+    const ctx = gsap.context((self) => {
+      const words = self.selector?.(".eyebrow-word") ?? [];
+      const separators = self.selector?.(".eyebrow-separator") ?? [];
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      console.log(
+        "[Hero eyebrow animation]",
+        "words:",
+        words.length,
+        "separators:",
+        separators.length,
+        "reducedMotion:",
+        prefersReducedMotion,
+      );
+
+      if (!words.length) return;
+
+      gsap.set(track, {
+        x: 0,
+        willChange: "transform",
+      });
+
+      gsap.set(words, {
+        autoAlpha: 0,
+        y: 24,
+        filter: "blur(12px)",
+        willChange: "transform, opacity, filter",
+      });
+
+      gsap.set(separators, {
+        autoAlpha: 0,
+        y: 10,
+        filter: "blur(8px)",
+        willChange: "transform, opacity, filter",
+      });
+
+      const tl = gsap.timeline({ delay: 1.9 });
+
+      tl.to(words, {
+        autoAlpha: 1,
+        y: 0,
+        filter: "blur(0px)",
+        duration: 0.9,
+        stagger: 0.08,
+        ease: "power3.out",
+      })
+        .to(
+          separators,
+          {
+            autoAlpha: 0.9,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.65,
+            stagger: 0.08,
+            ease: "power3.out",
+          },
+          "-=0.38",
+        )
+        .set([words, separators], {
+          willChange: "auto",
+        });
+
+      if (!prefersReducedMotion) {
+        tl.to(
+          track,
+          {
+            x: 22,
+            duration: 5,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          },
+          "+=0.25",
+        );
+      }
+    }, track);
+
+    return () => ctx.revert();
+  }, [locale]);
 
   return (
     <section
@@ -250,7 +339,7 @@ export default function Hero({ locale }: { locale: Locale }) {
         <div className="absolute inset-x-0 top-[28%] h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
         <div className="absolute inset-x-0 top-[62%] h-px bg-gradient-to-r from-transparent via-white/[0.05] to-transparent" />
         <div className="absolute right-0 top-1/2 -translate-y-1/2 rotate-[-10deg] select-none text-[clamp(12rem,19vw,20rem)] font-semibold uppercase leading-none tracking-[-0.05em] text-white/[0.04] blur-[1px]">
-          SYSTEM
+          DEFORA
         </div>
         <div className="absolute left-[18%] top-[28%] h-20 w-20 border border-white/[0.055]" />
         <div className="absolute right-[19%] top-[18%] h-2 w-2 rounded-full bg-white/[0.16]" />
@@ -287,115 +376,134 @@ export default function Hero({ locale }: { locale: Locale }) {
         </div>
       </div>
 
-      <div className="relative z-[70] flex min-h-[100dvh] min-h-screen items-center justify-start px-5 pb-10 pt-24 pointer-events-auto md:px-8 md:pb-12 md:pt-28">
+      <div className="relative z-[70] flex min-h-[100dvh] min-h-screen items-stretch justify-start px-5 pointer-events-auto md:px-8">
         <div
           ref={contentRef}
-          className="relative z-[71] w-full max-w-[1060px] -translate-y-[clamp(1.275rem,14.45vh,7.225rem)] pointer-events-auto"
+          className="relative z-[71] flex min-h-[100dvh] w-full max-w-[min(100%,92rem)] flex-col pointer-events-auto"
         >
-          <div className="w-full max-w-[min(100%,66rem)]">
+          <div className="w-full max-w-[min(100%,72rem)] pt-[calc(6rem+10vh)] md:pt-[calc(7rem+10vh)]">
             <div
               ref={labelRef}
-              className="mb-8 flex w-full min-w-0 items-center gap-3 text-white/[0.34]"
+              className="mb-[clamp(0.85rem,2.2vh,1.65rem)] flex w-full min-w-0 items-center justify-center gap-3 text-white/[0.34]"
             >
               <span
                 className="h-px w-7 shrink-0 bg-white/[0.18] md:w-8"
                 aria-hidden
               />
-              <p className="shrink-0 text-[0.68rem] font-medium uppercase leading-snug tracking-[0.32em] md:text-[0.7rem] md:tracking-[0.34em]">
-                {copy.label}
+              <p
+                ref={eyebrowTrackRef}
+                className="eyebrow-track shrink-0 overflow-visible text-[0.884rem] font-medium uppercase leading-snug tracking-[0.32em] md:text-[0.91rem] md:tracking-[0.34em]"
+              >
+                {labelParts.map((part, index) => (
+                  <span key={part}>
+                    <span className="eyebrow-word inline-block">
+                      {part}
+                    </span>
+                    {index < labelParts.length - 1 ? (
+                      <span
+                        className="eyebrow-separator inline-block px-[0.45em]"
+                        aria-hidden
+                      >
+                        ·
+                      </span>
+                    ) : null}
+                  </span>
+                ))}
               </p>
               <span
                 className="h-px w-7 shrink-0 bg-white/[0.18] md:w-8"
                 aria-hidden
               />
             </div>
-            <h1
-              ref={headlineRef}
-              className="flex w-full flex-col gap-[0.08em] text-[clamp(1.45rem,6.15vw,5.25rem)] font-semibold leading-[0.94] tracking-[-0.04em] text-white"
+            <div
+              ref={ctaGroupRef}
+              className="mx-auto flex w-full max-w-[min(100%,36rem)] flex-col items-center"
             >
-              {copy.headline.map((line) => (
-                <span key={line} className="block whitespace-nowrap">
-                  {line}
-                </span>
-              ))}
-            </h1>
-          </div>
-          <div
-            ref={ctaGroupRef}
-            className="mt-9 flex w-full max-w-[min(100%,36rem)] flex-col items-start"
-          >
-            <div ref={ctaShellRef} className="flex w-full max-w-md flex-col items-start">
-              <button
-                type="button"
-                onClick={() => setCtaOpen((open) => !open)}
-                aria-expanded={ctaOpen}
-                aria-controls={revealId}
-                className="relative z-10 rounded-full border border-white/40 bg-white/[0.09] px-6 py-3.5 text-[0.7rem] font-medium uppercase leading-tight tracking-[0.2em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_20px_56px_rgba(0,0,0,0.26)] backdrop-blur-md transition-all duration-300 ease-out hover:border-white/65 hover:bg-white/[0.17] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_0_34px_rgba(92,190,255,0.14),0_24px_68px_rgba(0,0,0,0.34)] focus:outline-none focus:ring-2 focus:ring-white/25 focus-visible:ring-2 focus-visible:ring-white/25 md:px-7 motion-reduce:transition-none"
-              >
-                {copy.cta}
-              </button>
+              <div ref={ctaShellRef} className="flex w-full max-w-md flex-col items-center">
+                <button
+                  type="button"
+                  onClick={() => setCtaOpen((open) => !open)}
+                  aria-expanded={ctaOpen}
+                  aria-controls={revealId}
+                  className="relative z-10 rounded-full border border-white/40 bg-white/[0.09] px-6 py-3.5 text-[0.7rem] font-medium uppercase leading-tight tracking-[0.2em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_20px_56px_rgba(0,0,0,0.26)] backdrop-blur-md transition-all duration-300 ease-out hover:border-white/65 hover:bg-white/[0.17] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_0_34px_rgba(92,190,255,0.14),0_24px_68px_rgba(0,0,0,0.34)] focus:outline-none focus:ring-2 focus:ring-white/25 focus-visible:ring-2 focus-visible:ring-white/25 md:px-7 motion-reduce:transition-none"
+                >
+                  {copy.cta}
+                </button>
 
-              <div
-                id={revealId}
-                role="region"
-                aria-label={copy.ctaRevealLabel}
-                aria-hidden={!ctaOpen}
-                className={`grid w-full transition-[grid-template-rows] duration-[250ms] ease-out motion-reduce:duration-75 ${ctaOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
-              >
-                <div className="min-h-0 overflow-hidden">
-                  <div
-                    inert={!ctaOpen}
-                    className={`origin-top pt-4 transition-[opacity,transform] duration-[250ms] ease-out motion-reduce:duration-75 ${ctaOpen ? "translate-y-0 opacity-100 motion-reduce:transition-none" : "pointer-events-none -translate-y-2 opacity-0 motion-reduce:translate-y-0 motion-reduce:transition-none"}`}
-                  >
-                    <div className="rounded-2xl border border-white/[0.14] bg-white/[0.055] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md">
-                      <ul className="divide-y divide-white/[0.08]">
-                        <li>
-                          <a
-                            href={whatsappHref}
-                            target="_blank"
-                            rel="noreferrer"
-                            onClick={() => setCtaOpen(false)}
-                            className="flex w-full items-center justify-between gap-4 rounded-xl px-3.5 py-3 text-left text-[0.8125rem] font-medium tracking-[0.02em] text-white/88 transition-colors duration-200 ease-out hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 motion-reduce:transition-none"
-                          >
-                            <span>{copy.whatsappLabel}</span>
-                            <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/38">
-                              →
-                            </span>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href={phoneHref}
-                            onClick={() => setCtaOpen(false)}
-                            className="flex w-full flex-col items-start gap-0.5 rounded-xl px-3.5 py-3 text-left transition-colors duration-200 ease-out hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 motion-reduce:transition-none"
-                          >
-                            <span className="text-[0.8125rem] font-medium tracking-[0.02em] text-white/88">
-                              {copy.phoneLabel}
-                            </span>
-                            <span className="text-[0.7rem] font-medium tracking-[0.04em] text-white/45">
-                              {phoneDisplay}
-                            </span>
-                          </a>
-                        </li>
-                        <li>
-                          <button
-                            type="button"
-                            onClick={handleBookingAction}
-                            className="flex w-full items-center justify-between gap-4 rounded-xl px-3.5 py-3 text-left text-[0.8125rem] font-medium tracking-[0.02em] text-white/88 transition-colors duration-200 ease-out hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 motion-reduce:transition-none"
-                          >
-                            <span>{copy.calendarLabel}</span>
-                            <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/38">
-                              →
-                            </span>
-                          </button>
-                        </li>
-                      </ul>
+                <div
+                  id={revealId}
+                  role="region"
+                  aria-label={copy.ctaRevealLabel}
+                  aria-hidden={!ctaOpen}
+                  className={`grid w-full transition-[grid-template-rows] duration-[250ms] ease-out motion-reduce:duration-75 ${ctaOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+                >
+                  <div className="min-h-0 overflow-hidden">
+                    <div
+                      inert={!ctaOpen}
+                      className={`origin-top pt-4 transition-[opacity,transform] duration-[250ms] ease-out motion-reduce:duration-75 ${ctaOpen ? "translate-y-0 opacity-100 motion-reduce:transition-none" : "pointer-events-none -translate-y-2 opacity-0 motion-reduce:translate-y-0 motion-reduce:transition-none"}`}
+                    >
+                      <div className="rounded-2xl border border-white/[0.14] bg-white/[0.055] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md">
+                        <ul className="divide-y divide-white/[0.08]">
+                          <li>
+                            <a
+                              href={whatsappHref}
+                              target="_blank"
+                              rel="noreferrer"
+                              onClick={() => setCtaOpen(false)}
+                              className="flex w-full items-center justify-between gap-4 rounded-xl px-3.5 py-3 text-left text-[0.8125rem] font-medium tracking-[0.02em] text-white/88 transition-colors duration-200 ease-out hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 motion-reduce:transition-none"
+                            >
+                              <span>{copy.whatsappLabel}</span>
+                              <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/38">
+                                →
+                              </span>
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href={phoneHref}
+                              onClick={() => setCtaOpen(false)}
+                              className="flex w-full flex-col items-start gap-0.5 rounded-xl px-3.5 py-3 text-left transition-colors duration-200 ease-out hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 motion-reduce:transition-none"
+                            >
+                              <span className="text-[0.8125rem] font-medium tracking-[0.02em] text-white/88">
+                                {copy.phoneLabel}
+                              </span>
+                              <span className="text-[0.7rem] font-medium tracking-[0.04em] text-white/45">
+                                {phoneDisplay}
+                              </span>
+                            </a>
+                          </li>
+                          <li>
+                            <button
+                              type="button"
+                              onClick={handleBookingAction}
+                              className="flex w-full items-center justify-between gap-4 rounded-xl px-3.5 py-3 text-left text-[0.8125rem] font-medium tracking-[0.02em] text-white/88 transition-colors duration-200 ease-out hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 motion-reduce:transition-none"
+                            >
+                              <span>{copy.calendarLabel}</span>
+                              <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/38">
+                                →
+                              </span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div className="min-h-[clamp(4rem,17vh,12rem)] flex-1" aria-hidden />
+          <h1
+            ref={headlineRef}
+            className="flex w-full max-w-[min(100%,92rem)] flex-col gap-[clamp(0.45rem,1.4vh,1.1rem)] pb-[clamp(2.25rem,7vh,5.5rem)] font-semibold tracking-[-0.04em] text-white"
+          >
+            <span className="block text-[clamp(2.8rem,9.5vw,9.2rem)] leading-[0.84] md:whitespace-nowrap">
+              {copy.headline[0]}
+            </span>
+            <span className="block max-w-[min(100%,90rem)] text-[clamp(2rem,5.8vw,6.1rem)] leading-[0.9] md:whitespace-nowrap">
+              {copy.headline[1]}
+            </span>
+          </h1>
         </div>
       </div>
     </section>
