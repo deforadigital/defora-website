@@ -417,7 +417,7 @@ export default function Hero({ locale }: { locale: Locale }) {
             </div>
             <div
               ref={ctaGroupRef}
-              className="mx-auto flex w-full max-w-[min(100%,36rem)] flex-col items-center"
+              className="mx-auto mt-[7vh] flex w-full max-w-[min(100%,36rem)] flex-col items-center"
             >
               <div ref={ctaShellRef} className="flex w-full max-w-md flex-col items-center">
                 <button
