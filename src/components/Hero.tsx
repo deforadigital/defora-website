@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import gsap from "gsap";
@@ -19,40 +19,44 @@ const heroCopy: Record<
   Locale,
   {
     label: string;
+    focusLabel: string;
     headline: string[];
     cta: string;
-    whatsappLabel: string;
-    phoneLabel: string;
-    calendarLabel: string;
+    whatsappCta: string;
+    phoneCta: string;
     whatsappMessage: string;
-    ctaRevealLabel: string;
   }
 > = {
   tr: {
     label: "STRATEJİ · TASARIM · GELİŞTİRME · PERFORMANS",
+    focusLabel: "Odak alanlarımız",
     headline: ["Dijital ürünleri değil,", "çalışan sistemleri inşa ediyoruz."],
     cta: "Ücretsiz görüşme planla",
-    whatsappLabel: "WhatsApp",
-    phoneLabel: "Telefon",
-    calendarLabel: "Takvim / Meeting",
+    whatsappCta: "WhatsApp’tan yaz",
+    phoneCta: "Telefon ile ara",
     whatsappMessage: "Merhaba, projem hakkında görüşmek istiyorum.",
-    ctaRevealLabel: "İletişim seçenekleri",
   },
   en: {
     label: "STRATEGY · DESIGN · DEVELOPMENT · PERFORMANCE",
+    focusLabel: "Focus areas",
     headline: ["We don’t build pages.", "We build systems that perform."],
     cta: "Book a consultation",
-    whatsappLabel: "WhatsApp",
-    phoneLabel: "Phone",
-    calendarLabel: "Calendar / Meeting",
+    whatsappCta: "WhatsApp us",
+    phoneCta: "Call us",
     whatsappMessage: "I’d like to discuss a project.",
-    ctaRevealLabel: "Contact options",
   },
 };
 
-const phoneDisplay = "0540 033 36 72";
-const phoneHref = "tel:05400333672";
-const whatsappNumber = "905400333672";
+const contactLinks: Record<Locale, { phoneHref: string; whatsappHref: string }> = {
+  tr: {
+    phoneHref: "tel:05400333672",
+    whatsappHref: "https://wa.me/905400333672",
+  },
+  en: {
+    phoneHref: "tel:+15716006092",
+    whatsappHref: "https://wa.me/15716006092",
+  },
+};
 
 export default function Hero({ locale }: { locale: Locale }) {
   const rootRef = useRef<HTMLElement | null>(null);
@@ -65,40 +69,19 @@ export default function Hero({ locale }: { locale: Locale }) {
   const eyebrowTrackRef = useRef<HTMLParagraphElement | null>(null);
   const headlineRef = useRef<HTMLHeadingElement | null>(null);
   const ctaGroupRef = useRef<HTMLDivElement | null>(null);
-  const ctaShellRef = useRef<HTMLDivElement | null>(null);
   const ghostRef = useRef<HTMLDivElement | null>(null);
-  const [ctaOpen, setCtaOpen] = useState(false);
-  const revealId = useId();
   const copy = heroCopy[locale];
   const labelParts = copy.label.split(" · ");
-  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    copy.whatsappMessage,
-  )}`;
+  const focusWords = labelParts;
+  const phoneHref = contactLinks[locale].phoneHref;
+  const whatsappHref =
+    locale === "tr"
+      ? `${contactLinks.tr.whatsappHref}?text=${encodeURIComponent(copy.whatsappMessage)}`
+      : contactLinks.en.whatsappHref;
 
   const handleBookingAction = () => {
-    setCtaOpen(false);
     void openBooking(locale);
   };
-
-  useEffect(() => {
-    if (!ctaOpen) return;
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setCtaOpen(false);
-    };
-
-    const onPointerDown = (e: PointerEvent) => {
-      const el = ctaShellRef.current;
-      if (el && !el.contains(e.target as Node)) setCtaOpen(false);
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-    document.addEventListener("pointerdown", onPointerDown, true);
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.removeEventListener("pointerdown", onPointerDown, true);
-    };
-  }, [ctaOpen]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -240,82 +223,80 @@ export default function Hero({ locale }: { locale: Locale }) {
     if (!track) return;
 
     const ctx = gsap.context((self) => {
-      const words = self.selector?.(".eyebrow-word") ?? [];
-      const separators = self.selector?.(".eyebrow-separator") ?? [];
+      const words = self.selector
+        ? gsap.utils.toArray<HTMLElement>(self.selector(".eyebrow-keyword"))
+        : [];
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
 
-      console.log(
-        "[Hero eyebrow animation]",
-        "words:",
-        words.length,
-        "separators:",
-        separators.length,
-        "reducedMotion:",
-        prefersReducedMotion,
-      );
-
       if (!words.length) return;
-
-      gsap.set(track, {
-        x: 0,
-        willChange: "transform",
-      });
 
       gsap.set(words, {
         autoAlpha: 0,
-        y: 24,
-        filter: "blur(12px)",
-        willChange: "transform, opacity, filter",
-      });
-
-      gsap.set(separators, {
-        autoAlpha: 0,
         y: 10,
-        filter: "blur(8px)",
+        filter: "blur(7px)",
         willChange: "transform, opacity, filter",
       });
 
-      const tl = gsap.timeline({ delay: 1.9 });
-
-      tl.to(words, {
+      gsap.set(words[0], {
         autoAlpha: 1,
         y: 0,
         filter: "blur(0px)",
-        duration: 0.9,
-        stagger: 0.08,
-        ease: "power3.out",
-      })
-        .to(
-          separators,
-          {
-            autoAlpha: 0.9,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.65,
-            stagger: 0.08,
-            ease: "power3.out",
-          },
-          "-=0.38",
-        )
-        .set([words, separators], {
-          willChange: "auto",
-        });
+      });
 
-      if (!prefersReducedMotion) {
-        tl.to(
-          track,
-          {
-            x: 22,
-            duration: 5,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
-          },
-          "+=0.25",
-        );
+      if (prefersReducedMotion) {
+        gsap.set(words, { willChange: "auto" });
+        return;
       }
+
+      const tl = gsap.timeline({
+        delay: 2.2,
+        repeat: -1,
+        defaults: { ease: "power3.out" },
+      });
+
+      words.forEach((word, index) => {
+        const nextWord = words[(index + 1) % words.length];
+
+        tl.to(word, {
+          autoAlpha: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: index === 0 ? 0.01 : 0.55,
+        })
+          .to(word, {
+            autoAlpha: 1,
+            duration: 1.8,
+            ease: "none",
+          })
+          .to(
+            word,
+            {
+              autoAlpha: 0,
+              y: -8,
+              filter: "blur(6px)",
+              duration: 0.55,
+              ease: "power2.inOut",
+            },
+          )
+          .fromTo(
+            nextWord,
+            {
+              autoAlpha: 0,
+              y: 10,
+              filter: "blur(7px)",
+            },
+            {
+              autoAlpha: 0.9,
+              y: 0,
+              filter: "blur(0px)",
+              duration: 0.62,
+              ease: "power3.out",
+            },
+            "-=0.3",
+          );
+      });
     }, track);
 
     return () => ctx.revert();
@@ -381,113 +362,98 @@ export default function Hero({ locale }: { locale: Locale }) {
           ref={contentRef}
           className="relative z-[71] flex min-h-[100dvh] w-full max-w-[min(100%,92rem)] flex-col pointer-events-auto"
         >
-          <div className="w-full max-w-[min(100%,72rem)] pt-[calc(6rem+10vh)] md:pt-[calc(7rem+10vh)]">
+          <div className="w-full max-w-[min(100%,72rem)] pt-[calc(5rem+10vh)] md:pt-[calc(5.25rem+10vh)]">
             <div
               ref={labelRef}
               className="mb-[clamp(0.85rem,2.2vh,1.65rem)] flex w-full min-w-0 items-center justify-center gap-3 text-white/[0.34]"
             >
               <span
-                className="h-px w-7 shrink-0 bg-white/[0.18] md:w-8"
+                className="hidden h-px w-7 shrink-0 bg-white/[0.18] sm:block md:w-8"
                 aria-hidden
               />
               <p
                 ref={eyebrowTrackRef}
-                className="eyebrow-track shrink-0 overflow-visible text-[0.884rem] font-medium uppercase leading-snug tracking-[0.32em] md:text-[0.91rem] md:tracking-[0.34em]"
+                className="eyebrow-track flex min-w-[min(100%,18rem)] max-w-full flex-col items-center gap-1.5 overflow-visible text-center uppercase leading-snug sm:shrink-0"
               >
-                {labelParts.map((part, index) => (
-                  <span key={part}>
-                    <span className="eyebrow-word inline-block">
-                      {part}
+                <span className="text-[0.58rem] font-medium tracking-[0.22em] text-white/36 md:text-[0.62rem]">
+                  {copy.focusLabel}
+                </span>
+                <span className="relative block h-[1.35em] w-full min-w-[11rem] text-[clamp(0.884rem,2.4vw,1.06rem)] font-semibold tracking-[0.28em] text-white/78 md:min-w-[13.5rem] md:tracking-[0.32em]">
+                  {focusWords.map((word) => (
+                    <span
+                      key={word}
+                      className="eyebrow-keyword absolute inset-0 flex items-center justify-center"
+                    >
+                      {word}
                     </span>
-                    {index < labelParts.length - 1 ? (
-                      <span
-                        className="eyebrow-separator inline-block px-[0.45em]"
-                        aria-hidden
-                      >
-                        ·
-                      </span>
-                    ) : null}
-                  </span>
-                ))}
+                  ))}
+                </span>
               </p>
               <span
-                className="h-px w-7 shrink-0 bg-white/[0.18] md:w-8"
+                className="hidden h-px w-7 shrink-0 bg-white/[0.18] sm:block md:w-8"
                 aria-hidden
               />
             </div>
             <div
               ref={ctaGroupRef}
-              className="mx-auto mt-[7vh] flex w-full max-w-[min(100%,36rem)] flex-col items-center"
+              className="mx-auto mt-[clamp(2rem,5.4vh,3rem)] flex w-full max-w-[min(100%,36rem)] flex-col items-center"
             >
-              <div ref={ctaShellRef} className="flex w-full max-w-md flex-col items-center">
+              <div className="flex w-full max-w-md flex-col items-center">
                 <button
                   type="button"
-                  onClick={() => setCtaOpen((open) => !open)}
-                  aria-expanded={ctaOpen}
-                  aria-controls={revealId}
+                  onClick={handleBookingAction}
                   className="relative z-10 rounded-full border border-white/40 bg-white/[0.09] px-6 py-3.5 text-[0.7rem] font-medium uppercase leading-tight tracking-[0.2em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_20px_56px_rgba(0,0,0,0.26)] backdrop-blur-md transition-all duration-300 ease-out hover:border-white/65 hover:bg-white/[0.17] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_0_34px_rgba(92,190,255,0.14),0_24px_68px_rgba(0,0,0,0.34)] focus:outline-none focus:ring-2 focus:ring-white/25 focus-visible:ring-2 focus-visible:ring-white/25 md:px-7 motion-reduce:transition-none"
                 >
                   {copy.cta}
                 </button>
 
-                <div
-                  id={revealId}
-                  role="region"
-                  aria-label={copy.ctaRevealLabel}
-                  aria-hidden={!ctaOpen}
-                  className={`grid w-full transition-[grid-template-rows] duration-[250ms] ease-out motion-reduce:duration-75 ${ctaOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
-                >
-                  <div className="min-h-0 overflow-hidden">
-                    <div
-                      inert={!ctaOpen}
-                      className={`origin-top pt-4 transition-[opacity,transform] duration-[250ms] ease-out motion-reduce:duration-75 ${ctaOpen ? "translate-y-0 opacity-100 motion-reduce:transition-none" : "pointer-events-none -translate-y-2 opacity-0 motion-reduce:translate-y-0 motion-reduce:transition-none"}`}
+                <div className="mt-[clamp(1rem,2vh,1.125rem)] flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-[0.76rem] font-medium leading-tight tracking-[0.1em] text-white/64">
+                  <a
+                    href={phoneHref}
+                    className="group inline-flex items-center gap-1.5 transition-all duration-200 ease-out hover:-translate-y-px hover:text-white/84 focus:outline-none focus-visible:-translate-y-px focus-visible:text-white/86 focus-visible:ring-2 focus-visible:ring-white/20 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0"
+                  >
+                    <svg
+                      aria-hidden
+                      viewBox="0 0 24 24"
+                      className="h-3.5 w-3.5 shrink-0 stroke-current opacity-68 transition-opacity duration-200 ease-out group-hover:opacity-90 motion-reduce:transition-none"
+                      fill="none"
+                      strokeWidth="1.55"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <div className="rounded-2xl border border-white/[0.14] bg-white/[0.055] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md">
-                        <ul className="divide-y divide-white/[0.08]">
-                          <li>
-                            <a
-                              href={whatsappHref}
-                              target="_blank"
-                              rel="noreferrer"
-                              onClick={() => setCtaOpen(false)}
-                              className="flex w-full items-center justify-between gap-4 rounded-xl px-3.5 py-3 text-left text-[0.8125rem] font-medium tracking-[0.02em] text-white/88 transition-colors duration-200 ease-out hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 motion-reduce:transition-none"
-                            >
-                              <span>{copy.whatsappLabel}</span>
-                              <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/38">
-                                →
-                              </span>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href={phoneHref}
-                              onClick={() => setCtaOpen(false)}
-                              className="flex w-full flex-col items-start gap-0.5 rounded-xl px-3.5 py-3 text-left transition-colors duration-200 ease-out hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 motion-reduce:transition-none"
-                            >
-                              <span className="text-[0.8125rem] font-medium tracking-[0.02em] text-white/88">
-                                {copy.phoneLabel}
-                              </span>
-                              <span className="text-[0.7rem] font-medium tracking-[0.04em] text-white/45">
-                                {phoneDisplay}
-                              </span>
-                            </a>
-                          </li>
-                          <li>
-                            <button
-                              type="button"
-                              onClick={handleBookingAction}
-                              className="flex w-full items-center justify-between gap-4 rounded-xl px-3.5 py-3 text-left text-[0.8125rem] font-medium tracking-[0.02em] text-white/88 transition-colors duration-200 ease-out hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 motion-reduce:transition-none"
-                            >
-                              <span>{copy.calendarLabel}</span>
-                              <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/38">
-                                →
-                              </span>
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                      <path d="M22 16.92v2.1a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 3.3 2 2 0 0 1 4.11 1h2.1a2 2 0 0 1 2 1.72c.13.96.35 1.9.66 2.8a2 2 0 0 1-.45 2.11L7.53 8.5a16 16 0 0 0 6 6l.87-.89a2 2 0 0 1 2.11-.45c.9.31 1.84.53 2.8.66A2 2 0 0 1 22 16.92Z" />
+                    </svg>
+                    <span className="border-b border-white/0 pb-0.5 transition-colors duration-200 ease-out group-hover:border-white/30 motion-reduce:transition-none">
+                      {copy.phoneCta}
+                    </span>
+                  </a>
+                  <span
+                    className="text-white/30"
+                    aria-hidden
+                  >
+                    ·
+                  </span>
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group inline-flex items-center gap-1.5 transition-all duration-200 ease-out hover:-translate-y-px hover:text-white/84 focus:outline-none focus-visible:-translate-y-px focus-visible:text-white/86 focus-visible:ring-2 focus-visible:ring-white/20 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0"
+                  >
+                    <svg
+                      aria-hidden
+                      viewBox="0 0 24 24"
+                      className="h-3.5 w-3.5 shrink-0 stroke-current opacity-68 transition-opacity duration-200 ease-out group-hover:opacity-90 motion-reduce:transition-none"
+                      fill="none"
+                      strokeWidth="1.55"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.6 8.6 0 0 1-7.7 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.6a8.4 8.4 0 0 1-.9-3.9 8.6 8.6 0 0 1 4.7-7.7 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.6Z" />
+                    </svg>
+                    <span className="border-b border-white/0 pb-0.5 transition-colors duration-200 ease-out group-hover:border-white/28 motion-reduce:transition-none">
+                      {copy.whatsappCta}
+                    </span>
+                  </a>
                 </div>
               </div>
             </div>
