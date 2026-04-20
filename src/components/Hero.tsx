@@ -89,10 +89,12 @@ export default function Hero({ locale }: { locale: Locale }) {
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
       if (!logo) return;
 
       gsap.set(overlayRef.current, {
+        autoAlpha: 1,
         yPercent: 0,
       });
 
@@ -122,14 +124,21 @@ export default function Hero({ locale }: { locale: Locale }) {
         x: prefersReducedMotion ? 0 : 26,
       });
 
+      const overlayOutAt = isMobile ? 0.78 : 1.08;
+      const overlayOutDuration = isMobile ? 1.05 : 1.75;
+      const logoInDuration = isMobile ? 0.85 : 1.2;
+      const logoOutAt = isMobile ? 0.82 : 1.18;
+      const logoOutDuration = isMobile ? 0.52 : 0.8;
+      const introScaleDuration = isMobile ? 1.15 : 1.9;
+
       const tl = gsap.timeline();
-      tl.timeScale(0.8);
+      tl.timeScale(prefersReducedMotion ? 1 : 0.8);
 
       tl.to(
         introLockupRef.current,
         {
           scale: 1,
-          duration: 1.9,
+          duration: prefersReducedMotion ? 0.1 : introScaleDuration,
           ease: "power4.inOut",
         },
         0,
@@ -140,7 +149,7 @@ export default function Hero({ locale }: { locale: Locale }) {
             autoAlpha: 1,
             scale: 1,
             y: 0,
-            duration: 1.2,
+            duration: prefersReducedMotion ? 0.1 : logoInDuration,
             ease: "expo.out",
         },
         0.18,
@@ -150,19 +159,19 @@ export default function Hero({ locale }: { locale: Locale }) {
           {
             y: -10,
             autoAlpha: 0,
-            duration: 0.8,
+            duration: prefersReducedMotion ? 0.1 : logoOutDuration,
             ease: "power3.inOut",
           },
-          1.18,
+          logoOutAt,
         )
         .to(
           overlayRef.current,
           {
             yPercent: -100,
-            duration: 1.75,
+            duration: prefersReducedMotion ? 0.1 : overlayOutDuration,
             ease: "expo.inOut",
           },
-          1.08,
+          overlayOutAt,
         )
         .to(
           ghostRef.current,
@@ -298,7 +307,7 @@ export default function Hero({ locale }: { locale: Locale }) {
       </div>
       <div className="pointer-events-none absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_44%_48%,transparent_32%,rgba(3,7,16,0.82)_100%)]" />
       <div className="hero-grain pointer-events-none absolute inset-0 z-[4]" />
-      <div ref={overlayRef} className="pointer-events-none absolute inset-0 z-30 bg-[#0D172B] opacity-0">
+      <div ref={overlayRef} className="pointer-events-none absolute inset-0 z-80 bg-[#0D172B] opacity-100">
         <div
           ref={logoWrapRef}
           className="absolute inset-0 flex items-center justify-center"
