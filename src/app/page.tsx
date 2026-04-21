@@ -3,7 +3,7 @@ import FinalCta from "@/components/FinalCta";
 import Hero from "@/components/Hero";
 import GrowthSystem from "@/components/GrowthSystem";
 import Navbar from "@/components/Navbar";
-import NarrativeHighlight from "@/components/NarrativeHighlight";
+import TrustBand from "@/components/TrustBand";
 import { createLocalizedMetadata } from "@/lib/metadata";
 
 export const metadata = createLocalizedMetadata({
@@ -18,7 +18,7 @@ export default function Home() {
     <>
       <Navbar locale="tr" />
       <Hero locale="tr" />
-      <NarrativeHighlight />
+      <TrustBand />
       <GrowthSystem locale="tr" />
       <AboutSystem locale="tr" />
       <FinalCta locale="tr" />

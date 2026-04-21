@@ -5,88 +5,206 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Locale } from "@/lib/i18n";
 
-const sectionCopy: Record<
-  Locale,
-  {
-    label: string;
-    heading: string;
-    intro: string;
-    outputLabel: string;
-    offerTitle: string;
-    offerDescription: string;
-    offerNote: string;
-    phases: Array<{
-      title: string;
-      description: string;
-      items: string[];
-    }>;
-  }
-> = {
+type ServiceItem = {
+  label: string;
+  title: string;
+  description: string;
+  bullets: string[];
+  icon: "globe" | "bag" | "phone" | "panel" | "rocket" | "stack";
+};
+
+type SectionCopy = {
+  eyebrow: string;
+  heading: string;
+  subtext: string;
+  closing: string;
+  services: ServiceItem[];
+};
+
+const sectionCopy: Record<Locale, SectionCopy> = {
   tr: {
-    label: "Büyüme Sistemi",
-    heading: "Web, trafik ve optimizasyonu tek çalışan sistemde birleştiriyoruz.",
-    intro: "Her parça bir sonraki adımı besler; sonuç tek akışta büyür.",
-    outputLabel: "Tüm sistemin çıktısı",
-    offerTitle: "Büyüme Paketi",
-    offerDescription:
-      "Web sitesi, reklam trafiği ve veri odaklı iyileştirme aynı ritimde çalışır; marka daha net ölçer, daha hızlı öğrenir, daha bilinçli büyür.",
-    offerNote: "Detayları birlikte netleştirelim.",
-    phases: [
+    eyebrow: "HİZMETLER",
+    heading: "İhtiyacınız olan dijital ürünü tasarlıyor, geliştiriyor ve yayına alıyoruz.",
+    subtext:
+      "Web sitesi, e-ticaret, mobil uygulama, özel yazılım, MVP ve SaaS çözümlerini fikirden yayına kadar tek sistemde geliştiriyoruz.",
+    closing: "Fikirden yayına, çalışan dijital ürünler geliştiriyoruz.",
+    services: [
       {
-        title: "Altyapı",
-        description: "Performans odaklı web siteleri ve dijital altyapılar kurarız.",
-        items: ["Web Tasarım & Geliştirme", "Landing Page", "Teknik Altyapı"],
+        label: "01",
+        title: "Web Sitesi",
+        description:
+          "Markanızı güçlü gösteren, hızlı çalışan ve güven veren web siteleri geliştiriyoruz.",
+        bullets: ["Kurumsal site", "Landing page", "Teknik altyapı"],
+        icon: "globe",
       },
       {
-        title: "Trafik",
-        description: "Doğru kitleyi doğru sisteme yönlendiririz.",
-        items: ["Google Ads", "Meta Ads", "Yeniden Hedefleme"],
+        label: "02",
+        title: "E-Ticaret",
+        description:
+          "Ürünlerinizi online satabileceğiniz, yönetilebilir ve ölçeklenebilir e-ticaret sistemleri kuruyoruz.",
+        bullets: ["Ödeme altyapısı", "Sipariş yönetimi", "Kargo entegrasyonu"],
+        icon: "bag",
       },
       {
-        title: "Optimizasyon",
-        description: "Veriyi analiz eder, dönüşümü sürekli iyileştiririz.",
-        items: ["CRO", "Analytics", "Funnel İyileştirme"],
+        label: "03",
+        title: "Mobil Uygulama",
+        description:
+          "Fikrinizi iOS ve Android’e taşıyan modern, performans odaklı mobil uygulamalar geliştiriyoruz.",
+        bullets: ["iOS & Android", "Kullanıcı akışları", "API entegrasyonları"],
+        icon: "phone",
+      },
+      {
+        label: "04",
+        title: "Özel Yazılım / CRM",
+        description:
+          "İş süreçlerinizi kolaylaştıran, size özel panel, CRM ve operasyon sistemleri geliştiriyoruz.",
+        bullets: ["Yönetim paneli", "CRM sistemi", "Otomasyon akışları"],
+        icon: "panel",
+      },
+      {
+        label: "05",
+        title: "MVP Geliştirme",
+        description:
+          "Fikrinizi hızlıca test edebilmeniz için minimum ama çalışan ürünler geliştiriyoruz.",
+        bullets: ["Hızlı prototipleme", "Temel kullanıcı akışı", "Yayına hazır yapı"],
+        icon: "rocket",
+      },
+      {
+        label: "06",
+        title: "SaaS Ürün Geliştirme",
+        description:
+          "Abonelik modeliyle çalışan modern yazılım ürünlerini baştan sona tasarlıyor ve geliştiriyoruz.",
+        bullets: ["Çok kullanıcılı yapı", "Abonelik sistemi", "Ölçeklenebilir mimari"],
+        icon: "stack",
       },
     ],
   },
   en: {
-    label: "Growth System",
-    heading: "We connect web, traffic, and optimization into one working system.",
-    intro: "Each part feeds the next, so growth becomes easier to measure and improve.",
-    outputLabel: "Output of the full system",
-    offerTitle: "Growth Package",
-    offerDescription:
-      "Website, paid traffic, and data-led optimization work in one rhythm, helping your brand measure clearly, learn faster, and grow with intent.",
-    offerNote: "We can shape the details together.",
-    phases: [
+    eyebrow: "SERVICES",
+    heading: "We design, build, and launch the digital product your business actually needs.",
+    subtext:
+      "From websites and ecommerce to mobile apps, custom software, MVPs, and SaaS products, we build the full system from idea to launch.",
+    closing: "From idea to launch, we build digital products that work.",
+    services: [
       {
-        title: "Infrastructure",
-        description: "We build performance-led websites and digital foundations.",
-        items: ["Web Design & Development", "Landing Page", "Technical Setup"],
+        label: "01",
+        title: "Website",
+        description:
+          "We build fast, credible websites that present your brand clearly and create trust from the first visit.",
+        bullets: ["Corporate site", "Landing page", "Technical setup"],
+        icon: "globe",
       },
       {
-        title: "Traffic",
-        description: "We route the right audience into the right system.",
-        items: ["Google Ads", "Meta Ads", "Retargeting"],
+        label: "02",
+        title: "Ecommerce",
+        description:
+          "We create manageable, scalable ecommerce systems designed to help you sell online with confidence.",
+        bullets: ["Payment setup", "Order management", "Shipping integration"],
+        icon: "bag",
       },
       {
-        title: "Optimization",
-        description: "We analyze data and continuously improve conversion.",
-        items: ["CRO", "Analytics", "Funnel Improvement"],
+        label: "03",
+        title: "Mobile App",
+        description:
+          "We turn your idea into modern, performance-led mobile apps for iOS and Android.",
+        bullets: ["iOS & Android", "User flows", "API integrations"],
+        icon: "phone",
+      },
+      {
+        label: "04",
+        title: "Custom Software / CRM",
+        description:
+          "We build custom dashboards, CRM systems, and operational software tailored to how your business runs.",
+        bullets: ["Admin panel", "CRM system", "Automation flows"],
+        icon: "panel",
+      },
+      {
+        label: "05",
+        title: "MVP Development",
+        description:
+          "We build lean but working products that help you test and validate your idea quickly.",
+        bullets: ["Rapid prototyping", "Core user flow", "Launch-ready setup"],
+        icon: "rocket",
+      },
+      {
+        label: "06",
+        title: "SaaS Product Development",
+        description:
+          "We design and build subscription-based software products from the ground up.",
+        bullets: ["Multi-tenant setup", "Subscription system", "Scalable architecture"],
+        icon: "stack",
       },
     ],
   },
 };
 
+function ServiceIcon({ icon }: { icon: ServiceItem["icon"] }) {
+  const base = "h-[1.05rem] w-[1.05rem] stroke-current";
+
+  switch (icon) {
+    case "globe":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" className={base} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18" />
+          <path d="M12 3a14.5 14.5 0 0 1 0 18" />
+          <path d="M12 3a14.5 14.5 0 0 0 0 18" />
+        </svg>
+      );
+    case "bag":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" className={base} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 8h14l-1 11H6L5 8Z" />
+          <path d="M9 9V7a3 3 0 0 1 6 0v2" />
+        </svg>
+      );
+    case "phone":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" className={base} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="7" y="3.5" width="10" height="17" rx="2.2" />
+          <path d="M10 6.5h4" />
+          <circle cx="12" cy="17.2" r="0.75" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "panel":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" className={base} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3.5" y="4" width="17" height="16" rx="2" />
+          <path d="M9 4v16" />
+          <path d="M12 9h5" />
+          <path d="M12 13h5" />
+        </svg>
+      );
+    case "rocket":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" className={base} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14.5 4.5c2.8 0 4.5 1.8 4.5 4.5 0 4.7-4 8-8.8 8.8l-2.7-2.7C8 10 11.3 6 16 6Z" />
+          <path d="M8.5 15.5 5 19" />
+          <path d="M9 9l6 6" />
+        </svg>
+      );
+    case "stack":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" className={base} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="m12 4 8 4-8 4-8-4 8-4Z" />
+          <path d="m4 12 8 4 8-4" />
+          <path d="m4 16 8 4 8-4" />
+        </svg>
+      );
+  }
+}
+
 export default function GrowthSystem({ locale }: { locale: Locale }) {
   const copy = sectionCopy[locale];
   const rootRef = useRef<HTMLElement | null>(null);
   const introRef = useRef<HTMLDivElement | null>(null);
-  const connectorRef = useRef<HTMLDivElement | null>(null);
-  const connectorSweepRef = useRef<HTMLDivElement | null>(null);
-  const offerRef = useRef<HTMLDivElement | null>(null);
-  const blockRefs = useRef<Array<HTMLElement | null>>([]);
-  const connectorSegmentRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const closingRef = useRef<HTMLParagraphElement | null>(null);
+  const cardRefs = useRef<Array<HTMLElement | null>>([]);
+  const glowRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const iconRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const titleRefs = useRef<Array<HTMLHeadingElement | null>>([]);
+  const bodyRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const bulletRefs = useRef<Array<HTMLUListElement | null>>([]);
 
   useLayoutEffect(() => {
     const section = rootRef.current;
@@ -99,201 +217,106 @@ export default function GrowthSystem({ locale }: { locale: Locale }) {
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
-      const blocks = blockRefs.current.filter(
-        (block): block is HTMLElement => block !== null,
-      );
-      const introSteps = gsap.utils.toArray<HTMLElement>(".growth-intro-step");
-      const introText =
-        introRef.current?.querySelector<HTMLElement>(".growth-intro-copy") ?? null;
-      const targets = [
-        ...introSteps,
-        introText,
-        ...blocks,
-        connectorRef.current,
-        offerRef.current,
-      ].filter(Boolean);
+      const cards = cardRefs.current.filter((card): card is HTMLElement => Boolean(card));
+      const introNodes = introRef.current
+        ? Array.from(introRef.current.children).filter(
+            (node): node is HTMLElement => node instanceof HTMLElement,
+          )
+        : [];
 
       if (prefersReducedMotion) {
-        gsap.set(targets, {
+        gsap.set([...introNodes, ...cards, closingRef.current].filter(Boolean), {
           autoAlpha: 1,
           clearProps: "transform,filter",
         });
         return;
       }
 
-      gsap.set(introSteps, {
+      gsap.set([...introNodes, ...cards, closingRef.current].filter(Boolean), {
         autoAlpha: 0,
-        y: 18,
+        y: 24,
         filter: "blur(6px)",
-      });
-      if (introText) {
-        gsap.set(introText, {
-          autoAlpha: 0,
-          y: 12,
-          filter: "blur(4px)",
-        });
-      }
-      gsap.set(blocks, {
-        autoAlpha: 0,
-        y: 20,
-        filter: "blur(6px)",
-      });
-      gsap.set(offerRef.current, {
-        autoAlpha: 0,
-        y: 18,
-        filter: "blur(6px)",
-      });
-      gsap.set(connectorSweepRef.current, {
-        autoAlpha: 0,
-        xPercent: -120,
       });
 
-      const timeline = gsap.timeline({
+      gsap.timeline({
         scrollTrigger: {
           trigger: section,
-          start: "top 72%",
+          start: "top 76%",
           once: true,
         },
-      });
-
-      timeline
-        .to(introSteps, {
+      })
+        .to(introNodes, {
           autoAlpha: 1,
           y: 0,
           filter: "blur(0px)",
-          duration: 0.66,
+          duration: 0.82,
           ease: "power3.out",
-          stagger: 0.05,
+          stagger: 0.08,
         })
         .to(
-          introText ? [introText] : [],
+          cards,
           {
             autoAlpha: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 0.52,
-            ease: "power3.out",
-          },
-          "-=0.3",
-        )
-        .to(
-          blocks,
-          {
-            autoAlpha: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.56,
+            duration: 0.92,
             ease: "power3.out",
             stagger: 0.1,
           },
-          "-=0.1",
+          "-=0.35",
         )
         .to(
-          connectorSweepRef.current,
-          {
-            autoAlpha: 1,
-            xPercent: 120,
-            duration: 0.72,
-            ease: "power3.inOut",
-          },
-          "-=0.02",
-        )
-        .to(
-          connectorSweepRef.current,
-          {
-            autoAlpha: 0,
-            duration: 0.16,
-            ease: "power2.out",
-          },
-          "-=0.08",
-        )
-        .to(
-          offerRef.current,
+          closingRef.current,
           {
             autoAlpha: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 0.56,
+            duration: 0.78,
             ease: "power3.out",
           },
-          "-=0.02",
+          "-=0.3",
         );
 
-      blocks.forEach((block, index) => {
-        const currentSegment = connectorSegmentRefs.current[index];
-        const nextSegment = connectorSegmentRefs.current[index + 1];
+      cards.forEach((card, index) => {
+        const glow = glowRefs.current[index];
+        const icon = iconRefs.current[index];
+        const title = titleRefs.current[index];
+        const body = bodyRefs.current[index];
+        const bullets = bulletRefs.current[index];
 
-        const handleEnter = () => {
-          gsap.to(block, {
-            y: -3,
-            borderColor: "rgba(255,255,255,0.2)",
-            backgroundColor: index === 2 ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.055)",
-            duration: 0.2,
-            ease: "power2.out",
-            overwrite: "auto",
-          });
-
-          if (currentSegment) {
-            gsap.to(currentSegment, {
-              opacity: 0.95,
-              scaleX: 1,
-              duration: 0.2,
-              ease: "power2.out",
-              overwrite: "auto",
-            });
-          }
-
-          if (nextSegment) {
-            gsap.to(nextSegment, {
-              opacity: 0.48,
-              duration: 0.2,
-              ease: "power2.out",
-              overwrite: "auto",
-            });
-          }
+        const enter = () => {
+          const tl = gsap.timeline({ defaults: { duration: 0.42, ease: "power3.out", overwrite: "auto" } });
+          tl.to(card, {
+            y: -6,
+            borderColor: "rgba(255,255,255,0.20)",
+            backgroundColor: "rgba(10,18,34,0.78)",
+          }, 0)
+            .to(glow, { opacity: 0.18 }, 0)
+            .to(icon, { scale: 1.04 }, 0)
+            .to(title, { y: -4 }, 0)
+            .to(body, { opacity: 0.9 }, 0)
+            .to(bullets, { y: -6, opacity: 0.9 }, 0);
         };
 
-        const handleLeave = () => {
-          gsap.to(block, {
+        const leave = () => {
+          const tl = gsap.timeline({ defaults: { duration: 0.36, ease: "power3.out", overwrite: "auto" } });
+          tl.to(card, {
             y: 0,
-            borderColor: index === 2 ? "rgba(255,255,255,0.13)" : "rgba(255,255,255,0.1)",
-            backgroundColor:
-              index === 0
-                ? "rgba(255,255,255,0.028)"
-                : index === 1
-                  ? "rgba(255,255,255,0.036)"
-                  : "rgba(255,255,255,0.048)",
-            duration: 0.22,
-            ease: "power2.out",
-            overwrite: "auto",
-          });
-
-          if (currentSegment) {
-            gsap.to(currentSegment, {
-              opacity: index === 2 ? 0.36 : index === 1 ? 0.28 : 0.22,
-              scaleX: 1,
-              duration: 0.2,
-              ease: "power2.out",
-              overwrite: "auto",
-            });
-          }
-
-          if (nextSegment) {
-            gsap.to(nextSegment, {
-              opacity: index + 1 === 2 ? 0.36 : index + 1 === 1 ? 0.28 : 0.22,
-              duration: 0.2,
-              ease: "power2.out",
-              overwrite: "auto",
-            });
-          }
+            borderColor: "rgba(255,255,255,0.10)",
+            backgroundColor: "rgba(8,16,31,0.64)",
+          }, 0)
+            .to(glow, { opacity: 0.08 }, 0)
+            .to(icon, { scale: 1 }, 0)
+            .to(title, { y: 0 }, 0)
+            .to(body, { opacity: 0.72 }, 0)
+            .to(bullets, { y: 0, opacity: 0.72 }, 0);
         };
 
-        block.addEventListener("pointerenter", handleEnter);
-        block.addEventListener("pointerleave", handleLeave);
-
+        card.addEventListener("mouseenter", enter);
+        card.addEventListener("mouseleave", leave);
         cleanupFns.push(() => {
-          block.removeEventListener("pointerenter", handleEnter);
-          block.removeEventListener("pointerleave", handleLeave);
+          card.removeEventListener("mouseenter", enter);
+          card.removeEventListener("mouseleave", leave);
         });
       });
     }, rootRef);
@@ -308,120 +331,102 @@ export default function GrowthSystem({ locale }: { locale: Locale }) {
     <section
       id="services"
       ref={rootRef}
-      className="relative overflow-hidden bg-[#050b14] px-5 py-18 text-white md:px-8 md:py-22"
+      className="relative overflow-hidden bg-[#050b14] px-5 py-16 text-white md:px-8 md:py-20"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/10" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.032)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.024)_1px,transparent_1px)] bg-[size:18rem_18rem] opacity-20" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(76,124,255,0.08),transparent_28%),radial-gradient(circle_at_84%_78%,rgba(118,82,255,0.08),transparent_24%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.015),transparent_24%,transparent_76%,rgba(255,255,255,0.015))]" />
 
       <div className="relative mx-auto max-w-[92rem]">
-        <div ref={introRef} className="max-w-4xl">
-          <p className="growth-intro-step text-xs font-medium uppercase tracking-[0.46em] text-white/45 md:text-sm">
-            {copy.label}
+        <div ref={introRef} className="max-w-[54rem]">
+          <p className="text-[0.76rem] font-medium uppercase tracking-[0.24em] text-white/46 md:text-[0.8rem]">
+            {copy.eyebrow}
           </p>
-          <h2 className="growth-intro-step mt-6 max-w-4xl text-[clamp(2.35rem,5.4vw,6.2rem)] font-medium leading-[0.98] tracking-[-0.045em] text-white">
+          <h2 className="mt-5 max-w-[20ch] text-[clamp(2.2rem,5.6vw,5rem)] font-medium leading-[0.97] tracking-[-0.05em] text-white">
             {copy.heading}
           </h2>
-          <p className="growth-intro-copy mt-6 max-w-xl text-base leading-[1.8] text-white/58 md:text-lg">
-            {copy.intro}
+          <p className="mt-5 max-w-[44rem] text-[1rem] leading-[1.75] text-white/58 md:text-[1.05rem]">
+            {copy.subtext}
           </p>
         </div>
 
-        <div className="relative mt-12 grid gap-4 md:mt-16 md:grid-cols-3 md:gap-0">
-          <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(180deg,rgba(255,255,255,0.028),rgba(255,255,255,0.012))] md:block" />
-          <div className="pointer-events-none absolute inset-0 hidden border border-white/5 md:block" />
-          <div className="pointer-events-none absolute left-[8%] right-[8%] top-[39%] hidden h-px bg-gradient-to-r from-transparent via-white/10 to-transparent md:block" />
-          <div
-            ref={connectorRef}
-            className="pointer-events-none absolute left-[8%] right-[8%] top-[39%] hidden md:grid md:grid-cols-3 md:gap-0"
-          />
-          <div
-            ref={connectorSweepRef}
-            className="pointer-events-none absolute left-[8%] right-[8%] top-[calc(39%-1px)] hidden h-[3px] bg-gradient-to-r from-transparent via-white/55 to-transparent blur-[1px] md:block"
-          />
-
-          {[0, 1, 2].map((segment) => (
-            <div
-              key={`segment-${segment}`}
-              ref={(node) => {
-                connectorSegmentRefs.current[segment] = node;
-              }}
-              className={`pointer-events-none absolute top-[39%] hidden h-px md:block ${
-                segment === 0
-                  ? "left-[8%] w-[28%] bg-gradient-to-r from-transparent via-white/18 to-white/12"
-                  : segment === 1
-                    ? "left-[36%] w-[28%] bg-gradient-to-r from-white/14 via-white/24 to-white/16"
-                    : "left-[64%] w-[28%] bg-gradient-to-r from-white/18 via-white/32 to-transparent"
-              }`}
-              style={{
-                opacity: segment === 0 ? 0.22 : segment === 1 ? 0.28 : 0.36,
-              }}
-            />
-          ))}
-
-          {copy.phases.map((phase, index) => (
+        <div className="mt-12 grid grid-cols-1 gap-4 md:mt-14 md:grid-cols-2 md:gap-5 xl:grid-cols-3">
+          {copy.services.map((service, index) => (
             <article
-              key={phase.title}
+              key={service.title}
               ref={(node) => {
-                blockRefs.current[index] = node;
+                cardRefs.current[index] = node;
               }}
-              className={`group relative z-10 flex min-h-[24rem] flex-col justify-between overflow-hidden border p-6 backdrop-blur-sm transition duration-300 ease-out md:min-h-[28rem] md:p-8 ${
-                index === 0
-                  ? "border-white/10 bg-white/[0.028]"
-                  : index === 1
-                    ? "border-white/11 bg-white/[0.036]"
-                    : "border-white/13 bg-white/[0.048]"
-              }`}
+              className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[rgba(8,16,31,0.64)] p-5 backdrop-blur-[14px] md:min-h-[24rem] md:p-6"
             >
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-px scale-x-0 bg-gradient-to-r from-transparent via-white/26 to-transparent transition duration-500 ease-out group-hover:scale-x-100" />
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.02),transparent_32%,transparent)] opacity-60" />
-              <div>
-                <div className="mb-10 flex items-center justify-between">
-                  <span className="text-xs font-medium uppercase tracking-[0.36em] text-white/35">
-                    0{index + 1}
+              <div
+                ref={(node) => {
+                  glowRefs.current[index] = node;
+                }}
+                className="pointer-events-none absolute inset-0 opacity-[0.08]"
+                style={{
+                  background:
+                    "radial-gradient(circle at top left, rgba(115,147,255,0.16), transparent 36%), radial-gradient(circle at bottom right, rgba(116,78,255,0.12), transparent 32%)",
+                }}
+              />
+              <div className="pointer-events-none absolute inset-[1px] rounded-[calc(1.75rem-1px)] border border-white/[0.04]" />
+
+              <div className="relative flex h-full flex-col">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-[0.72rem] font-medium uppercase tracking-[0.22em] text-white/38">
+                    {service.label}
                   </span>
-                  <span className="h-2 w-2 border border-white/28 bg-[#050b14] transition duration-300 group-hover:border-white/50" />
+                  <div
+                    ref={(node) => {
+                      iconRefs.current[index] = node;
+                    }}
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/[0.03] text-white/74"
+                  >
+                    <ServiceIcon icon={service.icon} />
+                  </div>
                 </div>
 
-                <h3 className="text-[clamp(2rem,3.2vw,4.2rem)] font-medium leading-none tracking-[-0.05em] text-white">
-                  {phase.title}
+                <h3
+                  ref={(node) => {
+                    titleRefs.current[index] = node;
+                  }}
+                  className="mt-7 text-[1.6rem] font-medium leading-[1.05] tracking-[-0.035em] text-white md:text-[1.72rem]"
+                >
+                  {service.title}
                 </h3>
-                <p className="mt-6 max-w-[18rem] text-sm leading-[1.75] text-white/58 md:max-w-[19rem] md:text-base">
-                  {phase.description}
-                </p>
-              </div>
 
-              <ul className="mt-12 space-y-3 text-sm text-white/72 md:text-[0.95rem]">
-                {phase.items.map((item) => (
-                  <li key={item} className="flex items-center gap-3">
-                    <span className="h-px w-7 bg-white/22" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+                <div
+                  ref={(node) => {
+                    bodyRefs.current[index] = node;
+                  }}
+                  className="mt-4 text-[0.98rem] leading-[1.7] text-white/72"
+                >
+                  <p>{service.description}</p>
+                </div>
+
+                <ul
+                  ref={(node) => {
+                    bulletRefs.current[index] = node;
+                  }}
+                  className="mt-auto flex flex-col gap-3 pt-8 text-[0.9rem] leading-[1.5] text-white/72"
+                >
+                  {service.bullets.map((bullet) => (
+                    <li key={bullet} className="flex items-center gap-2.5">
+                      <span className="h-1 w-1 rounded-full bg-white/42" />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </article>
           ))}
         </div>
 
-        <div
-          ref={offerRef}
-          className="relative mt-4 overflow-hidden border border-white/12 bg-white/[0.058] p-6 backdrop-blur-md md:mt-5 md:p-8 lg:p-9"
+        <p
+          ref={closingRef}
+          className="mt-8 text-[0.95rem] leading-[1.7] text-white/48 md:mt-10 md:text-base"
         >
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-[radial-gradient(circle_at_left_center,rgba(255,255,255,0.075),transparent_68%)]" />
-          <div>
-            <p className="text-[0.7rem] font-medium uppercase tracking-[0.34em] text-white/34 md:text-xs">
-              {copy.outputLabel}
-            </p>
-            <p className="mt-3 text-xs font-medium uppercase tracking-[0.42em] text-white/40">
-              {copy.offerTitle}
-            </p>
-            <p className="mt-4 max-w-3xl text-xl font-medium leading-[1.28] tracking-[-0.025em] text-white/84 md:text-3xl">
-              {copy.offerDescription}
-            </p>
-            <p className="mt-4 text-sm leading-[1.6] text-white/46 md:text-[0.95rem]">
-              {copy.offerNote}
-            </p>
-          </div>
-        </div>
+          {copy.closing}
+        </p>
       </div>
     </section>
   );

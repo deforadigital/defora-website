@@ -38,6 +38,16 @@ const whatsappLinks: Record<Locale, { label: string; href: string; message: stri
     message: "Hello, I’d like to talk about my project with Defora.",
   },
 };
+const phoneLinks: Record<Locale, { label: string; href: string }> = {
+  tr: {
+    label: "Telefon ile ara",
+    href: "tel:+905400333672",
+  },
+  en: {
+    label: "Call us",
+    href: "tel:+15716006092",
+  },
+};
 
 const panelEase = "power3.out";
 const linkEase = "power3.out";
@@ -53,6 +63,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
   const whatsappHref = `${whatsappLinks[locale].href}?text=${encodeURIComponent(
     whatsappLinks[locale].message,
   )}`;
+  const phoneHref = phoneLinks[locale].href;
 
   const isHomePage = useMemo(() => {
     if (typeof window === "undefined") return false;
@@ -112,6 +123,45 @@ export default function Navbar({ locale }: { locale: Locale }) {
     return () => {
       document.body.style.overflow = "";
     };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const focusableElements = Array.from(
+      panel.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      ),
+    );
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    firstElement?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setIsOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab" || !focusableElements.length) return;
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement?.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
   useEffect(() => {
@@ -264,51 +314,16 @@ export default function Navbar({ locale }: { locale: Locale }) {
             />
           </Link>
 
-          <div className="hidden items-center gap-6 md:flex">
-            <div className="flex items-center gap-5 text-[0.76rem] font-medium uppercase tracking-[0.18em] text-white/62">
-              {links.map(({ label, target }) => {
-                const isActive = activeTarget === target;
-
-                return (
-                  <Link
-                    key={label}
-                    href={`${homePath}#${target}`}
-                    onClick={(event) => handleNavClick(event, target)}
-                    className={`relative inline-flex items-center transition duration-200 ease-out hover:-translate-y-0.5 hover:text-white ${
-                      isActive ? "text-white" : "text-white/62"
-                    }`}
-                  >
-                    {label}
-                    <span
-                      className={`absolute -bottom-1 left-0 h-px w-full origin-left bg-white transition duration-200 ease-out ${
-                        isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
-                      }`}
-                    />
-                  </Link>
-                );
-              })}
-            </div>
-
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/16 bg-white/[0.03] px-4 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-white/82 transition duration-200 ease-out hover:-translate-y-0.5 hover:border-white/28 hover:bg-white/[0.06] hover:text-white"
-            >
-              {whatsappLinks[locale].label}
-            </a>
-          </div>
-
-          <div className="flex items-center gap-4 md:hidden">
-            <LanguageSwitch locale={locale} className="hidden sm:inline-flex" />
+          <div className="flex items-center gap-4">
+            <LanguageSwitch locale={locale} />
             <button
               type="button"
               aria-expanded={isOpen}
               aria-controls="site-menu"
               onClick={() => setIsOpen((current) => !current)}
-              className="min-h-12 rounded-full border border-white/22 bg-white/[0.045] px-5 py-2.5 text-[0.8rem] font-medium uppercase tracking-[0.18em] text-white/90 backdrop-blur-md transition duration-200 ease-out hover:-translate-y-0.5 hover:border-white/34 hover:bg-white/[0.08] hover:text-white focus:outline-none focus:ring-2 focus:ring-white/25 md:px-6"
+              className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/22 bg-white/[0.045] px-5 py-2.5 text-[0.8rem] font-medium uppercase tracking-[0.18em] text-white/90 backdrop-blur-md transition duration-200 ease-out hover:-translate-y-0.5 hover:border-white/34 hover:bg-white/[0.08] hover:text-white focus:outline-none focus:ring-2 focus:ring-white/25 md:px-6"
             >
-              {isOpen ? "Close" : "Menu"}
+              {isOpen ? "Close" : locale === "tr" ? "Menü" : "Menu"}
             </button>
           </div>
         </nav>
@@ -322,11 +337,23 @@ export default function Navbar({ locale }: { locale: Locale }) {
       >
         <div
           ref={panelRef}
-          className="ml-auto flex min-h-screen w-[min(100vw,34rem)] flex-col justify-center overflow-hidden rounded-l-[3rem] border-l border-white/10 bg-[#0B0B0B] px-7 pb-12 pt-24 shadow-[-24px_0_60px_rgba(0,0,0,0.22)]"
+          className="ml-auto flex min-h-screen w-[min(100vw,34rem)] flex-col overflow-hidden rounded-l-[3rem] border-l border-white/10 bg-[#0B0B0B] px-7 pb-12 pt-10 shadow-[-24px_0_60px_rgba(0,0,0,0.22)]"
           onClick={(event) => event.stopPropagation()}
         >
-          <div className="flex w-full flex-col">
-            <div>
+          <div className="flex w-full flex-1 flex-col">
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-[0.72rem] font-medium uppercase tracking-[0.2em] text-white/42">
+                {locale === "tr" ? "Menü" : "Menu"}
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/14 px-4 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-white/76 transition duration-200 ease-out hover:border-white/26 hover:bg-white/[0.05] hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+              >
+                {locale === "tr" ? "Kapat" : "Close"}
+              </button>
+            </div>
+            <div className="mt-14">
               <div className="flex flex-col gap-6">
                 {links.map(({ label, target }, index) => (
                   <Link
@@ -350,15 +377,26 @@ export default function Navbar({ locale }: { locale: Locale }) {
                 ))}
               </div>
             </div>
-            <div className="mt-10 flex items-center gap-4">
-              <LanguageSwitch locale={locale} />
+            <div className="mt-10 flex flex-col items-start gap-3">
               <a
                 href={whatsappHref}
                 target="_blank"
                 rel="noreferrer"
+                ref={(node) => {
+                  linkRefs.current[links.length] = node;
+                }}
                 className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/16 px-4 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-white/82 transition duration-200 ease-out hover:-translate-y-0.5 hover:border-white/28 hover:bg-white/[0.06] hover:text-white"
               >
-                {whatsappLinks[locale].label}
+                {locale === "tr" ? "WhatsApp’tan yaz" : "WhatsApp"}
+              </a>
+              <a
+                href={phoneHref}
+                ref={(node) => {
+                  linkRefs.current[links.length + 1] = node;
+                }}
+                className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/12 px-4 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-white/62 transition duration-200 ease-out hover:-translate-y-0.5 hover:border-white/24 hover:bg-white/[0.05] hover:text-white/84"
+              >
+                {phoneLinks[locale].label}
               </a>
             </div>
           </div>

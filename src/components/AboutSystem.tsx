@@ -5,313 +5,286 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Locale } from "@/lib/i18n";
 
-const aboutCopy: Record<
-  Locale,
-  {
-    openingHeading: string;
-    openingText: string;
-    philosophy: string[];
-    workLabel: string;
-    workSteps: Array<{ title: string; text: string }>;
-    trustHeading: string;
-    trustList: string[];
-    closingText: string;
-  }
-> = {
+type AboutCard = {
+  title: string;
+  text: string;
+};
+
+type AboutCopy = {
+  eyebrow: string;
+  heading: string;
+  paragraph: string;
+  cards: AboutCard[];
+  stripItems: string[];
+};
+
+const aboutCopy: Record<Locale, AboutCopy> = {
   tr: {
-    openingHeading: "Defora bir ajans değil, bir sistem yaklaşımıdır.",
-    openingText: "Projeler teslim etmek yerine, sürekli çalışan dijital yapılar kuruyoruz.",
-    philosophy: [
-      "Sürdürülebilir sistemler",
-      "Performans odaklı yaklaşım",
-      "Veri ile gelişen yapılar",
+    eyebrow: "HAKKIMIZDA",
+    heading: "Defora, Antalya merkezli bir dijital ürün ve yazılım stüdyosudur.",
+    paragraph:
+      "Web sitesi, e-ticaret, mobil uygulama, özel yazılım, MVP ve SaaS ürünleri geliştiriyoruz. Antalya’da konumlanan ekibimiz; yazılım mühendisleri, tasarım mühendisleri ve yaratıcı tasarımcılardan oluşur. Strateji, tasarım ve geliştirmeyi tek bir sistemde birleştirerek, işletmeler için gerçekten çalışan dijital yapılar kuruyoruz.",
+    cards: [
+      {
+        title: "Biz Kimiz",
+        text: "Fikirleri ürüne dönüştüren, işletmelere özel dijital sistemler geliştiren bir ekibiz.",
+      },
+      {
+        title: "Nasıl Çalışıyoruz",
+        text: "İhtiyacı analiz eder, doğru yapıyı tasarlar, geliştirir ve yayına aldıktan sonra sürekli iyileştiririz.",
+      },
+      {
+        title: "Neden Defora",
+        text: "Sadece tasarım değil, performans, büyüme ve sürdürülebilirlik odaklı sistemler kurarız.",
+      },
     ],
-    workLabel: "Nasıl çalışıyoruz",
-    workSteps: [
-      { title: "Kur", text: "Performans odaklı altyapıyı kurarız" },
-      { title: "Yönlendir", text: "Doğru trafiği sisteme yönlendiririz" },
-      { title: "Optimize Et", text: "Veriyle sistemi sürekli geliştiririz" },
+    stripItems: [
+      "Antalya merkezli ekip",
+      "Yazılım + tasarım birlikte",
+      "Fikirden yayına",
+      "Ölçeklenebilir sistemler",
     ],
-    trustHeading:
-      "Çoğu ekip yayına alır ve süreci burada bırakır.\nBiz test eder, ölçer ve sürekli iyileştiririz.",
-    trustList: [
-      "Lansman öncesi detaylı test süreçleri",
-      "Performans ve hız odaklı geliştirme",
-      "Veri temelli karar alma",
-    ],
-    closingText:
-      "Sadece bir web sitesi değil, çalışan bir sistem arıyorsanız doğru yerdesiniz.",
   },
   en: {
-    openingHeading: "Defora is not an agency model. It is a systems approach.",
-    openingText: "We do not just finish projects. We build digital structures that keep working.",
-    philosophy: [
-      "Sustainable systems",
-      "Performance-first thinking",
-      "Structures that improve through data",
+    eyebrow: "ABOUT",
+    heading: "Defora is a digital product and software studio based in Antalya.",
+    paragraph:
+      "We build websites, ecommerce platforms, mobile apps, custom software, MVPs, and SaaS products. Our Antalya-based team includes software engineers, design engineers, and creative designers. By combining strategy, design, and development in one system, we build digital structures that genuinely work for businesses.",
+    cards: [
+      {
+        title: "Who We Are",
+        text: "We are a team that turns ideas into products and builds tailored digital systems for businesses.",
+      },
+      {
+        title: "How We Work",
+        text: "We analyze the need, design the right structure, build it, and keep improving it after launch.",
+      },
+      {
+        title: "Why Defora",
+        text: "We do not stop at design; we build systems focused on performance, growth, and long-term sustainability.",
+      },
     ],
-    workLabel: "How we work",
-    workSteps: [
-      { title: "Build", text: "We establish the foundation" },
-      { title: "Direct", text: "We bring in the right traffic" },
-      { title: "Optimize", text: "We improve continuously through data" },
+    stripItems: [
+      "Antalya-based team",
+      "Software + design together",
+      "From idea to launch",
+      "Scalable systems",
     ],
-    trustHeading:
-      "Most teams launch and leave.\nWe test, measure, and keep improving.",
-    trustList: [
-      "Detailed QA before launch",
-      "Performance and speed-led development",
-      "Decisions shaped by data",
-    ],
-    closingText:
-      "If you need more than a website, and want a system that works, you are in the right place.",
   },
 };
 
 export default function AboutSystem({ locale }: { locale: Locale }) {
   const copy = aboutCopy[locale];
   const rootRef = useRef<HTMLElement | null>(null);
-  const openingRef = useRef<HTMLDivElement | null>(null);
-  const middleRef = useRef<HTMLDivElement | null>(null);
-  const workConnectorRef = useRef<HTMLDivElement | null>(null);
-  const trustRef = useRef<HTMLDivElement | null>(null);
-  const workStepRefs = useRef<Array<HTMLElement | null>>([]);
+  const introRefs = useRef<Array<HTMLElement | null>>([]);
+  const cardRefs = useRef<Array<HTMLElement | null>>([]);
+  const glowRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const stripRef = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
     const section = rootRef.current;
     if (!section) return;
 
     gsap.registerPlugin(ScrollTrigger);
+    const cleanupFns: Array<() => void> = [];
 
     const ctx = gsap.context(() => {
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
-      const philosophyItems = gsap.utils.toArray<HTMLElement>(".about-philosophy-item");
-      const workSteps = workStepRefs.current.filter(
-        (step): step is HTMLElement => step !== null,
-      );
+      const introNodes = introRefs.current.filter((node): node is HTMLElement => Boolean(node));
+      const cards = cardRefs.current.filter((node): node is HTMLElement => Boolean(node));
+      const targets = [...introNodes, ...cards, stripRef.current].filter(Boolean);
 
       if (prefersReducedMotion) {
-        gsap.set(
-          [
-            openingRef.current,
-            middleRef.current,
-            ...philosophyItems,
-            ...workSteps,
-            workConnectorRef.current,
-            trustRef.current,
-          ].filter(Boolean),
-          {
-            autoAlpha: 1,
-            clearProps: "transform,filter",
-          },
-        );
+        gsap.set(targets, {
+          autoAlpha: 1,
+          clearProps: "transform,filter",
+        });
         return;
       }
 
-      gsap.set(openingRef.current, {
+      gsap.set(targets, {
         autoAlpha: 0,
-        y: 16,
-        filter: "blur(4px)",
-      });
-      gsap.set(philosophyItems, {
-        autoAlpha: 0,
-        y: 12,
-        filter: "blur(4px)",
-      });
-      gsap.set(middleRef.current, {
-        autoAlpha: 0,
-        y: 14,
-        filter: "blur(4px)",
-      });
-      gsap.set(workSteps, {
-        autoAlpha: 0,
-        y: 14,
-        filter: "blur(4px)",
-      });
-      gsap.set(workConnectorRef.current, {
-        autoAlpha: 0,
-        scaleX: 0,
-        transformOrigin: "0% 50%",
-      });
-      gsap.set(trustRef.current, {
-        autoAlpha: 0,
-        y: 14,
-        filter: "blur(4px)",
+        y: 24,
+        filter: "blur(6px)",
       });
 
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "top 72%",
-            once: true,
-          },
-        })
-        .to(openingRef.current, {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 74%",
+          once: true,
+        },
+      })
+        .to(introNodes, {
           autoAlpha: 1,
           y: 0,
           filter: "blur(0px)",
-            duration: 0.64,
-            ease: "power3.out",
-          })
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.08,
+        })
         .to(
-          philosophyItems,
+          cards,
           {
             autoAlpha: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 0.56,
+            duration: 0.8,
             ease: "power3.out",
-            stagger: 0.08,
+            stagger: 0.1,
           },
-          "-=0.24",
+          "-=0.28",
         )
         .to(
-          middleRef.current,
+          stripRef.current,
           {
             autoAlpha: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 0.54,
+            duration: 0.72,
             ease: "power3.out",
           },
-          "-=0.26",
-        )
-        .to(
-          workSteps,
-          {
-            autoAlpha: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.5,
-            ease: "power3.out",
-            stagger: 0.08,
-          },
-          "-=0.18",
-        )
-        .to(
-          workConnectorRef.current,
-          {
-            autoAlpha: 1,
-            scaleX: 1,
-            duration: 0.58,
-            ease: "power3.inOut",
-          },
-          "-=0.08",
-        )
-        .to(
-          trustRef.current,
-          {
-            autoAlpha: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.56,
-            ease: "power3.out",
-          },
-          "-=0.04",
+          "-=0.22",
         );
+
+      cards.forEach((card, index) => {
+        const glow = glowRefs.current[index];
+
+        const enter = () => {
+          gsap.to(card, {
+            y: -6,
+            borderColor: "rgba(255,255,255,0.18)",
+            duration: 0.36,
+            ease: "power3.out",
+            overwrite: "auto",
+          });
+          gsap.to(glow, {
+            opacity: 0.16,
+            duration: 0.36,
+            ease: "power3.out",
+            overwrite: "auto",
+          });
+        };
+
+        const leave = () => {
+          gsap.to(card, {
+            y: 0,
+            borderColor: "rgba(255,255,255,0.1)",
+            duration: 0.34,
+            ease: "power3.out",
+            overwrite: "auto",
+          });
+          gsap.to(glow, {
+            opacity: 0.08,
+            duration: 0.34,
+            ease: "power3.out",
+            overwrite: "auto",
+          });
+        };
+
+        card.addEventListener("mouseenter", enter);
+        card.addEventListener("mouseleave", leave);
+        cleanupFns.push(() => {
+          card.removeEventListener("mouseenter", enter);
+          card.removeEventListener("mouseleave", leave);
+        });
+      });
     }, rootRef);
 
-    return () => ctx.revert();
+    return () => {
+      cleanupFns.forEach((cleanup) => cleanup());
+      ctx.revert();
+    };
   }, []);
 
   return (
     <section
       id="about"
       ref={rootRef}
-      className="relative overflow-hidden bg-[#040913] px-5 py-16 text-white md:px-8 md:py-20"
+      className="relative overflow-hidden bg-[#0D172B] px-5 py-16 text-white md:px-8 md:py-20"
     >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(71,121,255,0.14),transparent_28%),radial-gradient(circle_at_84%_76%,rgba(118,82,255,0.12),transparent_24%),radial-gradient(circle_at_54%_46%,rgba(96,136,255,0.06),transparent_36%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:radial-gradient(rgba(255,255,255,0.7)_0.6px,transparent_0.6px)] [background-size:9px_9px]" />
+      <div className="pointer-events-none absolute right-[12%] top-[22%] h-[20rem] w-[20rem] rounded-full bg-[radial-gradient(circle,rgba(110,147,255,0.12),transparent_66%)] blur-3xl" />
+      <div className="pointer-events-none absolute left-[52%] top-[32%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(118,82,255,0.09),transparent_68%)] blur-3xl" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/8" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.026)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.018)_1px,transparent_1px)] bg-[size:20rem_20rem] opacity-20" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-white/8" />
 
       <div className="relative mx-auto max-w-[92rem]">
-        <div className="max-w-[74rem]">
-          <div ref={openingRef} className="max-w-[48rem]">
-            <h2 className="text-[clamp(2rem,4.2vw,4.7rem)] font-medium leading-[1] tracking-[-0.045em] text-white">
-              {copy.openingHeading}
+        <div className="grid gap-8 md:grid-cols-[minmax(0,1.08fr)_minmax(19rem,28rem)] md:items-start md:gap-10 lg:gap-14">
+          <div className="max-w-[42rem]">
+            <p
+              ref={(node) => {
+                introRefs.current[0] = node;
+              }}
+              className="text-[0.76rem] font-medium uppercase tracking-[0.24em] text-white/44 md:text-[0.8rem]"
+            >
+              {copy.eyebrow}
+            </p>
+            <h2
+              ref={(node) => {
+                introRefs.current[1] = node;
+              }}
+              className="mt-5 max-w-[14ch] text-[clamp(2.2rem,5.1vw,4.9rem)] font-medium leading-[0.98] tracking-[-0.05em] text-white"
+            >
+              {copy.heading}
             </h2>
-            <p className="mt-4 max-w-[34rem] text-base leading-[1.68] text-white/60 md:text-lg">
-              {copy.openingText}
+            <p
+              ref={(node) => {
+                introRefs.current[2] = node;
+              }}
+              className="mt-5 max-w-[42rem] text-[1rem] leading-[1.8] text-white/70 md:text-[1.05rem]"
+            >
+              {copy.paragraph}
             </p>
           </div>
 
-          <div
-            ref={middleRef}
-            className="mt-10 grid gap-7 border-t border-white/8 pt-7 md:mt-10 md:grid-cols-[0.9fr_1.1fr] md:gap-8 md:pt-7"
-          >
-            <div className="space-y-1.5 self-start md:space-y-2">
-              {copy.philosophy.map((item) => (
+          <div className="space-y-4 md:space-y-4.5">
+            {copy.cards.map((card, index) => (
+              <article
+                key={card.title}
+                ref={(node) => {
+                  cardRefs.current[index] = node;
+                }}
+                className="relative overflow-hidden rounded-[1.5rem] border border-white/12 bg-white/[0.055] px-5 py-5 backdrop-blur-[16px] md:px-6 md:py-6"
+              >
                 <div
-                  key={item}
-                  className="about-philosophy-item flex items-center gap-4 border-b border-white/7 py-3 last:border-b-0 md:py-3.5"
-                >
-                  <span className="h-px w-8 shrink-0 bg-white/20" />
-                  <p className="text-base leading-[1.55] text-white/76 md:text-lg">{item}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="self-start">
-              <p className="text-xs font-medium uppercase tracking-[0.42em] text-white/40">
-                {copy.workLabel}
-              </p>
-
-              <div className="relative mt-4 space-y-3 md:mt-5">
-                <div
-                  ref={workConnectorRef}
-                  className="pointer-events-none absolute bottom-5 left-4 top-5 w-px bg-gradient-to-b from-white/10 via-white/22 to-white/10 md:bottom-auto md:left-[8%] md:right-[8%] md:top-8 md:h-px md:w-auto md:bg-gradient-to-r md:from-transparent md:via-white/22 md:to-transparent"
+                  ref={(node) => {
+                    glowRefs.current[index] = node;
+                  }}
+                  className="pointer-events-none absolute inset-0 opacity-[0.1]"
+                  style={{
+                    background:
+                      "radial-gradient(circle at top left, rgba(113,150,255,0.18), transparent 34%), radial-gradient(circle at bottom right, rgba(118,82,255,0.14), transparent 30%), radial-gradient(circle at center, rgba(255,255,255,0.04), transparent 62%)",
+                  }}
                 />
-
-                {copy.workSteps.map((step, index) => (
-                  <article
-                    key={step.title}
-                    ref={(node) => {
-                      workStepRefs.current[index] = node;
-                    }}
-                    className="relative grid gap-3 border border-white/7 bg-white/[0.018] px-5 py-4 backdrop-blur-sm md:grid-cols-[auto_1fr] md:items-center md:gap-5 md:px-6 md:py-4.5"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-[0.68rem] font-medium uppercase tracking-[0.34em] text-white/30">
-                        0{index + 1}
-                      </span>
-                      <h3 className="text-[clamp(1.25rem,2vw,2rem)] font-medium leading-none tracking-[-0.04em] text-white">
-                        {step.title}
-                      </h3>
-                    </div>
-                    <p className="max-w-[18rem] text-sm leading-[1.65] text-white/60 md:max-w-none md:text-[0.96rem]">
-                      {step.text}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            </div>
+                <div className="pointer-events-none absolute inset-[1px] rounded-[calc(1.5rem-1px)] border border-white/[0.035]" />
+                <div className="relative">
+                  <h3 className="text-[1.15rem] font-medium tracking-[-0.03em] text-white md:text-[1.24rem]">
+                    {card.title}
+                  </h3>
+                  <p className="mt-2.5 text-[0.95rem] leading-[1.72] text-white/64 md:text-[0.98rem]">
+                    {card.text}
+                  </p>
+                </div>
+              </article>
+            ))}
           </div>
+        </div>
 
-          <div
-            ref={trustRef}
-            className="mt-8 border-t border-white/8 pt-7 md:mt-8 md:pt-7"
-          >
-            <h3 className="max-w-3xl whitespace-pre-line text-[clamp(1.8rem,3.2vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.04em] text-white">
-              {copy.trustHeading}
-            </h3>
-
-            <ul className="mt-4 grid gap-3 md:mt-5 md:grid-cols-3 md:gap-4">
-              {copy.trustList.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-3 text-sm leading-[1.68] text-white/72 md:text-base"
-                >
-                  <span className="mt-3 h-px w-7 bg-white/24" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-
-            <p className="mt-6 max-w-2xl text-[clamp(1.5rem,2.6vw,2.35rem)] font-medium leading-[1.16] tracking-[-0.03em] text-white md:mt-7">
-              {copy.closingText}
-            </p>
+        <div
+          ref={stripRef}
+          className="mt-10 border-t border-white/10 pt-5 md:mt-12 md:pt-6"
+        >
+          <div className="flex flex-wrap gap-x-5 gap-y-3 text-[0.78rem] font-medium uppercase tracking-[0.18em] text-white/52 md:gap-x-8 md:text-[0.82rem]">
+            {copy.stripItems.map((item) => (
+              <span key={item} className="inline-flex items-center gap-2.5">
+                <span className="h-px w-5 bg-white/22" />
+                <span>{item}</span>
+              </span>
+            ))}
           </div>
         </div>
       </div>

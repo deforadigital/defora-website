@@ -30,9 +30,12 @@ const heroCopy: Record<
   tr: {
     label: "STRATEJİ · TASARIM · GELİŞTİRME · PERFORMANS",
     focusLabel: "Odak alanlarımız",
-    headline: ["Dijital ürünleri değil,", "çalışan sistemleri inşa ediyoruz."],
-    cta: "Ücretsiz görüşme planla",
-    whatsappCta: "WhatsApp’tan yaz",
+    headline: [
+      "İşletmenize sadece web sitesi değil,",
+      "müşteri getiren bir dijital sistem kuruyoruz.",
+    ],
+    cta: "WhatsApp’tan yaz",
+    whatsappCta: "Görüşme planla",
     phoneCta: "Telefon ile ara",
     whatsappMessage: "Merhaba, projem hakkında görüşmek istiyorum.",
   },
@@ -41,7 +44,7 @@ const heroCopy: Record<
     focusLabel: "Focus areas",
     headline: ["We don’t build pages.", "We build systems that perform."],
     cta: "Book a consultation",
-    whatsappCta: "WhatsApp us",
+    whatsappCta: "Schedule a call",
     phoneCta: "Call us",
     whatsappMessage: "I’d like to discuss a project.",
   },
@@ -379,13 +382,14 @@ export default function Hero({ locale }: { locale: Locale }) {
                 className="flex w-fit max-w-full flex-col items-center"
               >
                 <div className="flex w-fit max-w-full flex-col items-center">
-                <button
-                  type="button"
-                  onClick={handleBookingAction}
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
                   className="relative z-10 rounded-full border border-white/55 bg-white/[0.13] px-7 py-[1.1rem] text-[0.86rem] font-medium uppercase leading-tight tracking-[0.2em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_20px_56px_rgba(0,0,0,0.26)] backdrop-blur-md transition-all duration-300 ease-out active:scale-[0.98] hover:border-white/65 hover:bg-white/[0.17] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_0_34px_rgba(92,190,255,0.14),0_24px_68px_rgba(0,0,0,0.34)] focus:outline-none focus:ring-2 focus:ring-white/25 focus-visible:ring-2 focus-visible:ring-white/25 md:border-white/40 md:bg-white/[0.09] md:px-8 md:py-[1.05rem] md:text-[0.84rem] md:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_20px_56px_rgba(0,0,0,0.26)] motion-reduce:transition-none"
                 >
                   {copy.cta}
-                </button>
+                </a>
 
                 <div className="mt-[clamp(1.1rem,2.2vh,1.25rem)] flex flex-wrap items-center justify-center gap-x-3.5 gap-y-2 text-center text-[0.84rem] font-medium leading-tight tracking-[0.1em] text-white/76 md:text-[0.82rem] md:text-white/64">
                   <a
@@ -413,10 +417,9 @@ export default function Hero({ locale }: { locale: Locale }) {
                   >
                     ·
                   </span>
-                  <a
-                    href={whatsappHref}
-                    target="_blank"
-                    rel="noreferrer"
+                  <button
+                    type="button"
+                    onClick={handleBookingAction}
                     className="group inline-flex items-center gap-1 transition-all duration-200 ease-out hover:-translate-y-px hover:text-white/84 focus:outline-none focus-visible:-translate-y-px focus-visible:text-white/86 focus-visible:ring-2 focus-visible:ring-white/20 md:gap-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0"
                   >
                     <svg
@@ -433,7 +436,7 @@ export default function Hero({ locale }: { locale: Locale }) {
                     <span className="border-b border-white/0 pb-0.5 transition-colors duration-200 ease-out group-hover:border-white/28 motion-reduce:transition-none">
                       {copy.whatsappCta}
                     </span>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -443,10 +446,10 @@ export default function Hero({ locale }: { locale: Locale }) {
             ref={headlineRef}
             className="flex w-full max-w-[min(100%,92rem)] flex-col gap-[clamp(0.45rem,1.4vh,1.1rem)] pb-[clamp(1.25rem,3svh,2rem)] font-semibold tracking-[-0.04em] text-white md:pb-[clamp(2.25rem,7vh,5.5rem)]"
           >
-            <span className="block text-[clamp(2.8rem,9.5vw,9.2rem)] leading-[0.84] md:whitespace-nowrap">
+            <span className="block text-[clamp(2.3rem,6.8vw,6.8rem)] leading-[0.88] md:whitespace-nowrap">
               {copy.headline[0]}
             </span>
-            <span className="block max-w-[min(100%,90rem)] text-[clamp(2rem,5.8vw,6.1rem)] leading-[0.9] md:whitespace-nowrap">
+            <span className="block max-w-[min(100%,90rem)] text-[clamp(1.7rem,4.9vw,4.9rem)] leading-[0.94] md:whitespace-nowrap">
               {copy.headline[1]}
             </span>
           </h1>
