@@ -1,4 +1,7 @@
+import AboutSystem from "@/components/AboutSystem";
+import FinalCta from "@/components/FinalCta";
 import Hero from "@/components/Hero";
+import GrowthSystem from "@/components/GrowthSystem";
 import Navbar from "@/components/Navbar";
 import { createLocalizedMetadata } from "@/lib/metadata";
 
@@ -14,6 +17,9 @@ export default function EnglishHome() {
     <>
       <Navbar locale="en" />
       <Hero locale="en" />
+      <GrowthSystem locale="en" />
+      <AboutSystem locale="en" />
+      <FinalCta locale="en" />
     </>
   );
 }
