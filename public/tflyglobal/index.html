@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Home Dark || Jetly || Jetly HTML 5 Template </title>
+    <!-- favicons Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/tflyglobal/assets/images/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/tflyglobal/assets/images/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/tflyglobal/assets/images/favicons/favicon-16x16.png" />
+    <link rel="manifest" href="/tflyglobal/assets/images/favicons/site.webmanifest" />
+    <meta name="description" content="Jetly HTML 5 Template " />
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/animate/animate.min.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/animate/custom-animate.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/jarallax/jarallax.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/jquery-magnific-popup/jquery.magnific-popup.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/nouislider/nouislider.min.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/nouislider/nouislider.pips.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/odometer/odometer.min.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/swiper/swiper.min.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/jetly-icons/style.css">
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/tiny-slider/tiny-slider.min.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/reey-font/stylesheet.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/owl-carousel/owl.carousel.min.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/owl-carousel/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/bxslider/jquery.bxslider.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/bootstrap-select/css/bootstrap-select.min.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/vegas/vegas.min.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/jquery-ui/jquery-ui.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/timepicker/timePicker.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/vendors/nice-select/nice-select.css" />
+
+    <!-- template styles -->
+    <link rel="stylesheet" href="/tflyglobal/assets/css/jetly.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/css/jetly-responsive.css" />
+    <link rel="stylesheet" href="/tflyglobal/assets/css/jetly-dark.css" />
+    <style>.lang-btn.active { background: var(--jetly-base) !important; color: #000 !important; }
+        #demo-toast {
+            position: fixed; top: 24px; left: 50%; transform: translateX(-50%) translateY(-20px);
+            background: var(--jetly-black); color: #fff; border: 1px solid var(--jetly-base);
+            padding: 14px 24px; border-radius: 8px; font-size: 14px; font-weight: 500;
+            z-index: 99999; opacity: 0; transition: opacity .3s ease, transform .3s ease;
+            pointer-events: none; box-shadow: 0 10px 30px rgba(0,0,0,.4);
+        }
+        #demo-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+
+<body class="custom-cursor">
+
+    <div class="custom-cursor__cursor"></div>
+    <div class="custom-cursor__cursor-two"></div>
+
+
+
+
+
+    <div class="preloader">
+        <div class="preloader__image"></div>
+    </div>
+    <!-- /.preloader -->
+
+
+    <div class="page-wrapper">
+        <header class="main-header">
+            <nav class="main-menu">
+                <div class="main-menu__wrapper">
+                    <div class="main-menu__wrapper-inner">
+                        <div class="main-menu__left">
+                            <div class="main-menu__logo">
+                                <a href="index.html" style="background:#fff;border-radius:50%;width:73px;height:73px;display:inline-flex;align-items:center;justify-content:center;"><img src="/tflyglobal/assets/images/resources/tfly-logo.png" alt="T-FLY" style="width:49px;height:49px;object-fit:contain;"></a>
+                            </div>
+                        </div>
+                        <div class="main-menu__main-menu-box">
+                            <a href="#" class="mobile-nav__toggler"><i class="fa fa-bars"></i></a>
+                            <ul class="main-menu__list">
+                                <li class="current"><a href="index.html">Home</a></li>
+                                <li><a href="about.html" class="demo-locked">Pages</a></li>
+                                <li><a href="services.html" class="demo-locked">Services</a></li>
+                                <li>
+                                    <a href="contact.html" class="demo-locked">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="main-menu__right">
+                            <div class="main-menu__search-cart-call-box">
+                                <div class="lang-switcher" style="display:flex; gap:6px; margin-right:20px;">
+                                    <button type="button" class="lang-btn active" data-lang="tr" style="background:none;border:1px solid var(--jetly-base);color:#fff;padding:4px 10px;border-radius:4px;cursor:pointer;">TR</button>
+                                    <button type="button" class="lang-btn" data-lang="en" style="background:none;border:1px solid var(--jetly-base);color:#fff;padding:4px 10px;border-radius:4px;cursor:pointer;">EN</button>
+                                </div>
+                                <div class="main-menu__call">
+                                    <div class="main-menu__call-icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div class="main-menu__call-content">
+                                        <p class="main-menu__call-sub-title">Call Anytime</p>
+                                        <h5 class="main-menu__call-number"><a href="tel:+905301208907">+90 530 120 89 07</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="stricky-header stricked-menu main-menu">
+            <div class="sticky-header__content"></div><!-- /.sticky-header__content -->
+        </div><!-- /.stricky-header -->
+
+        <!--Main Slider Start-->
+        <section class="main-slider clearfix">
+            <div class="swiper-container thm-swiper__slider" data-swiper-options='{"slidesPerView": 1, "loop": true,
+                "effect": "fade",
+                "pagination": {
+                "el": "#main-slider-pagination",
+                "type": "bullets",
+                "clickable": true
+                },
+                "navigation": {
+                "nextEl": "#main-slider__swiper-button-next",
+                "prevEl": "#main-slider__swiper-button-prev"
+                },
+                "autoplay": {
+                "delay": 5000
+                }}'>
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide">
+                        <div class="image-layer"
+                            ></div>
+                        <!-- /.image-layer -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="main-slider__content">
+                                        <p class="main-slider__sub-title lang-text" data-tr="Akıllıca Uç. Güvenle Uç. Ötesine Uç." data-en="Fly Smart. Fly Safe. Fly Beyond.">Akıllıca Uç. Güvenle Uç. Ötesine Uç.</p>
+                                        <h2 class="main-slider__title lang-text" data-tr="T-FLY TAXI İLE<br>HIZLI VE GÜVENLİ ULAŞIM" data-en="FAST AND SAFE TRAVEL<br>WITH T-FLY TAXI">T-FLY TAXI İLE<br>HIZLI VE GÜVENLİ ULAŞIM</h2>
+                                        <p class="lang-text" data-tr="Antalya merkezli kısa menzilli hava mobilitesiyle trafik yok, gecikme yok, sadece gökyüzü." data-en="With Antalya-based short-range air mobility: no traffic, no delays, just the sky." style="color:#fff; max-width:600px; margin:10px auto 0; text-align:center;">Antalya merkezli kısa menzilli hava mobilitesiyle trafik yok, gecikme yok, sadece gökyüzü.</p>
+                                        <div class="main-slider__btn-box">
+                                            <a href="contact.html" class="thm-btn main-slider__btn demo-locked">İletişime Geç</a>
+                                            <a href="destinations.html" class="thm-btn main-slider__btn-two demo-locked">Rotalarımız</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="image-layer"
+                            ></div>
+                        <!-- /.image-layer -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="main-slider__content">
+                                        <p class="main-slider__sub-title lang-text" data-tr="Akıllıca Uç. Güvenle Uç. Ötesine Uç." data-en="Fly Smart. Fly Safe. Fly Beyond.">Akıllıca Uç. Güvenle Uç. Ötesine Uç.</p>
+                                        <h2 class="main-slider__title lang-text" data-tr="T-FLY TAXI İLE<br>HIZLI VE GÜVENLİ ULAŞIM" data-en="FAST AND SAFE TRAVEL<br>WITH T-FLY TAXI">T-FLY TAXI İLE<br>HIZLI VE GÜVENLİ ULAŞIM</h2>
+                                        <p class="lang-text" data-tr="Antalya merkezli kısa menzilli hava mobilitesiyle trafik yok, gecikme yok, sadece gökyüzü." data-en="With Antalya-based short-range air mobility: no traffic, no delays, just the sky." style="color:#fff; max-width:600px; margin:10px auto 0; text-align:center;">Antalya merkezli kısa menzilli hava mobilitesiyle trafik yok, gecikme yok, sadece gökyüzü.</p>
+                                        <div class="main-slider__btn-box">
+                                            <a href="contact.html" class="thm-btn main-slider__btn demo-locked">İletişime Geç</a>
+                                            <a href="destinations.html" class="thm-btn main-slider__btn-two demo-locked">Rotalarımız</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="image-layer"
+                            ></div>
+                        <!-- /.image-layer -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="main-slider__content">
+                                        <p class="main-slider__sub-title lang-text" data-tr="Akıllıca Uç. Güvenle Uç. Ötesine Uç." data-en="Fly Smart. Fly Safe. Fly Beyond.">Akıllıca Uç. Güvenle Uç. Ötesine Uç.</p>
+                                        <h2 class="main-slider__title lang-text" data-tr="T-FLY TAXI İLE<br>HIZLI VE GÜVENLİ ULAŞIM" data-en="FAST AND SAFE TRAVEL<br>WITH T-FLY TAXI">T-FLY TAXI İLE<br>HIZLI VE GÜVENLİ ULAŞIM</h2>
+                                        <p class="lang-text" data-tr="Antalya merkezli kısa menzilli hava mobilitesiyle trafik yok, gecikme yok, sadece gökyüzü." data-en="With Antalya-based short-range air mobility: no traffic, no delays, just the sky." style="color:#fff; max-width:600px; margin:10px auto 0; text-align:center;">Antalya merkezli kısa menzilli hava mobilitesiyle trafik yok, gecikme yok, sadece gökyüzü.</p>
+                                        <div class="main-slider__btn-box">
+                                            <a href="contact.html" class="thm-btn main-slider__btn demo-locked">İletişime Geç</a>
+                                            <a href="destinations.html" class="thm-btn main-slider__btn-two demo-locked">Rotalarımız</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- If we need navigation buttons -->
+
+
+            </div>
+        </section>
+        <!--Main Slider End-->
+
+        <!--Feature One Start-->
+        <section class="feature-one">
+            <div class="feature-one__shape-1 float-bob-y-2">
+                <img src="/tflyglobal/assets/images/shapes/feature-one-shape-1.png" alt="">
+                <div class="feature-one__shadow">
+                    <img src="/tflyglobal/assets/images/shapes/feature-one-shadow.png" alt="">
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <!--Feature One Single Start-->
+                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInLeft" data-wow-delay="100ms">
+                        <div class="feature-one__single">
+                            <div class="feature-one__icon">
+                                <span class="icon-diamond-1"></span>
+                            </div>
+                            <h4 class="feature-one__title"><a href="about.html">Garmin 1000 Uçaklar</a></h4>
+                        </div>
+                    </div>
+                    <!--Feature One Single End-->
+                    <!--Feature One Single Start-->
+                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInLeft" data-wow-delay="200ms">
+                        <div class="feature-one__single">
+                            <div class="feature-one__icon">
+                                <span class="icon-safe-flight"></span>
+                            </div>
+                            <h4 class="feature-one__title"><a href="about.html">SID & STAR Uygulamaları</a></h4>
+                        </div>
+                    </div>
+                    <!--Feature One Single End-->
+                    <!--Feature One Single Start-->
+                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInLeft" data-wow-delay="300ms">
+                        <div class="feature-one__single">
+                            <div class="feature-one__icon">
+                                <span class="icon-calendar"></span>
+                            </div>
+                            <h4 class="feature-one__title"><a href="about.html">Alet Eğitimine Hazırlık</a></h4>
+                        </div>
+                    </div>
+                    <!--Feature One Single End-->
+                    <!--Feature One Single Start-->
+                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInLeft" data-wow-delay="400ms">
+                        <div class="feature-one__single">
+                            <div class="feature-one__icon">
+                                <span class="icon-airport-1"></span>
+                            </div>
+                            <h4 class="feature-one__title"><a href="about.html">Deneyimli Safety Pilotlar</a></h4>
+                        </div>
+                    </div>
+                    <!--Feature One Single End-->
+                </div>
+            </div>
+        </section>
+        <!--Feature One End-->
+
+        <!--About One Start-->
+        <section class="about-one">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="about-one__left">
+                            <div class="section-title text-left">
+                                <span class="section-title__tagline">P.I.C FLIGHT TRAINING</span>
+                                <h2 class="section-title__title lang-text" data-tr="Türkiye'nin En Kapsamlı P.I.C Deneyimi" data-en="The Most Comprehensive P.I.C Experience in Turkey">Türkiye'nin En Kapsamlı P.I.C Deneyimi</h2>
+                            </div>
+                            <p class="about-one__text lang-text" data-tr="Antalya merkezli programımız ile Türkiye'nin farklı meydanlarında gerçek operasyon deneyimi kazanın. Tam donanımlı filomuz ve tecrübeli ekibimizle uçuş saatlerinizi güvenle büyütün." data-en="Gain real operational experience in different airports across Turkey with our Antalya-based program. Grow your flight hours safely with our fully equipped fleet and experienced crew.">Antalya merkezli programımız ile Türkiye'nin farklı meydanlarında gerçek operasyon deneyimi kazanın. Tam donanımlı filomuz ve tecrübeli ekibimizle uçuş saatlerinizi güvenle büyütün.</p>
+                            <ul class="list-unstyled about-one__points">
+                                <li>
+                                    <div class="icon">
+                                        <span class="icon-tick"></span>
+                                    </div>
+                                    <div class="text">
+                                        <p class="lang-text" data-tr="Alet Eğitimine Hazırlık & Güncel AIP Desteği" data-en="Instrument Training Prep & Current AIP Support">Alet Eğitimine Hazırlık & Güncel AIP Desteği</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon">
+                                        <span class="icon-tick"></span>
+                                    </div>
+                                    <div class="text">
+                                        <p class="lang-text" data-tr="Konaklama & Ulaşım Desteği Dahil" data-en="Accommodation & Transport Support Included">Konaklama & Ulaşım Desteği Dahil</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="about-one__btn-call">
+                                <div class="about-one__btn-box">
+                                    <a href="contact.html" class="thm-btn about-one__btn demo-locked">Book Now</a>
+                                </div>
+                                <div class="about-one__call">
+                                    <div class="about-one__call-icon">
+                                        <span class="icon-telephone"></span>
+                                    </div>
+                                    <div class="about-one__call-content">
+                                        <span class="about-one__call-sub-title">Call Anytime</span>
+                                        <p class="about-one__call-number"><a href="tel:+905301208907">+90 530 120 89 07</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="about-one__right">
+                            <div class="about-one__img-box wow slideInRight" data-wow-delay="100ms"
+                                data-wow-duration="2500ms">
+                                <div class="about-one__img">
+                                    <img src="/tflyglobal/assets/images/tfly-plane.jpg" alt="T-FLY Aircraft">
+                                </div>
+                                <div class="about-one__satisfied">
+                                    <div class="about-one__satisfied-icon">
+                                        <span class="icon-recommend"></span>
+                                    </div>
+                                    <div class="about-one__satisfied-content count-box">
+                                        <h3 class="count-text" data-stop="88" data-speed="1500">00</h3>
+                                        <p class="lang-text" data-tr="SAAT Tecrübe Uçuşu" data-en="HOURS Experience Flight">SAAT Tecrübe Uçuşu</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--About One End-->
+
+
+        <!--Get Flight Start-->
+        <section class="get-flight">
+            <div class="get-flight-img">
+                <img src="/tflyglobal/assets/images/get-flight-tfly.png" alt="T-FLY Taxi Booking">
+            </div>
+            <div class="get-flight__shape-1 float-bob-x">
+                <img src="/tflyglobal/assets/images/shapes/get-flight-shape-1.png" alt="">
+            </div>
+            <div class="get-flight__shape-2 float-bob-x">
+                <img src="/tflyglobal/assets/images/shapes/get-flight-shape-2.png" alt="">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8">
+                        <div class="get-flight__content-box">
+                            <div class="section-title text-left">
+                                <span class="section-title__tagline">T-FLY TAXI BOOKING</span>
+                                <h2 class="section-title__title lang-text" data-tr="Hızlı Rezervasyon" data-en="Fast Booking">Hızlı Rezervasyon</h2>
+                            </div>
+                            <form action="/tflyglobal/assets/inc/sendemail.php" class="get-flight__form contact-form-validated"
+                                novalidate="novalidate">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="get-flight__form-input-box">
+                                            <input type="text" placeholder="Fly from" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="get-flight__form-input-box">
+                                            <input type="text" placeholder="Fly to" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="get-flight__form-input-box">
+                                            <input type="text" name="date" placeholder="Select date" id="datepicker" disabled>
+                                            <div class="get-flight__icon-box">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="row">
+                                            <div class="col-xl-6 col-lg-6">
+                                                <div class="get-flight__form-input-box">
+                                                    <input type="text" name="time" placeholder="Select time" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6">
+                                                <div class="get-flight__form-input-box">
+                                                    <div class="select-box">
+                                                        <select class="wide" disabled>
+                                                            <option data-display="Select country">Passengers</option>
+                                                            <option value="1">Passengers 01</option>
+                                                            <option value="2">Passengers 02</option>
+                                                            <option value="3">Passengers 03</option>
+                                                            <option value="4">Passengers 04</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="get-flight__form-input-box">
+                                            <div class="select-box">
+                                                <select class="wide" disabled>
+                                                    <option data-display="Select country">Select baggage</option>
+                                                    <option value="1">Select baggage 01</option>
+                                                    <option value="2">Select baggage 02</option>
+                                                    <option value="3">Select baggage 03</option>
+                                                    <option value="4">Select baggage 04</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="get-flight__form-input-box">
+                                            <button type="submit" class="thm-btn get-flight__btn demo-locked" disabled>Book Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <p class="get-flight__content-text"> <span>*</span> After sending request. We’ll contact you
+                                for more details about charter.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Get Flight End-->
+
+        <!--Services One Start-->
+        <section class="services-one">
+            <div class="container">
+                <div class="section-title text-center">
+                    <span class="section-title__tagline">T-FLY TAXI</span>
+                    <h2 class="section-title__title lang-text" data-tr="Hizmetlerimiz" data-en="Our Services">Hizmetlerimiz</h2>
+                </div>
+                <div class="row">
+                    <!--Services One Single Start-->
+                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="100ms">
+                        <div class="services-one__single">
+                            <div class="services-one__img">
+                                <img src="/tflyglobal/assets/images/services/tfly-route.jpg" alt="Antalya - Bodrum">
+                            </div>
+                            <div class="services-one__content">
+                                <div class="services-one__title-box">
+                                    <span class="services-one__sub-title lang-text" data-tr="Hava Taksi" data-en="Air Taxi">Hava Taksi</span>
+                                    <h3 class="services-one__title"><a href="#" class="demo-locked">Antalya - Bodrum</a>
+                                    </h3>
+                                </div>
+                                <p class="services-one__text lang-text" data-tr="Trafiksiz, hızlı kısa menzilli uçuş." data-en="No traffic, fast short-range flight.">Trafiksiz, hızlı kısa menzilli uçuş.</p>
+                                <div class="services-one__arrow">
+                                    <a href="#" class="demo-locked" style="cursor:not-allowed;"><i class="fas fa-angle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Services One Single End-->
+                    <!--Services One Single Start-->
+                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="200ms">
+                        <div class="services-one__single">
+                            <div class="services-one__img">
+                                <img src="/tflyglobal/assets/images/services/tfly-route.jpg" alt="Antalya - Kapadokya">
+                            </div>
+                            <div class="services-one__content">
+                                <div class="services-one__title-box">
+                                    <span class="services-one__sub-title lang-text" data-tr="Hava Taksi" data-en="Air Taxi">Hava Taksi</span>
+                                    <h3 class="services-one__title"><a href="#" class="demo-locked">Antalya - Kapadokya</a>
+                                    </h3>
+                                </div>
+                                <p class="services-one__text lang-text" data-tr="Gökyüzünden eşsiz manzara deneyimi." data-en="Unique scenic experience from the sky.">Gökyüzünden eşsiz manzara deneyimi.</p>
+                                <div class="services-one__arrow">
+                                    <a href="#" class="demo-locked" style="cursor:not-allowed;"><i class="fas fa-angle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Services One Single End-->
+                    <!--Services One Single Start-->
+                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="300ms">
+                        <div class="services-one__single">
+                            <div class="services-one__img">
+                                <img src="/tflyglobal/assets/images/services/tfly-route.jpg" alt="Antalya - Salda Gölü">
+                            </div>
+                            <div class="services-one__content">
+                                <div class="services-one__title-box">
+                                    <span class="services-one__sub-title lang-text" data-tr="Hava Taksi" data-en="Air Taxi">Hava Taksi</span>
+                                    <h3 class="services-one__title"><a href="#" class="demo-locked">Antalya - Salda Gölü</a></h3>
+                                </div>
+                                <p class="services-one__text lang-text" data-tr="Türkuaz sulara konforlu seyahat." data-en="Comfortable travel to turquoise waters.">Türkuaz sulara konforlu seyahat.</p>
+                                <div class="services-one__arrow">
+                                    <a href="#" class="demo-locked" style="cursor:not-allowed;"><i class="fas fa-angle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Services One Single End-->
+                    <!--Services One Single Start-->
+                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="400ms">
+                        <div class="services-one__single">
+                            <div class="services-one__img">
+                                <img src="/tflyglobal/assets/images/services/tfly-route.jpg" alt="Antalya - Aspendos">
+                            </div>
+                            <div class="services-one__content">
+                                <div class="services-one__title-box">
+                                    <span class="services-one__sub-title lang-text" data-tr="Hava Taksi" data-en="Air Taxi">Hava Taksi</span>
+                                    <h3 class="services-one__title"><a href="#" class="demo-locked">Antalya - Aspendos</a></h3>
+                                </div>
+                                <p class="services-one__text lang-text" data-tr="Antik şehirlere kestirme hava yolu." data-en="A shortcut by air to ancient cities.">Antik şehirlere kestirme hava yolu.</p>
+                                <div class="services-one__arrow">
+                                    <a href="#" class="demo-locked" style="cursor:not-allowed;"><i class="fas fa-angle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Services One Single End-->
+                </div>
+            </div>
+        </section>
+        <!--Services One End-->
+
+
+
+
+
+        <!--Newsletter One Start-->
+        <section class="newsletter">
+            <div class="newsletter__shape-1 float-bob-y">
+                <img src="/tflyglobal/assets/images/shapes/newsletter-shape-1.png" alt="">
+            </div>
+            <div class="newsletter__shape-2 float-bob-x">
+                <img src="/tflyglobal/assets/images/shapes/newsletter-shape-2.png" alt="">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-5 col-lg-5">
+                        <div class="newslettwe_left">
+                            <div class="section-title text-left">
+                                <span class="section-title__tagline">Subscribe Now</span>
+                                <h2 class="section-title__title">Want to know about
+                                    <br> our offers first?</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-lg-7">
+                        <div class="newsletter__right">
+                            <form class="newsletter__form">
+                                <div class="newsletter__input-box">
+                                    <input type="email" placeholder="Enter email address" name="email">
+                                    <button type="submit" class="newsletter__btn">Subscribe<i
+                                            class="fas fa-plane"></i></button>
+                                </div>
+                            </form>
+                            <div class="checked-box">
+                                <input type="checkbox" name="skipper1" id="skipper" checked="">
+                                <label for="skipper"><span></span>I've read and accept the Privacy Policy.</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Newsletter One End-->
+
+        <!--Site Footer Start-->
+        <footer class="site-footer">
+            <div class="container">
+                <div class="site-footer__inner">
+                    <div class="site-footer__shape-1 zoom-fade-3">
+                        <img src="/tflyglobal/assets/images/shapes/site-footer-shape-1.png" alt="">
+                    </div>
+                    <div class="site-footer__top">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="100ms">
+                                <div class="footer-widget__column footer-widget__about">
+                                    <div class="footer-widget__logo">
+                                        <a href="index.html" style="background:#fff;border-radius:50%;width:70px;height:70px;display:inline-flex;align-items:center;justify-content:center;"><img src="/tflyglobal/assets/images/resources/tfly-logo.png" alt="T-FLY" style="width:46px;height:46px;object-fit:contain;"></a>
+                                    </div>
+                                    <div class="footer-widget__about-text-box">
+                                        <p class="footer-widget__about-text">Private jet charters save your time and
+                                            give
+                                            you comfort.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="300ms">
+                                <div class="footer-widget__column footer-widget__links">
+                                    <div class="footer-widget__title-box">
+                                        <h3 class="footer-widget__title">Links</h3>
+                                    </div>
+                                    <ul class="footer-widget__Explore-list list-unstyled">
+                                        <li><a href="#" class="demo-locked">Terms of Use</a></li>
+                                        <li><a href="#" class="demo-locked">Contact</a></li>
+                                        <li><a href="#" class="demo-locked">News & Press</a></li>
+                                        <li><a href="#" class="demo-locked">FAQs</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="400ms">
+                                <div class="footer-widget__column footer-widget__Contact">
+                                    <div class="footer-widget__title-box">
+                                        <h3 class="footer-widget__title">Contact</h3>
+                                    </div>
+                                    <ul class="footer-widget__Contact-list list-unstyled">
+                                        <li>
+                                            <div class="icon">
+                                                <span class="fas fa-phone"></span>
+                                            </div>
+                                            <div class="text">
+                                                <p><a href="tel:+905301208907">+90 530 120 89 07</a></p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="site-footer__bottom">
+                        <div class="site-footer__bottom-inner">
+                            <div class="site-footer__bottom-left">
+                                <p class="site-footer__bottom-text">This website designed by <a href="https://www.defora.digital" target="_blank" rel="noopener">Defora Digital - www.defora.digital</a></p>
+                            </div>
+                            <div class="site-footer__bottom-right">
+                                <div class="site-footer__social">
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-facebook"></i></a>
+                                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                    <a href="#"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!--Site Footer End-->
+
+
+    </div><!-- /.page-wrapper -->
+
+
+    <div class="mobile-nav__wrapper">
+        <div class="mobile-nav__overlay mobile-nav__toggler"></div>
+        <!-- /.mobile-nav__overlay -->
+        <div class="mobile-nav__content">
+            <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
+
+            <div class="logo-box">
+                <a href="index.html" aria-label="logo image" style="background:#fff;border-radius:50%;width:91px;height:91px;display:inline-flex;align-items:center;justify-content:center;"><img src="/tflyglobal/assets/images/resources/tfly-logo.png" style="width:60px;height:60px;object-fit:contain;"
+                        alt="T-FLY" /></a>
+            </div>
+            <!-- /.logo-box -->
+            <div class="mobile-nav__container"></div>
+            <!-- /.mobile-nav__container -->
+
+            <ul class="mobile-nav__contact list-unstyled">
+                <li>
+                    <i class="fa fa-envelope"></i>
+                    <a href="mailto:needhelp@packageName__.com">needhelp@jetly.com</a>
+                </li>
+                <li>
+                    <i class="fa fa-phone-alt"></i>
+                    <a href="tel:+905301208907">+90 530 120 89 07</a>
+                </li>
+            </ul><!-- /.mobile-nav__contact -->
+            <div class="mobile-nav__top">
+                <div class="mobile-nav__social">
+                    <a href="#" class="fab fa-twitter"></a>
+                    <a href="#" class="fab fa-facebook-square"></a>
+                    <a href="#" class="fab fa-pinterest-p"></a>
+                    <a href="#" class="fab fa-instagram"></a>
+                </div><!-- /.mobile-nav__social -->
+            </div><!-- /.mobile-nav__top -->
+
+
+
+        </div>
+        <!-- /.mobile-nav__content -->
+    </div>
+    <!-- /.mobile-nav__wrapper -->
+
+    <div class="search-popup">
+        <div class="search-popup__overlay search-toggler"></div>
+        <!-- /.search-popup__overlay -->
+        <div class="search-popup__content">
+            <form action="#">
+                <label for="search" class="sr-only">search here</label><!-- /.sr-only -->
+                <input type="text" id="search" placeholder="Search Here..." />
+                <button type="submit" aria-label="search submit" class="thm-btn">
+                    <i class="icon-magnifying-glass"></i>
+                </button>
+            </form>
+        </div>
+        <!-- /.search-popup__content -->
+    </div>
+    <!-- /.search-popup -->
+
+    <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="icon-right-arrow"></i></a>
+
+
+    <script src="/tflyglobal/assets/vendors/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/jarallax/jarallax.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/jquery-ajaxchimp/jquery.ajaxchimp.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/jquery-appear/jquery.appear.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/jquery-circle-progress/jquery.circle-progress.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/jquery-magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/jquery-validate/jquery.validate.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/nouislider/nouislider.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/odometer/odometer.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/swiper/swiper.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/tiny-slider/tiny-slider.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/wnumb/wNumb.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/wow/wow.js"></script>
+    <script src="/tflyglobal/assets/vendors/isotope/isotope.js"></script>
+    <script src="/tflyglobal/assets/vendors/countdown/countdown.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/owl-carousel/owl.carousel.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/bxslider/jquery.bxslider.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/vegas/vegas.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/jquery-ui/jquery-ui.js"></script>
+    <script src="/tflyglobal/assets/vendors/timepicker/timePicker.js"></script>
+    <script src="/tflyglobal/assets/vendors/circleType/jquery.circleType.js"></script>
+    <script src="/tflyglobal/assets/vendors/circleType/jquery.lettering.min.js"></script>
+    <script src="/tflyglobal/assets/vendors/nice-select/jquery.nice-select.min.js"></script>
+
+
+
+
+    <!-- template js -->
+    <script src="/tflyglobal/assets/js/jetly.js"></script>
+    <script>
+        (function () {
+            var btns = document.querySelectorAll('.lang-btn');
+            btns.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var lang = btn.getAttribute('data-lang');
+                    btns.forEach(function (b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    document.querySelectorAll('.lang-text').forEach(function (el) {
+                        var text = el.getAttribute('data-' + lang);
+                        if (text !== null) el.innerHTML = text;
+                    });
+                });
+            });
+        })();
+
+        (function () {
+            var toast = document.createElement('div');
+            toast.id = 'demo-toast';
+            toast.textContent = 'T-FLY Global - Demo Sürümü: Bu bölüm şu anda önizleme amaçlı kilitlenmiştir.';
+            document.body.appendChild(toast);
+            var hideTimer;
+            document.querySelectorAll('.demo-locked').forEach(function (el) {
+                el.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    clearTimeout(hideTimer);
+                    toast.classList.add('show');
+                    hideTimer = setTimeout(function () { toast.classList.remove('show'); }, 3000);
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>
