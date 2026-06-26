@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         source: "/tflyglobal",
         destination: "/tflyglobal/index.html",
       },
+      {
+        source: "/alyansneva",
+        destination: "/alyansneva/index.html",
+      },
     ];
   },
 };

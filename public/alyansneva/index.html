@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alyans Neva Garden – Antalya Kır Düğünü & Davet Mekânı</title>
+<meta name="description" content="Konyaaltı, Antalya'da 2.500 m²'lik panoramik kır bahçesi ve dört özel salonuyla düğün, nişan, kına, mezuniyet ve kurumsal davetler.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16241d;
+    --emerald:#1c3b2e;
+    --emerald-deep:#12281f;
+    --gold:#c9a24b;
+    --gold-soft:#e3c987;
+    --cream:#f6f1e6;
+    --cream-2:#efe7d6;
+    --paper:#fbf8f1;
+    /* gem accents */
+    --elmas:#cfe0e3;
+    --zumrut:#2f7d5b;
+    --yakut:#9b2d3a;
+    --safir:#2f4a7d;
+    --bahce:#3f7a4f;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Jost",-apple-system,system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    font-weight:300;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:"Fraunces",Georgia,serif;font-weight:400;margin:0;line-height:1.08}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{width:min(1180px,92vw);margin-inline:auto}
+  .eyebrow{
+    font-family:"Jost",sans-serif;font-weight:500;font-size:.74rem;
+    letter-spacing:.32em;text-transform:uppercase;color:var(--gold);
+  }
+  .serif-i{font-style:italic;font-family:"Fraunces",serif}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(251,248,241,.82);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(22,36,29,.08);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:.9rem 0;gap:1.5rem}
+  .brand{font-family:"Fraunces",serif;font-size:1.18rem;letter-spacing:.01em;display:flex;align-items:center;gap:.6rem}
+  .brand .gem{width:13px;height:13px;transform:rotate(45deg);
+    background:linear-gradient(135deg,var(--gold-soft),var(--gold));border-radius:2px;flex:none}
+  .brand small{display:block;font-family:"Jost";font-weight:400;font-size:.58rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-top:1px}
+  nav.menu{display:flex;gap:1.9rem;font-size:.82rem;letter-spacing:.06em;font-weight:400}
+  nav.menu a{position:relative;padding-bottom:3px;color:#33493d}
+  nav.menu a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:width .25s}
+  nav.menu a:hover::after,nav.menu a:focus-visible::after{width:100%}
+  .call-btn{
+    font-size:.82rem;font-weight:500;letter-spacing:.04em;color:var(--emerald);
+    border:1px solid rgba(28,59,46,.3);border-radius:40px;padding:.5rem 1.1rem;
+    display:inline-flex;align-items:center;gap:.5rem;transition:.2s;white-space:nowrap;
+  }
+  .call-btn:hover{background:var(--emerald);color:var(--cream);border-color:var(--emerald)}
+  .menu-toggle{display:none;background:none;border:0;font-size:1.5rem;color:var(--emerald);cursor:pointer}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;color:var(--cream);overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 78% 8%,rgba(201,162,75,.22),transparent 55%),
+      radial-gradient(90% 70% at 10% 100%,rgba(47,125,91,.35),transparent 60%),
+      linear-gradient(160deg,var(--emerald) 0%,var(--emerald-deep) 70%);
+  }
+  .hero::before{ /* faint botanical arc – the gazebo motif */
+    content:"";position:absolute;right:-8%;top:-12%;width:46vw;height:46vw;max-width:560px;max-height:560px;
+    border:1px solid rgba(227,201,135,.25);border-radius:50%;
+    box-shadow:inset 0 0 0 18px rgba(227,201,135,.05);
+  }
+  .hero-inner{position:relative;padding:5.5rem 0 6rem;display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:center}
+  .hero h1{font-size:clamp(2.8rem,6vw,5rem);font-weight:500;letter-spacing:-.01em}
+  .hero h1 em{font-style:italic;color:var(--gold-soft)}
+  .hero p.lead{font-size:1.06rem;color:rgba(246,241,230,.84);max-width:34ch;margin:1.4rem 0 2rem;font-weight:300}
+  .hero .eyebrow{color:var(--gold-soft);margin-bottom:1.3rem}
+  .cta-row{display:flex;gap:.9rem;flex-wrap:wrap}
+  .btn{
+    font-family:"Jost";font-weight:500;font-size:.9rem;letter-spacing:.04em;
+    padding:.85rem 1.6rem;border-radius:44px;cursor:pointer;transition:.22s;border:1px solid transparent;display:inline-flex;align-items:center;gap:.55rem
+  }
+  .btn-gold{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#2a2008}
+  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 26px -12px rgba(201,162,75,.7)}
+  .btn-ghost{border-color:rgba(246,241,230,.4);color:var(--cream)}
+  .btn-ghost:hover{background:rgba(246,241,230,.1)}
+
+  /* hero side card (photo slot) */
+  .hero-card{
+    position:relative;aspect-ratio:3/4;border-radius:200px 200px 14px 14px;
+    background:linear-gradient(165deg,#34614b,#1c3b2e 60%,#142a20);
+    border:1px solid rgba(227,201,135,.3);
+    display:flex;align-items:flex-end;justify-content:center;padding:1.4rem;overflow:hidden;
+  }
+  .hero-card::after{content:"";position:absolute;inset:0;
+    background:radial-gradient(60% 40% at 50% 18%,rgba(227,201,135,.18),transparent 70%)}
+  .photo-tag{position:relative;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(246,241,230,.6)}
+
+  /* ---------- stat band ---------- */
+  .stats{background:var(--cream);border-bottom:1px solid rgba(22,36,29,.07)}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);text-align:center}
+  .stat{padding:2.2rem 1rem;border-right:1px solid rgba(22,36,29,.1)}
+  .stat:last-child{border-right:0}
+  .stat .num{font-family:"Fraunces",serif;font-size:2.5rem;color:var(--emerald);line-height:1}
+  .stat .lbl{font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;color:#6c7a70;margin-top:.5rem}
+
+  /* ---------- section frame ---------- */
+  section{padding:5.5rem 0}
+  .sec-head{max-width:46ch;margin-bottom:3rem}
+  .sec-head h2{font-size:clamp(2rem,4.2vw,3.1rem);margin-top:.8rem;font-weight:400}
+  .sec-head h2 em{font-style:italic;color:var(--gold)}
+  .sec-head.center{margin-inline:auto;text-align:center}
+
+  /* ---------- salonlar (signature) ---------- */
+  .salonlar{background:var(--paper)}
+  .gem-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1.1rem}
+  .gem{
+    position:relative;border-radius:14px;overflow:hidden;padding:1.6rem;min-height:230px;
+    display:flex;flex-direction:column;justify-content:flex-end;color:#fff;isolation:isolate;
+    border:1px solid rgba(22,36,29,.08);
+  }
+  .gem .facet{position:absolute;inset:0;z-index:-2}
+  .gem .sheen{position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.35) 48%,transparent 60%);
+    transform:translateX(-110%);transition:transform .7s ease}
+  .gem:hover .sheen,.gem:focus-within .sheen{transform:translateX(110%)}
+  .gem .kicker{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;opacity:.85}
+  .gem h3{font-size:1.7rem;margin:.35rem 0 .15rem;font-weight:500}
+  .gem .cap{font-size:.92rem;font-weight:400;opacity:.92}
+  .gem .desc{font-size:.84rem;opacity:.82;margin-top:.55rem;max-width:30ch;font-weight:300}
+  .gem .stone{position:absolute;top:1.2rem;right:1.2rem;width:30px;height:30px;transform:rotate(45deg);
+    border-radius:4px;box-shadow:0 0 0 1px rgba(255,255,255,.35) inset, 0 6px 16px -6px rgba(0,0,0,.5)}
+
+  /* span + tints */
+  .g-bahce{grid-column:span 12}
+  .g-elmas{grid-column:span 6}
+  .g-zumrut{grid-column:span 6}
+  .g-yakut{grid-column:span 6}
+  .g-safir{grid-column:span 6}
+
+  .g-bahce .facet{background:linear-gradient(120deg,#2c5a3c,#3f7a4f 55%,#1c3b2e)}
+  .g-bahce{min-height:300px}
+  .g-elmas{color:#1d3138}
+  .g-elmas .facet{background:linear-gradient(145deg,#eef5f6,#cfe0e3 55%,#a9c6cb)}
+  .g-elmas .kicker,.g-elmas .desc{opacity:.7}
+  .g-zumrut .facet{background:linear-gradient(145deg,#3a936a,#2f7d5b 55%,#1f5a40)}
+  .g-yakut .facet{background:linear-gradient(145deg,#b13947,#9b2d3a 55%,#741f29)}
+  .g-safir .facet{background:linear-gradient(145deg,#3a5a96,#2f4a7d 55%,#213765)}
+
+  .stone-elmas{background:linear-gradient(135deg,#fff,#cfe0e3)}
+  .stone-zumrut{background:linear-gradient(135deg,#5fc79a,#1f5a40)}
+  .stone-yakut{background:linear-gradient(135deg,#d65c68,#741f29)}
+  .stone-safir{background:linear-gradient(135deg,#6f8fd6,#213765)}
+
+  /* ---------- hizmetler ---------- */
+  .hizmet{background:var(--emerald);color:var(--cream)}
+  .hizmet .eyebrow{color:var(--gold-soft)}
+  .hizmet .sec-head h2 em{color:var(--gold-soft)}
+  .h-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(227,201,135,.18);
+    border:1px solid rgba(227,201,135,.18);border-radius:12px;overflow:hidden}
+  .h-item{background:var(--emerald);padding:1.6rem 1.2rem;transition:background .25s}
+  .h-item:hover{background:var(--emerald-deep)}
+  .h-item .ix{font-family:"Fraunces",serif;font-style:italic;font-size:.95rem;color:var(--gold-soft)}
+  .h-item h4{font-size:1.12rem;font-weight:400;margin:.5rem 0 .25rem}
+  .h-item p{font-size:.78rem;color:rgba(246,241,230,.7);margin:0;font-weight:300}
+
+  /* ---------- olanaklar ---------- */
+  .olanak{background:var(--cream)}
+  .o-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6rem 2.2rem}
+  .o-item{display:flex;gap:.85rem;align-items:flex-start;border-top:1px solid rgba(22,36,29,.14);padding-top:1rem}
+  .o-item .dot{width:8px;height:8px;transform:rotate(45deg);background:var(--gold);margin-top:7px;flex:none}
+  .o-item b{font-weight:500;font-size:.98rem;color:var(--emerald);display:block}
+  .o-item span{font-size:.8rem;color:#6c7a70}
+
+  /* ---------- galeri ---------- */
+  .galeri{background:var(--paper)}
+  .gal-grid{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:120px;gap:.8rem}
+  .tile{border-radius:10px;border:1px solid rgba(22,36,29,.08);position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center}
+  .tile span{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(22,36,29,.4)}
+  .tile.a{grid-column:span 3;grid-row:span 2;background:linear-gradient(150deg,#dfe9df,#c5d8c8)}
+  .tile.b{grid-column:span 3;background:linear-gradient(150deg,#efe7d6,#e3d4b6)}
+  .tile.c{grid-column:span 1;background:linear-gradient(150deg,#cfe0e3,#aac6cb)}
+  .tile.d{grid-column:span 2;background:linear-gradient(150deg,#e9d2d6,#cf9aa3)}
+  .tile.e{grid-column:span 2;background:linear-gradient(150deg,#d2dae9,#9aaad6)}
+  .tile.f{grid-column:span 4;background:linear-gradient(150deg,#dbe9df,#bcd6c4)}
+
+  /* ---------- iletişim ---------- */
+  .iletisim{background:var(--emerald-deep);color:var(--cream)}
+  .ilet-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+  .ilet-grid .eyebrow{color:var(--gold-soft)}
+  .ilet h2{font-size:clamp(2rem,4vw,3rem);margin:.7rem 0 1.4rem}
+  .ilet h2 em{font-style:italic;color:var(--gold-soft)}
+  .contact-line{display:flex;gap:.9rem;align-items:flex-start;padding:1.1rem 0;border-bottom:1px solid rgba(227,201,135,.18)}
+  .contact-line .k{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-soft);width:84px;flex:none;padding-top:3px}
+  .contact-line .v{font-size:1.04rem}
+  .contact-line .v a{color:var(--cream)}
+  .form{background:rgba(246,241,230,.04);border:1px solid rgba(227,201,135,.2);border-radius:16px;padding:1.8rem}
+  .form h3{font-size:1.3rem;margin-bottom:.3rem;font-weight:400}
+  .form p.sub{font-size:.84rem;color:rgba(246,241,230,.65);margin:0 0 1.3rem}
+  .field{margin-bottom:.9rem}
+  .field label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(246,241,230,.7);display:block;margin-bottom:.35rem}
+  .field input,.field select{
+    width:100%;background:rgba(246,241,230,.06);border:1px solid rgba(227,201,135,.25);
+    border-radius:8px;padding:.7rem .85rem;color:var(--cream);font-family:"Jost";font-size:.9rem
+  }
+  .field input::placeholder{color:rgba(246,241,230,.4)}
+  .field input:focus,.field select:focus{outline:2px solid var(--gold-soft);outline-offset:1px;border-color:transparent}
+  .form .btn-gold{width:100%;justify-content:center;margin-top:.4rem}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+
+  /* ---------- footer ---------- */
+  footer{background:#0f211a;color:rgba(246,241,230,.6);padding:2.5rem 0;font-size:.82rem}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+  .foot .brand{color:var(--cream);font-size:1.05rem}
+
+  :focus-visible{outline:2px solid var(--gold)}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:900px){
+    nav.menu,.call-btn{display:none}
+    .menu-toggle{display:block}
+    .hero-inner{grid-template-columns:1fr;gap:2.2rem;padding:3.5rem 0 4rem}
+    .hero-card{aspect-ratio:16/10;border-radius:120px 120px 14px 14px;max-width:420px}
+    .stats-grid{grid-template-columns:1fr 1fr}
+    .stat:nth-child(2){border-right:0}
+    .stat{border-bottom:1px solid rgba(22,36,29,.1)}
+    .gem-grid{grid-template-columns:1fr}
+    .g-bahce,.g-elmas,.g-zumrut,.g-yakut,.g-safir{grid-column:span 1}
+    .h-grid{grid-template-columns:1fr 1fr}
+    .o-grid{grid-template-columns:1fr 1fr}
+    .gal-grid{grid-template-columns:repeat(2,1fr)}
+    .tile.a,.tile.b,.tile.c,.tile.d,.tile.e,.tile.f{grid-column:span 1;grid-row:span 1}
+    .ilet-grid{grid-template-columns:1fr;gap:2.4rem}
+  }
+  @media(max-width:520px){
+    .stats-grid{grid-template-columns:1fr}
+    .stat{border-right:0}
+    .h-grid{grid-template-columns:1fr}
+    .o-grid{grid-template-columns:1fr}
+    .field-row{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <span class="gem"></span>
+      <span>Alyans Neva Garden<small>Konyaaltı · Antalya</small></span>
+    </a>
+    <nav class="menu">
+      <a href="#salonlar">Salonlar</a>
+      <a href="#hizmetler">Hizmetler</a>
+      <a href="#olanaklar">Olanaklar</a>
+      <a href="#galeri">Galeri</a>
+      <a href="#iletisim">İletişim</a>
+    </nav>
+    <a class="call-btn" href="tel:+905493261010">☎ 0549 326 10 10</a>
+    <button class="menu-toggle" aria-label="Menü">☰</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top" style="padding:0">
+  <div class="wrap hero-inner">
+    <div>
+      <p class="eyebrow">2012'den beri · Antalya kır düğünü</p>
+      <h1>Doğanın içinde,<br><em>hayalinizdeki gün.</em></h1>
+      <p class="lead">2.500 m²'lik panoramik kır bahçesi ve dört özel salonuyla Alyans Neva Garden; düğünden kurumsal davete, her anınızı kusursuz ağırlar.</p>
+      <div class="cta-row">
+        <a class="btn btn-gold" href="#iletisim">Keşif randevusu alın</a>
+        <a class="btn btn-ghost" href="#salonlar">Salonları keşfedin</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <span class="photo-tag">Kır bahçesi · gazebo nikâh alanı</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="wrap stats-grid">
+    <div class="stat"><div class="num">2.500</div><div class="lbl">m² alan</div></div>
+    <div class="stat"><div class="num">2.000</div><div class="lbl">kişi kapasite</div></div>
+    <div class="stat"><div class="num">5</div><div class="lbl">davet alanı</div></div>
+    <div class="stat"><div class="num">13+</div><div class="lbl">yıllık tecrübe</div></div>
+  </div>
+</div>
+
+<!-- SALONLAR (signature) -->
+<section class="salonlar" id="salonlar">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Beş davet alanı, tek adres</p>
+      <h2>Her davete <em>bir mücevher.</em></h2>
+    </div>
+    <div class="gem-grid">
+      <article class="gem g-bahce" tabindex="0">
+        <span class="facet"></span><span class="sheen"></span>
+        <span class="kicker">Açık hava</span>
+        <h3>Kır Bahçesi</h3>
+        <div class="cap">2.000 kişiye kadar</div>
+        <p class="desc">Ağaçların arasında, panoramik manzara eşliğinde mermer gazeboda nikâh – bohem ve doğal bir atmosfer.</p>
+      </article>
+
+      <article class="gem g-elmas" tabindex="0">
+        <span class="facet"></span><span class="sheen"></span>
+        <span class="stone stone-elmas"></span>
+        <span class="kicker">Kapalı salon</span>
+        <h3>Elmas Salon</h3>
+        <div class="cap">700 – 1.000 kişi</div>
+        <p class="desc">En geniş salonumuz; büyük düğünler ve kurumsal etkinlikler için.</p>
+      </article>
+
+      <article class="gem g-zumrut" tabindex="0">
+        <span class="facet"></span><span class="sheen"></span>
+        <span class="stone stone-zumrut"></span>
+        <span class="kicker">Kapalı salon</span>
+        <h3>Zümrüt Salon</h3>
+        <div class="cap">400 kişiye kadar</div>
+        <p class="desc">Orta ölçekli davetler için sıcak ve şık bir alan.</p>
+      </article>
+
+      <article class="gem g-yakut" tabindex="0">
+        <span class="facet"></span><span class="sheen"></span>
+        <span class="stone stone-yakut"></span>
+        <span class="kicker">Kapalı salon</span>
+        <h3>Yakut Salon</h3>
+        <div class="cap">200 – 250 kişi</div>
+        <p class="desc">Nişan, kına ve özel davetler için samimi bir ölçek.</p>
+      </article>
+
+      <article class="gem g-safir" tabindex="0">
+        <span class="facet"></span><span class="sheen"></span>
+        <span class="stone stone-safir"></span>
+        <span class="kicker">Kapalı salon</span>
+        <h3>Safir Salon</h3>
+        <div class="cap">200 – 250 kişi</div>
+        <p class="desc">Doğum günü ve butik organizasyonlar için ideal.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- HIZMETLER -->
+<section class="hizmet" id="hizmetler">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Ne kutluyorsanız</p>
+      <h2>Tek mekânda <em>her organizasyon.</em></h2>
+    </div>
+    <div class="h-grid">
+      <div class="h-item"><span class="ix">i.</span><h4>Düğün</h4><p>Kır & salon düğünleri</p></div>
+      <div class="h-item"><span class="ix">ii.</span><h4>Kına Gecesi</h4><p>Geleneksel & modern konsept</p></div>
+      <div class="h-item"><span class="ix">iii.</span><h4>Nişan & Söz</h4><p>Butik davetler</p></div>
+      <div class="h-item"><span class="ix">iv.</span><h4>Mezuniyet & Balo</h4><p>Okul & kurum töreni</p></div>
+      <div class="h-item"><span class="ix">v.</span><h4>Doğum Günü</h4><p>Her yaşa özel kutlama</p></div>
+      <div class="h-item"><span class="ix">vi.</span><h4>Baby Shower</h4><p>Tematik organizasyon</p></div>
+      <div class="h-item"><span class="ix">vii.</span><h4>Kurumsal Etkinlik</h4><p>Bayi & lansman toplantıları</p></div>
+      <div class="h-item"><span class="ix">viii.</span><h4>Davet & Resepsiyon</h4><p>Şirket & özel davet</p></div>
+      <div class="h-item"><span class="ix">ix.</span><h4>Toplantı</h4><p>Sahne, ses & projeksiyon</p></div>
+      <div class="h-item"><span class="ix">x.</span><h4>Catering</h4><p>Menü tadımı & servis</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- OLANAKLAR -->
+<section class="olanak" id="olanaklar">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="eyebrow">Her detay düşünüldü</p>
+      <h2>Mekân <em>olanakları.</em></h2>
+    </div>
+    <div class="o-grid">
+      <div class="o-item"><span class="dot"></span><div><b>Organizasyon sorumlusu</b><span>Tüm süreç tek elden</span></div></div>
+      <div class="o-item"><span class="dot"></span><div><b>Menü tadımı</b><span>Menüde değişiklik imkânı</span></div></div>
+      <div class="o-item"><span class="dot"></span><div><b>Canlı müzik & orkestra</b><span>DJ ve dans şov</span></div></div>
+      <div class="o-item"><span class="dot"></span><div><b>Işık · ses · sahne</b><span>Profesyonel ekipman</span></div></div>
+      <div class="o-item"><span class="dot"></span><div><b>Açılır-kapanır tavan</b><span>Her hava koşuluna hazır</span></div></div>
+      <div class="o-item"><span class="dot"></span><div><b>Gelin hazırlık odası</b><span>Bride-to-be alanı</span></div></div>
+      <div class="o-item"><span class="dot"></span><div><b>Otopark & vale</b><span>Geniş araç kapasitesi</span></div></div>
+      <div class="o-item"><span class="dot"></span><div><b>After-party alanı</b><span>Geceyi uzatın</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERI -->
+<section class="galeri" id="galeri">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Mekândan kareler</p>
+      <h2>Bir <em>gezinti.</em></h2>
+    </div>
+    <div class="gal-grid">
+      <div class="tile a"><span>Kır bahçesi</span></div>
+      <div class="tile b"><span>Nikâh alanı</span></div>
+      <div class="tile c"><span>Detay</span></div>
+      <div class="tile d"><span>Elmas Salon</span></div>
+      <div class="tile e"><span>Gece düzeni</span></div>
+      <div class="tile f"><span>Davet masaları</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ILETISIM -->
+<section class="iletisim" id="iletisim">
+  <div class="wrap ilet-grid">
+    <div class="ilet">
+      <p class="eyebrow">Sizi ağırlamaya hazırız</p>
+      <h2>En özel gününüzü <em>birlikte planlayalım.</em></h2>
+      <div class="contact-line">
+        <span class="k">Adres</span>
+        <span class="v">Gökdere, 2600 Sokak No: 66<br>Konyaaltı / Antalya</span>
+      </div>
+      <div class="contact-line">
+        <span class="k">Telefon</span>
+        <span class="v"><a href="tel:+905493261010">0549 326 10 10</a></span>
+      </div>
+      <div class="contact-line">
+        <span class="k">Randevu</span>
+        <span class="v">Ücretsiz keşif & menü tadımı</span>
+      </div>
+    </div>
+
+    <div class="form">
+      <h3>Teklif alın</h3>
+      <p class="sub">Bilgilerinizi bırakın, sizi arayalım.</p>
+      <div class="field">
+        <label for="ad">Ad Soyad</label>
+        <input id="ad" type="text" placeholder="Adınız">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="tel">Telefon</label>
+          <input id="tel" type="tel" placeholder="05XX XXX XX XX">
+        </div>
+        <div class="field">
+          <label for="tarih">Tarih</label>
+          <input id="tarih" type="date">
+        </div>
+      </div>
+      <div class="field">
+        <label for="tur">Organizasyon türü</label>
+        <select id="tur">
+          <option>Düğün</option><option>Kına</option><option>Nişan</option>
+          <option>Mezuniyet / Balo</option><option>Doğum günü</option>
+          <option>Kurumsal etkinlik</option><option>Diğer</option>
+        </select>
+      </div>
+      <button type="button" class="btn btn-gold" onclick="alert('Bu bir demo formudur. Gerçek sürümde bilgileriniz mekâna iletilir.')">Teklif iste</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span class="brand">Alyans Neva Garden</span>
+    <span>Gökdere, 2600 Sokak No: 66, Konyaaltı / Antalya · 0549 326 10 10</span>
+    <span>© 2026 Tüm hakları saklıdır. · Tasarım: <a href="https://defora.digital" target="_blank" rel="noopener" style="color:var(--gold-soft)">Defora Digital</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
