@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         source: "/goksugarden",
         destination: "/goksugarden/index.html",
       },
+      {
+        source: "/bellagarden",
+        destination: "/bellagarden/index.html",
+      },
     ];
   },
 };

@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bella Garden Antalya, Konyaaltı'nda mum ışıkları altında romantik ve samimi kır düğünleri. 100 - 500 kişi kapasiteli doğal çim alanımızda size özel konseptlerle rüya gibi bir davet planlayın.">
+    <title>Bella Garden Antalya | Romantik Kır Düğünü ve Davet Bahçesi</title>
+    
+    <!-- Google Fonts - Cormorant Garamond (Serif) & Jost (Sans-serif) with Latin-ext for Turkish characters -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS RESET & CUSTOM VARIABLES */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Palette Design System */
+            --bg-ivory: #FAF8F5;           /* Soft Ivory/Warm White Base */
+            --bg-white: #FFFFFF;
+            --primary-accent: #798877;     /* Muted Sage Green */
+            --primary-accent-dark: #556253;/* Darker Sage Green */
+            --primary-accent-light: #ECEFEA;/* Very Light Sage Green */
+            --candle-gold: #CFB579;        /* Champagne / Candle-Gold */
+            --candle-gold-dark: #BCA05E;   /* Muted dark gold for hover */
+            --candle-glow: rgba(207, 181, 121, 0.15);
+            --text-dark: #2F362E;          /* Soft forest off-black for high contrast & readability */
+            --text-muted: #656F64;         /* Sage toned muted gray */
+            --text-light: #FAF8F5;
+            --border: #E5E2DC;             /* Delicate ivory borders */
+            --border-accent: rgba(121, 136, 119, 0.2);
+            
+            /* Fonts */
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Jost', sans-serif;
+            
+            /* Transitions & Effects */
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --shadow-sm: 0 2px 8px rgba(47, 54, 46, 0.03);
+            --shadow-md: 0 10px 30px rgba(47, 54, 46, 0.06);
+            --shadow-lg: 0 20px 50px rgba(47, 54, 46, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            color: var(--text-dark);
+            font-family: var(--font-sans);
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background-color: var(--bg-ivory);
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+
+        /* Focus Outline for Accessibility */
+        a:focus-visible, 
+        button:focus-visible, 
+        input:focus-visible, 
+        select:focus-visible, 
+        textarea:focus-visible {
+            outline: 2px solid var(--candle-gold);
+            outline-offset: 4px;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 300;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+        }
+
+        p {
+            font-family: var(--font-sans);
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: var(--font-sans);
+            transition: var(--transition);
+        }
+
+        /* Containers */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+        }
+
+        /* STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(250, 248, 245, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            box-shadow: var(--shadow-sm);
+            background: rgba(250, 248, 245, 0.95);
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100px;
+            transition: var(--transition);
+        }
+
+        .header.scrolled .container {
+            height: 80px;
+        }
+
+        .logo-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 1.8rem;
+            font-family: var(--font-serif);
+            color: var(--text-dark);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        .logo-sub {
+            font-size: 0.75rem;
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: var(--primary-accent-dark);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            position: relative;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1px;
+            background-color: var(--candle-gold);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--candle-gold);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .header-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--primary-accent);
+            color: var(--text-light);
+            padding: 0.8rem 1.6rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            border: 1px solid var(--primary-accent);
+            text-transform: uppercase;
+        }
+
+        .header-cta:hover {
+            background-color: transparent;
+            color: var(--primary-accent-dark);
+            border-color: var(--primary-accent-dark);
+        }
+
+        /* Mobile Nav Toggle */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 16px;
+            background: transparent;
+            border: none;
+            z-index: 1010;
+        }
+
+        .mobile-toggle span {
+            display: block;
+            width: 100%;
+            height: 1.5px;
+            background-color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .mobile-toggle.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .mobile-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-toggle.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding-top: 180px;
+            padding-bottom: 120px;
+            background: linear-gradient(135deg, var(--bg-ivory) 0%, var(--primary-accent-light) 100%);
+            color: var(--text-dark);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* Tulle-like soft abstract curved light shape overlay */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 30%, rgba(207, 181, 121, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 5rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--primary-accent-dark);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-family: var(--font-serif);
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+        }
+
+        .hero-title em {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-weight: 300;
+            color: var(--candle-gold);
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            color: var(--text-muted);
+            max-width: 580px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 2.4rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background-color: var(--candle-gold);
+            color: var(--bg-white);
+            border: 1px solid var(--candle-gold);
+            box-shadow: 0 4px 15px rgba(207, 181, 121, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--candle-gold-dark);
+            border-color: var(--candle-gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(207, 181, 121, 0.35);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--primary-accent);
+            color: var(--primary-accent-dark);
+            background-color: transparent;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-accent-dark);
+            background-color: rgba(121, 136, 119, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Image/Visual Slot */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-frame {
+            width: 100%;
+            aspect-ratio: 4/5;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--primary-accent-light) 100%);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        /* Soft tulle-like veil shading */
+        .hero-frame::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(250, 248, 245, 0.95) 0%, rgba(250, 248, 245, 0.1) 70%);
+            z-index: 1;
+        }
+
+        /* Botanical Sprig Line Art Motif */
+        .hero-frame-sprig {
+            position: absolute;
+            top: 20%;
+            width: 45%;
+            opacity: 0.15;
+            z-index: 0;
+            transform: rotate(-10deg);
+        }
+
+        .hero-frame-label {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+        }
+
+        .hero-frame-label span {
+            font-size: 0.75rem;
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--primary-accent-dark);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-frame-label h3 {
+            font-size: 2rem;
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        /* STAT BAND */
+        .stats-band {
+            background-color: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            padding: 4rem 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-right: 1px solid var(--border);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-num {
+            font-family: var(--font-serif);
+            font-size: 2.4rem;
+            font-weight: 300;
+            color: var(--text-dark);
+            line-height: 1.1;
+            margin-bottom: 0.6rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        /* SECTION COMMON STYLES */
+        .section {
+            padding: 9rem 0;
+        }
+
+        .section-header {
+            max-width: 680px;
+            margin-bottom: 5rem;
+        }
+
+        .section-eyebrow {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--primary-accent-dark);
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-family: var(--font-serif);
+            color: var(--text-dark);
+            font-weight: 300;
+        }
+
+        .section-title em {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--candle-gold);
+        }
+
+        /* MEKAN / BAHÇE SECTION */
+        .garden-section {
+            background-color: var(--bg-ivory);
+        }
+
+        .garden-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .garden-content h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .garden-text {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            margin-bottom: 2.2rem;
+        }
+
+        .garden-spec-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .garden-spec-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .garden-spec-item svg {
+            flex-shrink: 0;
+            color: var(--candle-gold);
+        }
+
+        .garden-notes {
+            background-color: var(--primary-accent-light);
+            border-left: 2px solid var(--candle-gold);
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .garden-notes p {
+            font-size: 0.92rem;
+            font-style: italic;
+            color: var(--primary-accent-dark);
+        }
+
+        /* Garden Media Collage */
+        .garden-media {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 1.5rem;
+            align-items: stretch;
+        }
+
+        .garden-media-slot {
+            aspect-ratio: 3/4;
+            border-radius: 4px;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--primary-accent-light) 100%);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .garden-media-slot::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(250, 248, 245, 0.95) 0%, rgba(250, 248, 245, 0) 60%);
+            z-index: 1;
+        }
+
+        .garden-media-slot:nth-child(2) {
+            transform: translateY(2rem);
+        }
+
+        .garden-media-label {
+            position: relative;
+            z-index: 2;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .garden-media-label span {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--primary-accent-dark);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .garden-media-label h4 {
+            font-size: 1.3rem;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        /* HİZMETLER GRID */
+        .services-section {
+            background-color: var(--bg-white);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.2rem;
+        }
+
+        .service-card {
+            border: 1px solid var(--border);
+            background-color: var(--bg-ivory);
+            padding: 2.8rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 220px;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--candle-gold);
+            box-shadow: var(--shadow-md);
+            background-color: var(--bg-white);
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-num {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 1.4rem;
+            color: var(--candle-gold);
+            font-weight: 300;
+        }
+
+        .service-icon {
+            color: var(--primary-accent);
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-icon {
+            color: var(--candle-gold-dark);
+            transform: scale(1.1);
+        }
+
+        .service-title {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            color: var(--text-dark);
+            margin-bottom: 0.8rem;
+            font-weight: 300;
+        }
+
+        .service-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* OLANAKLAR SECTION */
+        .features-section {
+            background-color: var(--bg-ivory);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-item {
+            background: var(--bg-white);
+            padding: 2.2rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .feature-item:hover {
+            border-color: var(--primary-accent-dark);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: var(--primary-accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-accent-dark);
+        }
+
+        .feature-text h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.4rem;
+        }
+
+        .feature-text p {
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* GALERİ SECTION */
+        .gallery-section {
+            background-color: var(--bg-white);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .gallery-mosaic {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-auto-rows: 240px;
+            gap: 1.5rem;
+        }
+
+        /* Mosaic layouts */
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+            border-color: var(--candle-gold);
+            box-shadow: var(--shadow-md);
+        }
+
+        .gallery-item-1 { grid-column: span 3; grid-row: span 2; }
+        .gallery-item-2 { grid-column: span 3; grid-row: span 1; }
+        .gallery-item-3 { grid-column: span 3; grid-row: span 1; }
+        .gallery-item-4 { grid-column: span 2; grid-row: span 1; }
+        .gallery-item-5 { grid-column: span 2; grid-row: span 1; }
+        .gallery-item-6 { grid-column: span 2; grid-row: span 1; }
+
+        .gallery-gradient-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--primary-accent-light) 100%);
+            transition: var(--transition);
+        }
+
+        .gallery-item:nth-child(even) .gallery-gradient-bg {
+            background: linear-gradient(135deg, var(--bg-white) 0%, #F5F1E9 100%);
+        }
+
+        .gallery-item:hover .gallery-gradient-bg {
+            filter: brightness(1.05);
+        }
+
+        .gallery-overlay-graphic {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.15;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay-graphic {
+            opacity: 0.25;
+            transform: scale(1.05);
+        }
+
+        .gallery-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2.2rem 1.8rem 1.8rem;
+            background: linear-gradient(to top, rgba(250, 248, 245, 0.98) 0%, rgba(250, 248, 245, 0.5) 60%, transparent 100%);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 50%;
+        }
+
+        .gallery-label span {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--primary-accent-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .gallery-label h4 {
+            font-family: var(--font-serif);
+            font-size: 1.35rem;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        @media (max-width: 900px) {
+            .gallery-mosaic {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 200px;
+            }
+            .gallery-item-1 { grid-column: span 2; grid-row: span 2; }
+            .gallery-item-2 { grid-column: span 1; grid-row: span 1; }
+            .gallery-item-3 { grid-column: span 1; grid-row: span 1; }
+            .gallery-item-4 { grid-column: span 1; grid-row: span 1; }
+            .gallery-item-5 { grid-column: span 1; grid-row: span 1; }
+            .gallery-item-6 { grid-column: span 2; grid-row: span 1; }
+        }
+
+        @media (max-width: 600px) {
+            .gallery-mosaic {
+                grid-template-columns: 1fr;
+                grid-auto-rows: 200px;
+            }
+            .gallery-item {
+                grid-column: span 1 !important;
+                grid-row: span 1 !important;
+            }
+        }
+
+        /* İLETİŞİM & FORM SECTION */
+        .contact-section {
+            background-color: var(--bg-ivory);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .contact-detail-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+        }
+
+        .contact-detail-icon {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--primary-accent);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-detail-text h4 {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 0.35rem;
+        }
+
+        .contact-detail-text p, 
+        .contact-detail-text a {
+            font-size: 1.15rem;
+            color: var(--text-dark);
+            font-weight: 400;
+            font-family: var(--font-serif);
+        }
+
+        .contact-detail-text a:hover {
+            color: var(--candle-gold);
+        }
+
+        .contact-badge-box {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1.5rem 1.8rem;
+            background-color: var(--bg-white);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            max-width: 340px;
+        }
+
+        .contact-badge-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--candle-gold);
+        }
+
+        .contact-badge-desc {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .direction-btn {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            border: 1px solid var(--border);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .direction-btn:hover {
+            border-color: var(--text-dark);
+            background-color: var(--bg-white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* RFQ / Proposal Form styling */
+        .rfq-box {
+            background-color: var(--bg-white);
+            border-radius: 8px;
+            padding: 4rem;
+            color: var(--text-dark);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+
+        .rfq-title {
+            font-size: 2.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-dark);
+        }
+
+        .rfq-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 2.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--primary-accent-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--bg-ivory);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1.1rem 1.25rem;
+            color: var(--text-dark);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-accent-dark);
+            background-color: var(--bg-white);
+            box-shadow: 0 0 0 4px var(--primary-accent-light);
+        }
+
+        select.form-control option {
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+        }
+
+        .form-submit-btn {
+            width: 100%;
+            margin-top: 1.5rem;
+            background-color: var(--primary-accent);
+            color: var(--text-light);
+            padding: 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1px solid var(--primary-accent);
+        }
+
+        .form-submit-btn:hover {
+            background-color: var(--primary-accent-dark);
+            border-color: var(--primary-accent-dark);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 900px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+            .rfq-box {
+                padding: 2.5rem;
+            }
+        }
+
+        /* CUSTOM MODAL / TOAST ALERT SYSTEM */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(47, 54, 46, 0.4);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: var(--bg-white);
+            border: 1px solid var(--candle-gold);
+            padding: 3.5rem 3rem;
+            border-radius: 8px;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: var(--primary-accent-light);
+            color: var(--primary-accent-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.8rem;
+        }
+
+        .modal-title {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .modal-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 2.2rem;
+            line-height: 1.6;
+        }
+
+        .modal-btn {
+            background-color: var(--text-dark);
+            color: var(--text-light);
+            padding: 1rem 2.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1px solid var(--text-dark);
+        }
+
+        .modal-btn:hover {
+            background-color: transparent;
+            color: var(--text-dark);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--bg-ivory);
+            border-top: 1px solid var(--border);
+            padding: 6rem 0 3.5rem;
+            position: relative;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr);
+            gap: 4rem;
+            margin-bottom: 4.5rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo-title {
+            font-family: var(--font-serif);
+            font-size: 1.9rem;
+            color: var(--text-dark);
+            font-weight: 400;
+        }
+
+        .footer-logo-sub {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: var(--primary-accent-dark);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .footer-brand-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            max-width: 320px;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .footer-nav-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--primary-accent-dark);
+        }
+
+        .footer-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer-nav-links a {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        .footer-nav-links a:hover {
+            color: var(--candle-gold-dark);
+            padding-left: 4px;
+        }
+
+        .footer-contact-details {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        .footer-contact-details strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .footer-credit a {
+            color: var(--primary-accent-dark);
+            font-weight: 600;
+        }
+
+        .footer-credit a:hover {
+            color: var(--candle-gold);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1.25rem;
+                text-align: center;
+            }
+        }
+
+        /* MOBILE MENU DRAWER OVERLAY */
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 320px;
+                height: 100vh;
+                background-color: var(--bg-ivory);
+                flex-direction: column;
+                justify-content: center;
+                gap: 2.8rem;
+                padding: 4rem 2.5rem;
+                box-shadow: var(--shadow-lg);
+                transition: var(--transition);
+                z-index: 1005;
+                border-left: 1px solid var(--border);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-link {
+                font-size: 1.15rem;
+            }
+
+            .header-cta {
+                display: none; /* Hide header phone CTA button on mobile, show inside menu drawer instead */
+            }
+
+            .mobile-cta {
+                display: flex !important;
+                margin-top: 2rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .hero-desc {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2.5rem 1rem;
+            }
+
+            .stat-item {
+                border-right: none;
+            }
+
+            .stat-item:nth-child(odd) {
+                border-right: 1px solid var(--border);
+            }
+
+            .stat-num {
+                font-size: 2rem;
+            }
+
+            .garden-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .garden-media {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .section {
+                padding: 6rem 0;
+            }
+
+            .section-title {
+                font-size: 2.4rem;
+            }
+        }
+
+        /* ACCESSIBILITY & PREFERS REDUCED MOTION */
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .btn:hover, .gallery-item:hover, .service-card:hover {
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="#" class="logo-group" aria-label="Bella Garden Antalya Ana Sayfa">
+                <span class="logo-title">Bella Garden Antalya</span>
+                <span class="logo-sub">Konyaaltı · Antalya</span>
+            </a>
+
+            <!-- Navigation Menu -->
+            <nav class="nav-menu" id="navMenu">
+                <a href="#mekan" class="nav-link">Mekan</a>
+                <a href="#hizmetler" class="nav-link">Hizmetler</a>
+                <a href="#olanaklar" class="nav-link">Olanaklar</a>
+                <a href="#galeri" class="nav-link">Galeri</a>
+                <a href="#iletisim" class="nav-link">İletişim</a>
+                
+                <!-- Phone CTA inside mobile drawer -->
+                <a href="tel:[TELEFON — doğrulanacak]" class="header-cta mobile-cta" style="display: none;">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                    </svg>
+                    [TELEFON]
+                </a>
+            </nav>
+
+            <!-- Phone CTA for desktop -->
+            <a href="tel:[TELEFON — doğrulanacak]" class="header-cta" aria-label="Bizi Arayın: [TELEFON — doğrulanacak]">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                </svg>
+                <span>[TELEFON]</span>
+            </a>
+
+            <!-- Toggle Button for Mobile Navigation -->
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menüyü Aç/Kapat" aria-expanded="false" aria-controls="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <!-- Info Column -->
+                <div class="hero-content">
+                    <span class="hero-eyebrow">Konyaaltı · Antalya · Kır Düğünü</span>
+                    <h1 class="hero-title">Mum Işıkları Altında, <em>Zarif Bir Masal</em></h1>
+                    <p class="hero-desc">Yeşillikler içinde, mum ışığının loş sıcaklığıyla donatılmış şık masalarda en özel birlikteliklerinize ev sahipliği yapıyoruz. 100'den 500 davetliye kadar samimi düğünleriniz için zarif detaylar.</p>
+                    <div class="hero-actions">
+                        <a href="#teklif-al" class="btn btn-primary">Keşif Randevusu Alın</a>
+                        <a href="#mekan" class="btn btn-outline">Mekânı Keşfedin</a>
+                    </div>
+                </div>
+                <!-- Visual Column (Mock photo-slot) -->
+                <div class="hero-visual">
+                    <div class="hero-frame">
+                        <!-- Custom SVG Botanical Sprig line art decoration inside frame -->
+                        <div class="hero-frame-sprig">
+                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="var(--candle-gold)" stroke-width="1">
+                                <path d="M50,90 Q45,60 50,20 M50,80 Q35,70 30,75 M50,65 Q30,55 25,62 M50,50 Q35,40 32,46 M50,75 Q65,65 70,70 M50,60 Q70,50 75,56 M50,45 Q65,35 68,41"/>
+                                <circle cx="30" cy="75" r="2" fill="var(--candle-gold)"/>
+                                <circle cx="25" cy="62" r="2" fill="var(--candle-gold)"/>
+                                <circle cx="32" cy="46" r="2" fill="var(--candle-gold)"/>
+                                <circle cx="70" cy="70" r="2" fill="var(--candle-gold)"/>
+                                <circle cx="75" cy="56" r="2" fill="var(--candle-gold)"/>
+                                <circle cx="68" cy="41" r="2" fill="var(--candle-gold)"/>
+                            </svg>
+                        </div>
+                        <div class="hero-frame-label">
+                            <span>Bella Garden Antalya</span>
+                            <h3>Romantik Detaylar</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STAT BAND -->
+    <section class="stats-band" aria-label="Mekan Özellik Özetleri">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-num">100 - 500</span>
+                    <span class="stat-label">Kişi Kapasite</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">Doğal Çim</span>
+                    <span class="stat-label">Bahçe Alanı</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">2 Konsept</span>
+                    <span class="stat-label">Klasik / Renkli</span>
+                </div>
+                <div class="stat-item" style="border-right: none;">
+                    <span class="stat-num">Kolay Ulaşım</span>
+                    <span class="stat-label">Merkeze Yakın</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEKAN / BAHÇE SECTION -->
+    <section id="mekan" class="section garden-section">
+        <div class="container">
+            <div class="garden-grid">
+                <!-- Text Column -->
+                <div class="garden-content">
+                    <span class="section-eyebrow">Samimi Kır Davetleri</span>
+                    <h2 class="section-title">Zarif Detaylar, <em>Doğal Çim Bahçe</em></h2>
+                    <p class="garden-text" style="margin-top: 1.5rem; margin-bottom: 2rem;">
+                        Bella Garden Antalya, Konyaaltı'nda şehir merkezine yakın konumu ve kolay ulaşım olanaklarıyla butik, zarif ve romantik davetleriniz için tasarlanmıştır. Geniş doğal çim zeminli açık hava bahçemizde, klasik beyaz tiffany sandalyeler, uzun ahşap masalar, narin tüller ve mum ışıkları ile bezenmiş şamdanlar eşsiz bir uyum sergiler. Tercihinize göre beyaz tonlarında klasik düğün konsepti veya canlı renklerle donatılmış dinamik süsleme alternatifleri sunulmaktadır.
+                    </p>
+                    
+                    <ul class="garden-spec-list">
+                        <li class="garden-spec-item">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                            </svg>
+                            Tiffany Sandalyeler
+                        </li>
+                        <li class="garden-spec-item">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                            </svg>
+                            Şamdan & Mum Işığı
+                        </li>
+                        <li class="garden-spec-item">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                            </svg>
+                            Uzun Ziyafet Masaları
+                        </li>
+                        <li class="garden-spec-item">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                            </svg>
+                            Hava Koşulu Önlemleri
+                        </li>
+                    </ul>
+
+                    <div class="garden-notes">
+                        <p>Dilediğiniz takdirde dışarıdan profesyonel fotoğrafçı veya organizasyon firması getirme özgürlüğünüz mevcuttur.</p>
+                    </div>
+                </div>
+
+                <!-- Media Column (Mock photos) -->
+                <div class="garden-media">
+                    <div class="garden-media-slot">
+                        <div class="garden-media-label">
+                            <span>Düzen</span>
+                            <h4>Ziyafet Masası</h4>
+                        </div>
+                    </div>
+                    <div class="garden-media-slot">
+                        <div class="garden-media-label">
+                            <span>Konsept</span>
+                            <h4>Mum Işığı Ambiyans</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HİZMETLER SECTION -->
+    <section id="hizmetler" class="section services-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-eyebrow">Etkinlik Seçenekleri</span>
+                <h2 class="section-title">Butik Kır <em>Hizmetleri</em></h2>
+            </div>
+
+            <div class="services-grid">
+                <!-- 1. Düğün -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <span class="service-num">I</span>
+                        <svg class="service-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499c-.107-.177-.307-.281-.518-.281s-.411.104-.518.281l-5.67 9.387c-.12.198-.104.453.038.633l5.67 7.23a.625.625 0 00.96 0l5.67-7.23a.625.625 0 00.038-.633l-5.67-9.387z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="service-title">Düğün</h3>
+                        <p class="service-desc">Yemyeşil doğa manzarasıyla romantik butik kır düğünleri.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Kına Gecesi -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <span class="service-num">II</span>
+                        <svg class="service-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122l.188-.188a3 3 0 00.03-4.242L7.56 9.53a3 3 0 00-4.243.03l-.188.188a3 3 0 00-.03 4.242l2.188 2.188a3 3 0 004.243-.03zM14.47 7.878l-.188.188a3 3 0 00-.03 4.242l2.188 2.188a3 3 0 004.243-.03l.188-.188a3 3 0 00.03-4.242l-2.188-2.188a3 3 0 00-4.243.03z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="service-title">Kına Gecesi</h3>
+                        <p class="service-desc">Doğanın içinde neşeli ve renkli kına eğlenceleri.</p>
+                    </div>
+                </div>
+
+                <!-- 3. Nişan & Söz -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <span class="service-num">III</span>
+                        <svg class="service-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="service-title">Nişan & Söz</h3>
+                        <p class="service-desc">Sevdiklerinizle baş başa, samimi bir söz ve nişan töreni.</p>
+                    </div>
+                </div>
+
+                <!-- 4. Mezuniyet -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <span class="service-num">IV</span>
+                        <svg class="service-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.62 48.62 0 0112 20.904a48.62 48.62 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 019.218 5.84 50.57 50.57 0 00-2.658.814m-15.482 0l1.248.339m14.234-.339l-1.248.339m-12.986 0L12 12.875l4.302-1.168m-12.986 0A49.197 49.197 0 0112 11.25c2.107 0 4.16.133 6.172.389m-12.986 0L4.26 10.147m14.234 0l1.248-.339" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="service-title">Mezuniyet</h3>
+                        <p class="service-desc">Yılların getirdiği başarıları doğanın kucağında kutlayın.</p>
+                    </div>
+                </div>
+
+                <!-- 5. Doğum Günü -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <span class="service-num">V</span>
+                        <svg class="service-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697-.056-4.024-.166C6.845 7.91 6 6.906 6 5.753V3.75c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v2.003c0 1.153-.845 2.158-1.976 2.331A48.174 48.174 0 0112 8.25zm0 0v10.5m0 0c-1.355 0-2.697.056-4.024.166C6.845 19.09 6 20.094 6 21.247v.003c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125v-.003c0-1.153-.845-2.158-1.976-2.331A48.174 48.174 0 0112 18.75z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="service-title">Doğum Günü</h3>
+                        <p class="service-desc">Yeni yaşları doğanın tazeliğinde sevdiklerinizle karşılayın.</p>
+                    </div>
+                </div>
+
+                <!-- 6. Kurumsal Davet & Resepsiyon -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <span class="service-num">VI</span>
+                        <svg class="service-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M21 12h1.5m-1.5 3h1.5m-1.5 3h1.5M10.5 6.75h.75M13.5 9h.75" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="service-title">Kurumsal Davet</h3>
+                        <p class="service-desc">Firmanız için samimi, ferah ve nezih iş davetleri.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OLANAKLAR SECTION -->
+    <section id="olanaklar" class="section features-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-eyebrow">Ayrıcalıklar</span>
+                <h2 class="section-title">Bella Garden'ın Sunmuş Olduğu <em>Olanaklar</em></h2>
+            </div>
+
+            <div class="features-grid">
+                <!-- 1 -->
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+                        </svg>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Organizasyon Sorumlusu</h4>
+                        <p>Masa düzeni, müzik koordinasyonu ve menü yönetiminde tam destek.</p>
+                    </div>
+                </div>
+                <!-- 2 -->
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/>
+                        </svg>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Sahne & Işık Sistemleri</h4>
+                        <p>Romantik ambiyansa uygun profesyonel ışıklandırma ve ses desteği.</p>
+                    </div>
+                </div>
+                <!-- 3 -->
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+                        </svg>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Yemek & Catering</h4>
+                        <p>Usta şeflerimiz tarafından sunulan zengin menü ve ikram alternatifleri.</p>
+                    </div>
+                </div>
+                <!-- 4 -->
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707-.707M12 17a5 5 0 110-10 5 5 0 010 10z"/>
+                        </svg>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Çiçek & Mum Ambiyansı</h4>
+                        <p>Zarif tül dekorasyonları, canlı çiçekler ve göz alıcı şamdan detayları.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 3.5rem; text-align: center; font-size: 0.95rem; color: var(--text-muted);">
+                Ayrıca <strong>Dışarıdan Firma Getirme İmkânı</strong>, <strong>Olumsuz Hava Koşullarına Karşı Önlem</strong> ve <strong>Özel Gelin Hazırlık Alanı</strong> hizmetlerimiz standart olarak sunulmaktadır.
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERİ SECTION -->
+    <section id="galeri" class="section gallery-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-eyebrow">Görsel Mozaik</span>
+                <h2 class="section-title">Masaldan <em>Kareler</em></h2>
+            </div>
+
+            <div class="gallery-mosaic">
+                <!-- 1 -->
+                <div class="gallery-item gallery-item-1">
+                    <div class="gallery-gradient-bg"></div>
+                    <div class="gallery-overlay-graphic">
+                        <svg width="80" height="80" fill="none" stroke="var(--primary-accent-dark)" stroke-width="0.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                    </div>
+                    <div class="gallery-label">
+                        <span>Seremoni</span>
+                        <h4>Nikâh Alanı</h4>
+                    </div>
+                </div>
+                <!-- 2 -->
+                <div class="gallery-item gallery-item-2">
+                    <div class="gallery-gradient-bg"></div>
+                    <div class="gallery-overlay-graphic">
+                        <svg width="40" height="40" fill="none" stroke="var(--primary-accent-dark)" stroke-width="0.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                    </div>
+                    <div class="gallery-label">
+                        <span>Düzen</span>
+                        <h4>Masa Düzeni</h4>
+                    </div>
+                </div>
+                <!-- 3 -->
+                <div class="gallery-item gallery-item-3">
+                    <div class="gallery-gradient-bg"></div>
+                    <div class="gallery-overlay-graphic">
+                        <svg width="40" height="40" fill="none" stroke="var(--primary-accent-dark)" stroke-width="0.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                    </div>
+                    <div class="gallery-label">
+                        <span>Aydınlatma</span>
+                        <h4>Mum Işığı Ambiyans</h4>
+                    </div>
+                </div>
+                <!-- 4 -->
+                <div class="gallery-item gallery-item-4">
+                    <div class="gallery-gradient-bg"></div>
+                    <div class="gallery-overlay-graphic">
+                        <svg width="40" height="40" fill="none" stroke="var(--primary-accent-dark)" stroke-width="0.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                    </div>
+                    <div class="gallery-label">
+                        <span>Özel Oda</span>
+                        <h4>Gelin Köşesi</h4>
+                    </div>
+                </div>
+                <!-- 5 -->
+                <div class="gallery-item gallery-item-5">
+                    <div class="gallery-gradient-bg"></div>
+                    <div class="gallery-overlay-graphic">
+                        <svg width="40" height="40" fill="none" stroke="var(--primary-accent-dark)" stroke-width="0.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                    </div>
+                    <div class="gallery-label">
+                        <span>Bahçe</span>
+                        <h4>Kır Bahçesi</h4>
+                    </div>
+                </div>
+                <!-- 6 -->
+                <div class="gallery-item gallery-item-6">
+                    <div class="gallery-gradient-bg"></div>
+                    <div class="gallery-overlay-graphic">
+                        <svg width="40" height="40" fill="none" stroke="var(--primary-accent-dark)" stroke-width="0.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                    </div>
+                    <div class="gallery-label">
+                        <span>Karşılama</span>
+                        <h4>Kokteyl Düzeni</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- İLETİŞİM & FORM SECTION -->
+    <section id="iletisim" class="section contact-section">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Info Column -->
+                <div class="contact-info">
+                    <div>
+                        <span class="section-eyebrow">İletişim</span>
+                        <h2 class="section-title">Bizimle <em>İletişim Kurun</em></h2>
+                    </div>
+
+                    <div class="contact-detail-group">
+                        <!-- Address -->
+                        <div class="contact-detail-item">
+                            <div class="contact-detail-icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+                                </svg>
+                            </div>
+                            <div class="contact-detail-text">
+                                <h4>Adres</h4>
+                                <p>[ADRES — doğrulanacak]</p>
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="contact-detail-item">
+                            <div class="contact-detail-icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.28-5.116-3.573-6.4-6.4l1.293-.97a2.25 2.25 0 00.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
+                                </svg>
+                            </div>
+                            <div class="contact-detail-text">
+                                <h4>Telefon</h4>
+                                <a href="tel:[TELEFON — doğrulanacak]" aria-label="Bizi Arayın: [TELEFON — doğrulanacak]">[TELEFON — doğrulanacak]</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Promo Badge -->
+                    <div class="contact-badge-box">
+                        <span class="contact-badge-title">Bilgilendirme</span>
+                        <span class="contact-badge-desc">Ücretsiz Keşif & Teklif Kampanyası</span>
+                    </div>
+
+                    <!-- Directions Link -->
+                    <a href="[GOOGLE_MAPS_LINK]" target="_blank" rel="noopener" class="direction-btn" aria-label="Google Haritalar'da Yol Tarifi Al (Yeni Sekmede Açılır)">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6H3m12 0a6 6 0 11-12 0 6 6 0 0112 0z" />
+                        </svg>
+                        Yol Tarifi Al
+                    </a>
+                </div>
+
+                <!-- Form Column -->
+                <div class="rfq-box" id="teklif-al">
+                    <h3 class="rfq-title">Teklif Alın</h3>
+                    <p class="rfq-desc">Romantik davet planınızın detaylarını paylaşın, sizin için hazırlıklara başlayalım.</p>
+                    
+                    <form id="rfqForm" action="#" method="POST" novalidate>
+                        <!-- Ad Soyad -->
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">Ad Soyad</label>
+                            <input type="text" id="fullName" name="fullName" class="form-control" placeholder="Örn. Zeynep Kaya" required>
+                        </div>
+
+                        <!-- Telefon -->
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Telefon Numarası</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="Örn. 0555 123 45 67" required>
+                        </div>
+
+                        <!-- Tarih -->
+                        <div class="form-group">
+                            <label for="eventDate" class="form-label">Davet Tarihi</label>
+                            <input type="date" id="eventDate" name="eventDate" class="form-control" required>
+                        </div>
+
+                        <!-- Organizasyon Türü -->
+                        <div class="form-group">
+                            <label for="eventType" class="form-label">Organizasyon Türü</label>
+                            <select id="eventType" name="eventType" class="form-control" required>
+                                <option value="" disabled selected hidden>Seçiniz</option>
+                                <option value="dugun">Düğün</option>
+                                <option value="kina">Kına Gecesi</option>
+                                <option value="nisan">Nişan & Söz</option>
+                                <option value="mezuniyet">Mezuniyet</option>
+                                <option value="dogumgunu">Doğum Günü</option>
+                                <option value="kurumsal">Kurumsal Etkinlik & Davet</option>
+                                <option value="resepsiyon">Resepsiyon</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="form-submit-btn">Teklif Al</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand Info -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="footer-logo-title">Bella Garden Antalya</span>
+                        <span class="footer-logo-sub">Konyaaltı · Antalya</span>
+                    </div>
+                    <p class="footer-brand-desc">Yeşillikler içinde, mum ışıkları altında romantik ve butik davetlerin Antalya Konyaaltı'ndaki zarif adresi.</p>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="footer-nav">
+                    <span class="footer-nav-title">Kategoriler</span>
+                    <ul class="footer-nav-links">
+                        <li><a href="#mekan">Bahçemiz</a></li>
+                        <li><a href="#hizmetler">Hizmetlerimiz</a></li>
+                        <li><a href="#olanaklar">Olanaklar</a></li>
+                        <li><a href="#galeri">Galeri</a></li>
+                    </ul>
+                </div>
+
+                <!-- Policies / Info -->
+                <div class="footer-nav">
+                    <span class="footer-nav-title">Kapasite</span>
+                    <ul class="footer-nav-links">
+                        <li>Davet Alnı: 100 - 500 Kişi</li>
+                        <li>Konsept: Klasik Düğün / Renkli</li>
+                        <li>Tasarım: Tiffany & Uzun Masalar</li>
+                    </ul>
+                </div>
+
+                <!-- Quick Contacts -->
+                <div class="footer-nav">
+                    <span class="footer-nav-title">İletişim Bilgileri</span>
+                    <ul class="footer-contact-details">
+                        <li><strong>Adres:</strong> [ADRES — doğrulanacak]</li>
+                        <li><strong>Telefon:</strong> [TELEFON — doğrulanacak]</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Line -->
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bella Garden Antalya. Tüm Hakları Saklıdır.</p>
+                <p class="footer-credit">Tasarım: <a href="https://defora.digital" target="_blank" rel="noopener">Defora Digital</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- POPUP ALERT MODAL (Interactive Demo Feedback) -->
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <svg width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M10.97 4.97a.235.235 0 0 0-.02-.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                </svg>
+            </div>
+            <h3 class="modal-title" id="modalTitle">Talebiniz Alındı</h3>
+            <p class="modal-desc" id="modalDesc">Bu bir demo formudur. Bella Garden Antalya teklif talebi simülasyonu başarıyla gerçekleştirilmiştir.</p>
+            <button class="modal-btn" id="modalCloseBtn">Kapat</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT FOR INTERACTIONS -->
+    <script>
+        // Header scroll visual state change
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Nav Drawer Toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        function toggleMenu() {
+            const isOpened = mobileToggle.getAttribute('aria-expanded') === 'true';
+            mobileToggle.setAttribute('aria-expanded', !isOpened);
+            mobileToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+
+        mobileToggle.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        // Demo Form Submission Handling (with custom stylized modal alert)
+        const rfqForm = document.getElementById('rfqForm');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+        rfqForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent page reload or redirect
+            
+            // Check form validity
+            if (rfqForm.checkValidity()) {
+                // Show custom modal
+                modalOverlay.classList.add('active');
+                rfqForm.reset(); // Reset form elements after successful simulation
+            } else {
+                // Trigger native browser invalid tooltips if fields are missing
+                rfqForm.reportValidity();
+            }
+        });
+
+        // Close modal event handlers
+        modalCloseBtn.addEventListener('click', () => {
+            modalOverlay.classList.remove('active');
+        });
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
