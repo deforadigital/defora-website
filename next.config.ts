@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         source: "/alyansneva",
         destination: "/alyansneva/index.html",
       },
+      {
+        source: "/goksugarden",
+        destination: "/goksugarden/index.html",
+      },
     ];
   },
 };
