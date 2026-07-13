@@ -1,0 +1,463 @@
+@use '../../utils/' as * ;
+
+/*============= CTA CSS AREA ===============*/
+.cta1-section-area {
+    position: relative;
+    height: 180px;
+    @media #{$xs} {
+        height: 350px;
+    }
+    @media #{$md} {
+       height: 430px; 
+    }
+    .cta-author-area {
+        position: relative;
+        background: var(--ztc-text-text-2);
+        border-radius: 4px;
+        transition: all .4s;
+        padding: 60px 80px 0 80px;
+        overflow: hidden;
+        top: 0;
+        z-index: 1;
+        height: 312px;
+        @media #{$xs} {
+            padding: 20px 20px 0 20px;
+            height: 100%;
+        }
+        @media #{$md} {
+            height: 100%;
+        }
+        .elements1 {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        .elements2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .elements3 {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .elements4 {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        .elements5 {
+            position: absolute;
+            bottom: -200px;
+            right: -100px;
+        }
+        .elements6 {
+            position: absolute;
+            top: -80px;
+            right: -80px;
+        }
+        .heading2 {
+            @media #{$xs} {
+                margin-bottom: 30px;
+                text-align: center !important;
+            }
+            @media #{$md} {
+                margin-bottom: 30px;
+            }
+            h2 {
+                color: var(--ztc-text-text-1);
+                @media #{$xs} {
+                    text-align: center;
+                }
+            }
+            form {
+                position: relative;
+                background: var(--ztc-text-text-1);
+                border-radius: 4px;
+                transition: all .4s;
+                padding: 20px;
+                height: 56px;
+                line-height: 18px;
+                width: 382px;
+                @media #{$xs} {
+                    width: 100%;
+                }
+                @media #{$md} {
+                    width: 100%;
+                }
+                input {
+                    outline: none;
+                    background: none;
+                    width: 100%;
+                    font-family: var(--ztc-family-font1);
+                    font-size: var(--ztc-font-size-font-s18);
+                    color: var(--ztc-text-text-3);
+                    line-height: 19px;
+                }
+                button {
+                    font-family: var(--ztc-family-font1);
+                    color: var(--ztc-text-text-1);
+                    text-align: center;
+                    font-size: var(--ztc-font-size-font-s16);
+                    font-style: normal;
+                    font-weight: var(--ztc-weight-bold);
+                    line-height: 16px;
+                    border: none;
+                    outline: none;
+                    background: var(--ztc-text-text-2);
+                    padding: 16px 20px;
+                    border-radius: 4px;
+                    transition: all .4s;
+                    position: absolute;
+                    top: 4px;
+                    right: 4px;
+                    &:hover {
+                        background: var(--ztc-text-text-3);
+                        transition: all .4s;
+                    }
+                    i {
+                        margin-left: 4px;
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+        }
+        .cta-images {
+            position: relative;
+            @media #{$md} {
+                text-align: center;
+            }
+            .img1 {
+                position: relative;
+                z-index: 1;
+                text-align: center;
+                top: -52px;
+                overflow: hidden;
+                @media #{$xs} {
+                    left: 0;
+                    top: 20px;
+                }
+                @media #{$md} {
+                    left: 0;
+                    top: 20px;
+                }
+                img {
+                    height: 325px;
+                    width: 288.94px;
+                    object-fit: contain;
+                }
+            }
+            .img2 {
+                position: absolute;
+                bottom: 74px;
+                text-align: center;
+                @media #{$xs} {
+                    bottom: 0;
+                }
+                @media #{$md} {
+                    bottom: 0;
+                    left: 50px;
+                }
+            }
+        }
+    }
+}
+
+// HOMEPAGE 02 //
+.cta2-section-area {
+    padding: 0 0 50px 0;
+    border-bottom: 1px solid #27293C;
+    h2 {
+        margin-bottom: 0;
+    }
+    .cta-form-area {
+        @media #{$xs} {
+            margin-top: 30px;
+        }
+        @media #{$md} {
+            margin-top: 30px;
+        }
+        form {
+            position: relative;
+            background: var(--ztc-text-text-1);
+            border-radius: 4px;
+            transition: all .4s;
+            padding: 20px;
+            height: 56px;
+            line-height: 18px;
+            width: 100%;
+            @media #{$xs} {
+                width: 100%;
+            }
+            @media #{$md} {
+                width: 100%;
+            }
+            input {
+                outline: none;
+                background: none;
+                width: 100%;
+                font-family: var(--ztc-family-font1);
+                font-size: var(--ztc-font-size-font-s18);
+                color: var(--ztc-text-text-3);
+                line-height: 19px;
+            }
+            button {
+                font-family: var(--ztc-family-font1);
+                color: var(--ztc-text-text-1);
+                text-align: center;
+                font-size: var(--ztc-font-size-font-s16);
+                font-style: normal;
+                font-weight: var(--ztc-weight-bold);
+                line-height: 16px;
+                border: none;
+                outline: none;
+                background: var(--ztc-bg-bg-7);
+                padding: 16px 20px;
+                border-radius: 4px;
+                transition: all .4s;
+                position: absolute;
+                top: 4px;
+                right: 4px;
+                &:hover {
+                    background: var(--ztc-text-text-7);
+                    transition: all .4s;
+                }
+                i {
+                    margin-left: 4px;
+                    transform: rotate(-45deg);
+                }
+            }
+        }
+    }
+}
+
+// HOMEPAGE 03 //
+.cta3-section-area {
+    position: relative;
+    background: var(--ztc-text-text-9);
+    height: 325px;
+    border-radius: 70px 0 0 0;
+
+    @media #{$xs} {
+        height: auto;
+        padding: 40px 0 0 0;
+        border-radius: 0;
+    }
+    @media #{$md} {
+       height: auto; 
+       padding: 40px 0 0 0;
+       border-radius: 0;
+    }
+    .elements23 {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    .elements24 {
+        position: absolute;
+        right: -30px;
+        top: 0;
+        transform: rotate(-100deg);
+    }
+    .cta-author-area {
+        .heading2 {
+            @media #{$xs} {
+                margin-bottom: 30px;
+                text-align: center !important;
+            }
+            @media #{$md} {
+                margin-bottom: 30px;
+                text-align: center;
+            }
+            h2 {
+                color: var(--ztc-text-text-1);
+                @media #{$xs} {
+                    text-align: center;
+                }
+            }
+            form {
+                position: relative;
+                background: var(--ztc-text-text-1);
+                border-radius: 4px;
+                transition: all .4s;
+                padding: 20px;
+                height: 56px;
+                line-height: 18px;
+                width: 382px;
+                @media #{$xs} {
+                    width: 100%;
+                }
+                @media #{$md} {
+                    width: 100%;
+                }
+                input {
+                    outline: none;
+                    background: none;
+                    width: 100%;
+                    font-family: var(--ztc-family-font1);
+                    font-size: var(--ztc-font-size-font-s18);
+                    color: var(--ztc-text-text-3);
+                    line-height: 19px;
+                }
+                button {
+                    font-family: var(--ztc-family-font1);
+                    color: var(--ztc-text-text-1);
+                    text-align: center;
+                    font-size: var(--ztc-font-size-font-s16);
+                    font-style: normal;
+                    font-weight: var(--ztc-weight-bold);
+                    line-height: 16px;
+                    border: none;
+                    outline: none;
+                    background: var(--ztc-text-text-9);
+                    padding: 16px 20px;
+                    border-radius: 4px;
+                    transition: all .4s;
+                    position: absolute;
+                    top: 4px;
+                    right: 4px;
+                    &:hover {
+                        background: var(--ztc-text-text-3);
+                        transition: all .4s;
+                    }
+                    i {
+                        margin-left: 4px;
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+        }
+        .cta-images {
+            position: relative;
+            @media #{$md} {
+                text-align: center;
+            }
+            .img1 {
+                position: relative;
+                z-index: 1;
+                text-align: center;
+                top: 20px;
+                overflow: hidden;
+                @media #{$xs} {
+                    left: 0;
+                    top: 20px;
+                }
+                @media #{$md} {
+                    left: 0;
+                    top: 20px;
+                }
+                img {
+                    height: 325px;
+                    width: 288.94px;
+                    object-fit: contain;
+                }
+            }
+            .img2 {
+                position: absolute;
+                bottom: 0;
+                text-align: end;
+                left: 40px;
+                @media #{$xs} {
+                    bottom: 0;
+                }
+                @media #{$md} {
+                    bottom: 0;
+                    left: 130px;
+                }
+            }
+        }
+    }
+}
+
+
+// HOMEPAGE 03 //
+.cta4-section-area {
+    position: relative;
+    background: var(--ztc-bg-bg-15);
+
+    .elements23 {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+    .cta-author-area {
+        .heading8 {
+            @media #{$xs} {
+                margin-bottom: 30px;
+                text-align: center !important;
+            }
+            @media #{$md} {
+                margin-bottom: 30px;
+                text-align: center;
+            }
+            h2 {
+                color: var(--ztc-text-text-11);
+                margin-bottom: 0;
+                @media #{$xs} {
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    .form-area {
+        form {
+            position: relative;
+            background: var(--ztc-text-text-1);
+            border-radius: 50px;
+            transition: all .4s;
+            padding: 20px;
+            height: 56px;
+            line-height: 18px;
+            width: 100%;
+            @media #{$xs} {
+                width: 100%;
+            }
+            @media #{$md} {
+                width: 100%;
+            }
+            input {
+                outline: none;
+                background: none;
+                width: 100%;
+                font-family: var(--ztc-family-font1);
+                font-size: var(--ztc-font-size-font-s18);
+                color: var(--ztc-text-text-3);
+                line-height: 19px;
+            }
+            button {
+                font-family: var(--ztc-family-font1);
+                color: var(--ztc-text-text-1);
+                text-align: center;
+                font-size: var(--ztc-font-size-font-s18);
+                font-style: normal;
+                font-weight: var(--ztc-weight-bold);
+                line-height: 16px;
+                border: none;
+                outline: none;
+                background: var(--ztc-text-text-13);
+                padding: 16px 20px;
+                border-radius: 50px;
+                transition: all .4s;
+                position: absolute;
+                top: 3px;
+                right: 4px;
+                &:hover {
+                    background: var(--ztc-text-text-11);
+                    transition: all .4s;
+                    i {
+                        transform: rotate(0);
+                        transition: all .4s;
+                    }
+                }
+                i {
+                    margin-left: 4px;
+                    transform: rotate(-45deg);
+                    transition: all .4s;
+                }
+            }
+        }
+    }
+}
+/*============= CTA CSS AREA ENDS===============*/
