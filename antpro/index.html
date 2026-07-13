@@ -30,6 +30,11 @@
   body, body * {
     font-family: 'Raleway', sans-serif !important;
   }
+  .mobile-nav-list li ul,
+  .mobile-nav-list li .sub-menu,
+  .mobile-nav-list li .collapse {
+    display: none !important;
+  }
 </style>
 
 <!--===== PRELOADER STARTS =======-->
@@ -136,63 +141,26 @@
 </div>
 
 <div class="mobile-sidebar mobile-sidebar1">
-  <div class="logosicon-area">
-    <div class="logos">
-      <a href="index.html" style="font-size:24px; font-weight:700; color:#ffffff; letter-spacing:0.5px; line-height:1;">ANTPRO</a>
+  <div class="mobile-sidebar-inner">
+    <div class="mobile-logo">
+      <a href="index.html" style="font-size:24px;font-weight:700;color:#fff;text-decoration:none;">ANTPRO</a>
+      <button class="mobile-sidebar-close menu-close"><img src="assets/img/icons/xmark.svg" alt=""></button>
     </div>
-    <div class="menu-close">
-      <i class="fa-solid fa-xmark"></i>
+    <nav class="mobile-nav">
+      <ul class="mobile-nav-list">
+        <li><a href="index.html">Ana Sayfa</a></li>
+        <li><a href="kurumsal.html">Kurumsal</a></li>
+        <li><a href="service.html">Hizmetler</a></li>
+        <li><a href="#">Çözümlerimiz</a></li>
+        <li><a href="#">Kariyer</a></li>
+        <li><a href="#">İletişim</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-contact">
+      <a href="tel:+903120000000">+90 312 000 00 00</a>
+      <a href="mailto:info@antpro.com.tr">info@antpro.com.tr</a>
+      <span>Antalya, Türkiye</span>
     </div>
-   </div>
-  <div class="mobile-nav mobile-nav1">
-    <ul class="mobile-nav-list nav-list1">
-      <li><a href="index.html">Ana Sayfa</a></li>
-      <li><a href="kurumsal.html">Kurumsal</a></li>
-      <li><a href="service.html">Hizmetler</a></li>
-      <li><a href="#">Çözümlerimiz</a></li>
-      <li><a href="#">Kariyer</a></li>
-      <li><a href="#">İletişim</a></li>
-    </ul>
-
-    <div class="allmobilesection">
-      <a href="contact.html"  class="header-btn1">İletişime Geçin <span><i class="fa-solid fa-arrow-right"></i></span></a>
-      <div class="single-footer">
-        <h3>Contact Info</h3>
-        <div class="footer1-contact-info">
-          <div class="contact-info-single">
-            <div class="contact-info-icon">
-              <i class="fa-solid fa-phone-volume"></i>
-            </div>
-            <div class="contact-info-text">
-              <a href="tel:+903120000000">+90 312 000 00 00</a>
-            </div>
-          </div>
-
-          <div class="contact-info-single">
-            <div class="contact-info-icon">
-              <i class="fa-solid fa-envelope"></i>
-            </div>
-            <div class="contact-info-text">
-              <a href="mailto:info@antpro.com.tr">info@antpro.com.tr</a>
-            </div>
-          </div>
-
-          <div class="single-footer">
-            <h3>Our Location</h3>
-
-            <div class="contact-info-single">
-              <div class="contact-info-icon">
-                <i class="fa-solid fa-location-dot"></i>
-              </div>
-              <div class="contact-info-text">
-                <a href="#">Antalya, Türkiye</a>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-     </div>
   </div>
 </div>
 <!--===== MOBILE HEADER STARTS =======-->
