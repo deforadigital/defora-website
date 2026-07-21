@@ -1,0 +1,242 @@
+@use '../../utils/' as * ;
+
+/*============= TEAM CSS AREA ===============*/
+.team1-section-area {
+   .team-header {
+    margin-bottom: 60px;
+    @media #{$xs} {
+        margin-bottom: 30px;
+    }
+    @media #{$md} {
+        margin-bottom: 30px;
+    }
+   } 
+   .team-boxarea {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 30px;
+    &:hover {
+        .img1 {
+            img {
+                transform: scale(1.1) rotate(4deg);
+                transition: all .4s;
+            }
+        }
+    }
+    .img1 {
+        overflow: hidden;
+        border-radius: 4px;
+        transition: all .4s;
+
+        img {
+            height: 100%;
+            width: 100%;
+            border-radius: 4px;
+            transition: all .4s;
+        }
+    }
+    .content {
+        text-align: center;
+        background: var(--ztc-bg-bg-6);
+        border-radius: 4px;
+        transform: all .4s;
+        padding: 24px;
+        margin: 0 20px;
+        margin-top: -75px;
+        position: relative;
+        z-index: 1;
+        a {
+            color: var(--ztc-text-text-3);
+            text-align: center;
+            font-family: var(--ztc-family-font1);
+            font-size: var(--ztc-font-size-font-s24);
+            font-style: normal;
+            font-weight: var(--ztc-weight-semibold);
+            line-height: 24px;      
+            display: inline-block; 
+            margin-bottom: 12px;  
+        }
+        p {
+            color: var(--ztc-text-text-4);
+            text-align: center;
+            font-family: var(--ztc-family-font1);
+            font-size: var(--ztc-font-size-font-s18);
+            font-style: normal;
+            font-weight: var(--ztc-weight-regular);
+            line-height: 18px;
+            transition: all .4s;
+        }
+        ul {
+            margin-top: 24px;
+            li {
+                display: inline-block;
+                a {
+                    height: 40px;
+                    width: 40px;
+                    text-align: center;
+                    line-height: 40px;
+                    border-radius: 50%;
+                    background: var(--ztc-text-text-1);
+                    transition: all .4s;
+                    font-size: var(--ztc-font-size-font-s16);
+                    margin: 0 6px 0 0;
+                    &:hover {
+                        background: var(--ztc-text-text-2);
+                        transition: all .4s;
+                        transform: translateY(-3px);
+                        color: var(--ztc-text-text-1);
+                    }
+                }
+            }
+        }
+    }
+   }
+}
+
+// HOMEPAGE 02 //
+.team2-section-area {
+    position: relative;
+    z-index: 1;
+    .team-header {
+        margin-bottom: 60px;
+        @media #{$xs} {
+            margin-bottom: 30px;
+        }
+        @media #{$md} {
+            margin-bottom: 30px;
+        }
+    }
+    .team-boxes-area {
+        position: relative;
+        transition: all .4s;
+        text-align: center;
+        margin-bottom: 30px;
+        &:hover {
+            .team-author-area {
+                .team-img {
+                    transition: all .4s;
+                    &::after {
+                        visibility: visible;
+                        opacity: .5;
+                        transition: all .4s;
+                        transform: scale(1);
+                    }
+                    img {
+                        transform: scale(1.1);
+                        transition: all .8s;
+                    }
+                }
+                .social-links {
+                    transition: all .6s;
+                    bottom: 24px;
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+        }
+        .team-author-area {
+            overflow: hidden;
+            position: relative;
+            border-radius: 4px;
+            .team-img {
+                overflow: hidden;
+                border-radius: 4px;
+                transition: all .4s;
+                position: relative;
+                z-index: 1;
+                &::after {
+                    position: absolute;
+                    content: "";
+                    height: 100%;
+                    width: 100%;
+                    left: 0;
+                    top: 0;
+                    transition: all .4s;
+                    background: var(--ztc-text-text-7);
+                    opacity: 0.5;
+                    visibility: hidden;
+                    opacity: 0;
+                    transform: scale(0.8);
+                }
+                img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                    border-radius: 4px;
+                    transition: all .8s;
+                }
+            }
+            .social-links {
+                position: absolute;
+                bottom: 100px;
+                z-index: 1;
+                text-align: center;
+                transition: all .6s;
+                left: 25%;
+                right: 25%;
+                visibility: hidden;
+                opacity: 0;
+                @media #{$xs} {
+                    left: 20%;
+                    right: 20%;
+                }
+                @media #{$md} {
+                    left: 20%;
+                    right: 20%;
+                }
+                ul {
+                    li {
+                        display: inline-block;
+                        a {
+                            height: 40px;
+                            width: 40px;
+                            text-align: center;
+                            display: inline-block;
+                            border-radius: 50%;
+                            background: var(--ztc-text-text-1);
+                            transition: all .4s;
+                            line-height: 40px;
+                            color: var(--ztc-text-text-7);
+                            margin: 0 6px 0 0;
+                            &:hover {
+                                background: var(--ztc-bg-bg-7);
+                                transition: all .4s;
+                                color: var(--ztc-text-text-1);
+                                transform: translateY(-3px);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .content {
+            margin-top: 24px;
+            a {
+                color: var(--ztc-text-text-7);
+                text-align: center;
+                font-family: var(--ztc-family-font1);
+                font-size: var(--ztc-font-size-font-s24);
+                font-style: normal;
+                font-weight: var(--ztc-weight-semibold);
+                line-height: 24px;  
+                transition: all .4s;
+                margin-bottom: 12px;
+                display: inline-block;
+                &:hover {
+                    color: var(--ztc-bg-bg-7);
+                    transition: all .4s;
+                }
+            } 
+            p {
+                color: var(--ztc-text-text-6);
+                text-align: center;
+                font-family: var(--ztc-family-font1);
+                font-size: var(--ztc-font-size-font-s18);
+                font-style: normal;
+                font-weight: var(--ztc-weight-regular);
+                line-height: 18px; 
+            }         
+        }
+    }
+}
+/*============= TEAM CSS AREA STARTS ===============*/

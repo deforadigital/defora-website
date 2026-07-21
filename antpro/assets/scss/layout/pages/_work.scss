@@ -1,0 +1,169 @@
+@use '../../utils/' as * ;
+
+/*============= WORK CSS AREA ===============*/
+.wroks4-section-area {
+    position: relative;
+    z-index: 1;
+    .works-images {
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+    .works-content-area {
+        padding: 0 0 0 50px;
+        @media #{$xs} {
+            padding: 0;
+            margin-top: 30px;
+            text-align: center;
+        }
+        @media #{$md} {
+            padding: 0;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .step-auhtor-area {
+            position: relative;
+            z-index: 1;
+            .step-boxarea.after {
+                &::before {
+                    display: none;
+                }
+            }
+            .step-boxarea {
+                position: relative;
+                z-index: 1;
+                padding-left: 50px;
+                &:hover {
+                    &::after {
+                        background: var(--ztc-text-text-13);
+                        transition: all .4s;
+                        opacity: 1;
+                    }
+                }
+                &::before {
+                    position: absolute;
+                    content: "";
+                    height: 100%;
+                    width: 1px;
+                    border: 1px dashed var(--ztc-text-text-12);
+                    left: 9px;
+                    top: 22px;
+                    z-index: -1;
+                    opacity: 0.2;
+                }
+                &::after {
+                    position: absolute;
+                    content: "";
+                    height: 20px;
+                    width: 20px;
+                    border-radius: 50%;
+                    transition: all .4s;
+                    background: var(--ztc-text-text-13);
+                    opacity: 0.2;
+                    top: 0;
+                    left: 0;
+                    z-index: 1;
+                }
+                a {
+                    color: var(--ztc-text-text-11);
+                    font-family: var(--ztc-family-font1);
+                    font-size: var(--ztc-font-size-font-s24);
+                    font-style: normal;
+                    font-weight: var(--ztc-weight-semibold);
+                    line-height: 24px;
+                    display: inline-block;
+                    margin-bottom: 16px; 
+                    transition: all .4s;
+                    &:hover {
+                        color: var(--ztc-text-text-13);
+                        transition: all .4s;
+                    }                 
+                }
+            }
+        }
+    }
+}
+
+// HOMEPAGE 04 //
+.work4-section-area {
+    .work4-header {
+        padding: 0 30px 0 0;
+        @media #{$xs} {
+            padding: 0;
+            margin-bottom: 30px;
+        }
+        @media #{$md} {
+            padding: 0;
+            margin-bottom: 30px;
+        }
+    }
+    .work-accordian-area {
+        .accordion {
+            .accordion-item {
+                border-top: 1px solid #E8E6E7;
+                border-bottom: 1px solid #E8E6E7;
+                position: relative;
+                padding: 24px 0;
+                button {
+                    background: none;
+                    box-shadow: none;
+                    border: none;
+                    padding: 0;
+                    color: var(--ztc-text-text-11);
+                    font-family: var(--ztc-family-font1);
+                    font-size: var(--ztc-font-size-font-s24);
+                    font-style: normal;
+                    font-weight: var(--ztc-weight-semibold);
+                    line-height: 24px;
+                    transition: all .4s;
+                    &::after {
+                        height: 13px;
+                        width: 2px;
+                        background: var(--ztc-text-text-11);
+                        display: inline-block;
+                        content: "";
+                        visibility: visible;
+                        opacity: 1;
+                        transition: all .4s;
+                    }
+                    &::before {
+                        height: 13px;
+                        width: 2px;
+                        background: var(--ztc-text-text-11);
+                        display: inline-block;
+                        content: "";
+                        position: absolute;
+                        z-index: 2;
+                        right: 0;
+                        top: 6px;
+                        transform: rotate(-90deg);
+                        transition: all .4s;
+                        @media #{$xs} {
+                            top: 18px;
+                        }
+                    }
+                }
+                .accordion-button:not(.collapsed)::after {
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: all .4s;
+                }
+                .accordion-body {
+                    padding: 0;
+                    color: var(--ztc-text-text-12);
+                    font-family: var(--ztc-family-font1);
+                    font-size: var(--ztc-font-size-font-s18);
+                    font-style: normal;
+                    font-weight: var(--ztc-weight-regular);
+                    line-height: 24px;  
+                    transition: all .4s;
+                    padding-top: 16px;           
+                }
+            }
+        }
+    }
+}
+/*============= WORK CSS AREA ===============*/
