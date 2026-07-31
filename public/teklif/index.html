@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+	<title>DEFORA — İşletmenizi 7 Günde İnternete Taşıyın</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="Web Siteniz Yoksa, Müşteriniz Rakibinizde. İşletmenizi 7 günde internete taşıyın. 10.000 TL başlangıç + 1.000 TL/ay — sürpriz masraf yok." />
+	<link rel="icon" href="/teklif/image/favicon.svg" type="image/svg+xml">
+	<link rel="alternate icon" href="/teklif/image/favicon.png" type="image/png">
+	<link rel="apple-touch-icon" href="/teklif/image/favicon.svg">
+	<link rel="stylesheet" type="text/css" href="/teklif/css/vendor.bundle.css">
+	<link rel="stylesheet" type="text/css" href="/teklif/css/style.css">
+	<style>
+		:root {
+			--wa-green: #25D366;
+			--wa-green-hover: #1ebd56;
+			--defora-purple: #6c5ce7;
+			--defora-dark: #1e1e2d;
+		}
+
+		html, body {
+			overflow-x: hidden !important;
+			width: 100%;
+		}
+
+		@font-face {
+			font-display: swap;
+		}
+
+		.btn-whatsapp, .btn-whatsapp-lg, .top-bar-btn, .float-wa-btn {
+			min-height: 44px !important;
+			min-width: 44px !important;
+			touch-action: manipulation;
+		}
+
+		.btn-whatsapp {
+			background-color: var(--wa-green) !important;
+			color: #fff !important;
+			border-radius: 50px !important;
+			padding: 12px 28px !important;
+			font-weight: 700 !important;
+			font-size: 16px !important;
+			display: inline-flex !important;
+			align-items: center !important;
+			gap: 10px !important;
+			box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4) !important;
+			transition: all 0.3s ease !important;
+			border: none !important;
+			text-decoration: none !important;
+		}
+
+		.btn-whatsapp:hover, .btn-whatsapp:focus {
+			background-color: var(--wa-green-hover) !important;
+			color: #fff !important;
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6) !important;
+		}
+
+		.btn-whatsapp-lg {
+			background-color: var(--wa-green) !important;
+			color: #fff !important;
+			border-radius: 50px !important;
+			padding: 16px 36px !important;
+			font-weight: 800 !important;
+			font-size: 18px !important;
+			display: inline-flex !important;
+			align-items: center !important;
+			gap: 12px !important;
+			box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5) !important;
+			transition: all 0.3s ease !important;
+			border: none !important;
+			text-decoration: none !important;
+		}
+
+		.btn-whatsapp-lg:hover, .btn-whatsapp-lg:focus {
+			background-color: var(--wa-green-hover) !important;
+			color: #fff !important;
+			transform: translateY(-3px);
+			box-shadow: 0 8px 30px rgba(37, 211, 102, 0.7) !important;
+		}
+
+		.campaign-badge {
+			display: inline-block;
+			background: rgba(255, 255, 255, 0.15);
+			border: 1px solid rgba(255, 255, 255, 0.3);
+			backdrop-filter: blur(10px);
+			color: #fff;
+			padding: 8px 18px;
+			border-radius: 30px;
+			font-size: 14px;
+			font-weight: 600;
+			margin-bottom: 20px;
+		}
+
+		.campaign-badge i {
+			color: #ffda79;
+			margin-right: 6px;
+		}
+
+		.urgency-box {
+			background: rgba(0, 0, 0, 0.25);
+			border-left: 4px solid #ffda79;
+			padding: 16px 20px;
+			border-radius: 0 12px 12px 0;
+			margin-top: 25px;
+			font-size: 14px;
+			line-height: 1.6;
+			color: rgba(255, 255, 255, 0.95);
+		}
+
+		.problem-solution-row {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: stretch;
+		}
+
+		.problem-solution-col {
+			display: flex;
+			margin-bottom: 20px;
+		}
+
+		.problem-solution-card {
+			background: #ffffff;
+			border-radius: 14px;
+			padding: 22px 20px;
+			box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+			border: 1px solid #eef2f7;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+
+		.problem-solution-card:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 12px 30px rgba(108, 92, 231, 0.1);
+		}
+
+		.problem-tag {
+			color: #2b2d42;
+			font-weight: 700;
+			font-size: 16px;
+			margin-bottom: 12px;
+			display: flex;
+			align-items: flex-start;
+			gap: 8px;
+		}
+
+		.problem-tag i {
+			color: #f39c12;
+			font-size: 18px;
+			flex-shrink: 0;
+			margin-top: 2px;
+		}
+
+		.solution-tag {
+			color: #27ae60;
+			font-weight: 500;
+			font-size: 14px;
+			line-height: 1.45;
+			background: #f0fdf4;
+			padding: 10px 14px;
+			border-radius: 8px;
+			border-left: 3px solid #27ae60;
+		}
+
+		/* Step Cards & Connecting Line */
+		.steps-row-container {
+			position: relative;
+			margin-top: 20px;
+		}
+
+		.steps-connecting-line {
+			position: absolute;
+			top: 60px;
+			left: 18%;
+			right: 18%;
+			height: 3px;
+			background: linear-gradient(90deg, #6c5ce7 0%, #00cec9 100%);
+			z-index: 1;
+		}
+
+		@media (max-width: 767px) {
+			.steps-connecting-line {
+				top: 50px;
+				bottom: 80px;
+				left: 50%;
+				right: auto;
+				width: 3px;
+				height: auto;
+				transform: translateX(-50%);
+				background: linear-gradient(180deg, #6c5ce7 0%, #00cec9 100%);
+			}
+		}
+
+		.step-card {
+			text-align: center;
+			background: #ffffff;
+			padding: 35px 22px 30px 22px;
+			border-radius: 18px;
+			box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+			position: relative;
+			z-index: 2;
+			margin-bottom: 30px;
+			border: 1px solid #eef2f7;
+			height: 100%;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.step-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+		}
+
+		.step-card-start {
+			border: 2px solid #6c5ce7 !important;
+			box-shadow: 0 12px 35px rgba(108, 92, 231, 0.18) !important;
+		}
+
+		.step-card-completed {
+			background: #f0fdf4 !important;
+			border: 2px solid #27ae60 !important;
+			box-shadow: 0 12px 35px rgba(39, 174, 96, 0.15) !important;
+		}
+
+		.step-badge-tag {
+			position: absolute;
+			top: -12px;
+			left: 50%;
+			transform: translateX(-50%);
+			padding: 4px 12px;
+			border-radius: 12px;
+			font-size: 11px;
+			font-weight: 800;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+		}
+
+		.step-badge-start-tag {
+			background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+			color: #ffffff;
+		}
+
+		.step-badge-done-tag {
+			background: #27ae60;
+			color: #ffffff;
+		}
+
+		.step-number {
+			width: 60px;
+			height: 60px;
+			line-height: 56px;
+			background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+			color: #fff;
+			font-size: 22px;
+			font-weight: 800;
+			border-radius: 50%;
+			margin: 0 auto 20px;
+			box-shadow: 0 6px 16px rgba(108, 92, 231, 0.35);
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.step-number-num {
+			position: absolute;
+			top: -4px;
+			right: -4px;
+			width: 22px;
+			height: 22px;
+			line-height: 22px;
+			background: #1e1e2d;
+			color: #fff;
+			border-radius: 50%;
+			font-size: 11px;
+			font-weight: 800;
+			border: 2px solid #fff;
+		}
+
+		.step-number-green {
+			background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+			box-shadow: 0 6px 16px rgba(39, 174, 96, 0.35) !important;
+		}
+
+		.pricing-highlight-box {
+			background: #ffffff;
+			border-radius: 20px;
+			padding: 40px;
+			box-shadow: 0 15px 40px rgba(108, 92, 231, 0.12);
+			border: 2px solid #6c5ce7;
+			max-width: 650px;
+			margin: 0 auto;
+		}
+
+		.price-tag-big {
+			font-size: 30px;
+			font-weight: 800;
+			color: #1e1e2d;
+			margin: 20px 0;
+		}
+
+		.price-tag-big span {
+			color: #6c5ce7;
+		}
+
+		.float-wa-btn {
+			position: fixed;
+			bottom: 25px;
+			right: 25px;
+			z-index: 9999;
+			background-color: var(--wa-green);
+			color: #fff !important;
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 32px;
+			box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+			transition: transform 0.3s ease;
+			text-decoration: none;
+		}
+
+		.float-wa-btn:hover {
+			transform: scale(1.1);
+			color: #fff !important;
+		}
+
+		.defora-brand-text {
+			font-size: 26px;
+			font-weight: 900;
+			color: #ffffff !important;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			line-height: 50px;
+		}
+
+		.navbar-custom.affix .defora-brand-text {
+			color: #2b2d42 !important;
+		}
+
+		.phone-number-link {
+			font-size: 22px;
+			font-weight: 700;
+			color: #6c5ce7;
+			display: inline-block;
+			margin-top: 15px;
+			text-decoration: none;
+		}
+
+		.phone-number-link:hover {
+			color: #5649c0;
+			text-decoration: underline;
+		}
+
+		/* Interactive Phone Mockup & WhatsApp Chat Styles */
+		.phone-frame-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 10px 0;
+		}
+
+		.phone-frame {
+			width: 300px;
+			height: 560px;
+			background: #111420;
+			border-radius: 44px;
+			box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 6px #2b2d42;
+			position: relative;
+			padding: 8px;
+			box-sizing: border-box;
+		}
+
+		.phone-notch {
+			width: 110px;
+			height: 22px;
+			background: #111420;
+			border-radius: 0 0 14px 14px;
+			position: absolute;
+			top: 8px;
+			left: 50%;
+			transform: translateX(-50%);
+			z-index: 100;
+		}
+
+		.wa-chat-container {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			background: #efeae2;
+			border-radius: 36px;
+			overflow: hidden;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			position: relative;
+		}
+
+		.wa-chat-header {
+			background: #075e54;
+			color: #fff;
+			padding: 28px 14px 10px 14px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+			z-index: 10;
+		}
+
+		.wa-avatar {
+			width: 34px;
+			height: 34px;
+			border-radius: 50%;
+			background: #ffffff;
+			color: #075e54;
+			font-weight: 800;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 14px;
+		}
+
+		.wa-contact-info {
+			flex: 1;
+			text-align: left;
+		}
+
+		.wa-contact-name {
+			font-weight: 700;
+			font-size: 13px;
+			line-height: 1.2;
+		}
+
+		.wa-status {
+			font-size: 10px;
+			opacity: 0.85;
+		}
+
+		.wa-chat-body {
+			flex: 1;
+			padding: 12px;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			overflow-y: auto;
+			background-color: #efeae2;
+			background-image: radial-gradient(#d1c7b7 1px, transparent 1px);
+			background-size: 12px 12px;
+		}
+
+		.wa-date-badge {
+			align-self: center;
+			background: rgba(225, 245, 254, 0.95);
+			color: #546e7a;
+			font-size: 9px;
+			font-weight: 600;
+			padding: 3px 10px;
+			border-radius: 8px;
+			margin-bottom: 2px;
+			box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+		}
+
+		.wa-msg {
+			max-width: 85%;
+			padding: 8px 10px;
+			border-radius: 10px;
+			font-size: 11px;
+			line-height: 1.4;
+			position: relative;
+			box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+			text-align: left;
+		}
+
+		.wa-msg-in {
+			align-self: flex-start;
+			background: #ffffff;
+			color: #111b21;
+			border-top-left-radius: 0;
+		}
+
+		.wa-msg-out {
+			align-self: flex-end;
+			background: #d9fdd3;
+			color: #111b21;
+			border-top-right-radius: 0;
+		}
+
+		.wa-time {
+			font-size: 9px;
+			color: #667781;
+			float: right;
+			margin-left: 8px;
+			margin-top: 4px;
+			display: flex;
+			align-items: center;
+			gap: 3px;
+		}
+
+		.wa-input-bar {
+			background: #f0f2f5;
+			padding: 8px 12px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.wa-input-box {
+			flex: 1;
+			background: #fff;
+			border-radius: 20px;
+			padding: 6px 12px;
+			font-size: 11px;
+			color: #8696a0;
+			text-align: left;
+		}
+
+		/* Top Announcement Banner */
+		.top-announcement-bar {
+			background: linear-gradient(90deg, #4b17bd 0%, #6826e9 50%, #9b35db 100%);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+			color: #ffffff;
+			font-size: 15px;
+			font-weight: 600;
+			padding: 12px 20px;
+			text-align: center;
+			position: relative;
+			z-index: 1010;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+		}
+
+		.top-announcement-bar .container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 16px;
+			flex-wrap: wrap;
+		}
+
+		.top-bar-text {
+			font-size: 15px;
+			line-height: 1.4;
+		}
+
+		.top-bar-badge {
+			background: #ffda79;
+			color: #2d1d00;
+			font-size: 12px;
+			font-weight: 800;
+			padding: 4px 12px;
+			border-radius: 14px;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		.top-bar-btn {
+			background: #25D366;
+			color: #ffffff !important;
+			font-weight: 800;
+			font-size: 13px;
+			padding: 6px 18px;
+			border-radius: 20px;
+			text-decoration: none !important;
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			box-shadow: 0 3px 10px rgba(37, 211, 102, 0.4);
+			transition: transform 0.2s ease, background-color 0.2s ease;
+		}
+
+		.top-bar-btn:hover {
+			transform: translateY(-1px);
+			background-color: #1ebd56;
+			color: #ffffff !important;
+		}
+
+		/* Prevent navbar from overlapping top banner */
+		#navbar.navbar-fixed-top:not(.affix) {
+			position: relative !important;
+			top: auto !important;
+			margin-bottom: 0 !important;
+		}
+
+		.hero {
+			padding-top: 40px;
+		}
+
+		/* Guarantee content is visible even if WOW.js fails to load/execute */
+		.wow {
+			visibility: visible !important;
+			opacity: 1 !important;
+			animation: none !important;
+		}
+	</style>
+</head>
+<body data-spy="scroll" data-target="#navbar" data-offset="70">
+
+	<!-- Top Announcement Banner -->
+	<div class="top-announcement-bar">
+		<div class="container">
+			<span class="top-bar-badge"><i class="fa fa-fire"></i> Kampanya</span>
+			<span class="top-bar-text"><strong>Ağustos Kampanyası: 32 Gün Kaldı</strong> — 10.000 TL başlangıç + 1.000 TL/ay</span>
+		</div>
+	</div>
+
+	<!-- Preloader -->
+	<div id="preloader">
+		<div id="status">&nbsp;</div>
+	</div>
+
+		<!-- Hero Banner -->
+		<div class="hero grdnt-purple style-curve bg-trans-1">
+			<div class="hero-content">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-7">
+							<div class="intro-text light">
+								<div style="margin-bottom: 25px;">
+									<img src="/teklif/image/defora-logo.png" alt="DEFORA Digital" loading="eager" decoding="async" style="max-height: 55px; height: auto; background: rgba(255, 255, 255, 0.95); padding: 8px 18px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+								</div>
+								<h2>Web Siteniz Yoksa, Müşteriniz Rakibinizde.</h2>
+								<div class="spce"></div>
+								<p class="large">İşletmenizi 7 günde internete taşıyın. 10.000 TL başlangıç + 1.000 TL/ay — sürpriz masraf yok.</p>
+								<div class="spce"></div>
+								<div class="btn-holder">
+									<a href="https://wa.me/905400333672?text=Merhaba,%20fiyat%20bilgisi%20almak%20istiyorum" target="_blank" class="btn btn-whatsapp-lg">
+										<i class="fa fa-whatsapp"></i> WhatsApp'tan Fiyat Alın
+									</a>
+								</div>
+								<div class="urgency-box">
+									<i class="fa fa-users" style="margin-right: 6px;"></i>
+									Küçük bir ekibiz — bu yüzden ayda sınırlı sayıda işletmeyle çalışıyoruz. Her müşteriye gerçekten zaman ayırabilmek için kontenjanımızı bilerek kısıtlı tutuyoruz.
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<div class="phone-frame-container">
+								<div class="phone-frame">
+									<div class="phone-notch"></div>
+									<div class="wa-chat-container">
+										<!-- WhatsApp Header -->
+										<div class="wa-chat-header">
+											<div class="wa-avatar" style="background:#fff; padding:3px;"><img src="/teklif/image/defora-logo.png" alt="DEFORA Logo" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:contain;"></div>
+											<div class="wa-contact-info">
+												<div class="wa-contact-name">DEFORA Destek</div>
+												<div class="wa-status"><i class="fa fa-circle" style="color:#25D366; font-size:8px;"></i> çevrimiçi</div>
+											</div>
+											<div style="font-size: 14px; opacity: 0.8;"><i class="fa fa-ellipsis-v"></i></div>
+										</div>
+										<!-- WhatsApp Chat Body -->
+										<div class="wa-chat-body">
+											<div class="wa-date-badge">Bugün</div>
+											
+											<!-- Customer Message 1 -->
+											<div class="wa-msg wa-msg-in">
+												Merhaba, web sitesi konusunda bilgi almak istiyorum. Fiyatınız nedir?
+												<span class="wa-time">14:02</span>
+											</div>
+											
+											<!-- DEFORA Reply -->
+											<div class="wa-msg wa-msg-out">
+												Merhaba! 10.000 TL başlangıç + 1.000 TL/ay, her şey dahil. 15 dakikalık ücretsiz görüşme ayarlayalım mı?
+												<span class="wa-time">14:03 <i class="fa fa-check" style="color:#34b7f1;"></i><i class="fa fa-check" style="color:#34b7f1; margin-left:-4px;"></i></span>
+											</div>
+											
+											<!-- Customer Message 2 -->
+											<div class="wa-msg wa-msg-in">
+												Olur, ne zaman uygun?
+												<span class="wa-time">14:05</span>
+											</div>
+										</div>
+										<!-- WhatsApp Input Bar -->
+										<div class="wa-input-bar">
+											<div class="wa-input-box">Mesaj yazın...</div>
+											<div style="color: #075e54; font-size: 16px;"><i class="fa fa-paper-plane"></i></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<!-- Problem & Solution Section -->
+	<section id="sorun-cozum" class="bg-grad-shad sec-pad-lg">
+		<div class="container">
+			<div class="row">
+				<div class="text-center section-text wow animated fadeInUp" data-wow-duration="2s" data-wow-delay=".2s">
+					<h2>Sorun bu mu, çözümü burada</h2>
+					<div class="spce"></div>
+					<p class="large fx-wdth">Çoğu işletmenin yaşadığı üç sorun var. Sizinki hangisi?</p>
+				</div>
+				<div class="spce"></div>
+				<div class="row problem-solution-row">
+					<div class="col-md-4 col-sm-4 problem-solution-col wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".2s">
+						<div class="problem-solution-card">
+							<div class="problem-tag">
+								<i class="fa fa-exclamation-circle"></i>
+								<span>Müşterileriniz sizi Google'da bulamıyor mu?</span>
+							</div>
+							<div class="solution-tag">
+								<i class="fa fa-check-circle" style="margin-right:6px;"></i>
+								Temel SEO altyapısı ile bulunabilirliğinizi artırıyoruz.
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 problem-solution-col wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".3s">
+						<div class="problem-solution-card">
+							<div class="problem-tag">
+								<i class="fa fa-exclamation-circle"></i>
+								<span>Eski siteniz telefonda bozuk mu açılıyor?</span>
+							</div>
+							<div class="solution-tag">
+								<i class="fa fa-check-circle" style="margin-right:6px;"></i>
+								Tüm cihazlarda kusursuz görünen mobil uyumlu tasarım.
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 problem-solution-col wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".4s">
+						<div class="problem-solution-card">
+							<div class="problem-tag">
+								<i class="fa fa-exclamation-circle"></i>
+								<span>'Sitemle kim ilgilenecek?' diye mi düşünüyorsunuz?</span>
+							</div>
+							<div class="solution-tag">
+								<i class="fa fa-check-circle" style="margin-right:6px;"></i>
+								İçerik ve teknik destek bizde, siz sadece işinize odaklanın.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- How We Work Section -->
+	<section id="nasil-calisiyoruz" class="sec-pad-lg bg-gray">
+		<div class="container">
+			<div class="row">
+				<div class="text-center section-text wow animated fadeInUp" data-wow-duration="2s" data-wow-delay=".2s">
+					<h2>Nasıl çalışıyoruz?</h2>
+					<div class="spce"></div>
+					<p class="large fx-wdth">Karmaşık süreçler yok. Sadece 3 basit adımda web siteniz canlıda!</p>
+				</div>
+				<div class="spce"></div>
+				<div class="steps-row-container">
+					<div class="steps-connecting-line"></div>
+					<div class="row">
+						<!-- Card 1: Highlighted Start -->
+						<div class="col-md-4 col-sm-4 wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".2s">
+							<div class="step-card step-card-start">
+								<span class="step-badge-tag step-badge-start-tag"><i class="fa fa-flag"></i> Buradan Başlayın</span>
+								<div class="step-number">
+									<span class="step-number-num">1</span>
+									<i class="fa fa-whatsapp" style="font-size: 26px;"></i>
+								</div>
+								<h4>WhatsApp'tan yazın</h4>
+								<div class="spce sm"></div>
+								<p class="large">Aynı gün dönüş yapıyoruz</p>
+							</div>
+						</div>
+						<!-- Card 2: Regular -->
+						<div class="col-md-4 col-sm-4 wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".3s">
+							<div class="step-card">
+								<div class="step-number">
+									<span class="step-number-num">2</span>
+									<i class="fa fa-clock-o" style="font-size: 26px;"></i>
+								</div>
+								<h4>15 dk görüşme</h4>
+								<div class="spce sm"></div>
+								<p class="large">İhtiyacınızı dinleyip net teklif veriyoruz</p>
+							</div>
+						</div>
+						<!-- Card 3: Highlighted Completed -->
+						<div class="col-md-4 col-sm-4 wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".4s">
+							<div class="step-card step-card-completed">
+								<span class="step-badge-tag step-badge-done-tag"><i class="fa fa-check"></i> Yayında ✅</span>
+								<div class="step-number step-number-green">
+									<span class="step-number-num">3</span>
+									<i class="fa fa-rocket" style="font-size: 26px;"></i>
+								</div>
+								<h4>7 günde yayında</h4>
+								<div class="spce sm"></div>
+								<p class="large">Siteniz hazır, müşterileriniz sizi buluyor</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Pricing & Scope Section -->
+	<section id="fiyatlandirma" class="sec-pad-lg">
+		<div class="container">
+			<div class="row">
+				<div class="text-center section-text wow animated fadeInUp" data-wow-duration="2s" data-wow-delay=".2s">
+					<h2>1.000 TL/ay neleri kapsar?</h2>
+				</div>
+				<div class="row problem-solution-row" style="margin-top: 25px;">
+					<div class="col-md-4 col-sm-4 problem-solution-col wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".2s">
+						<div class="solution-tag" style="width: 100%; font-size: 15px; padding: 16px 18px; text-align: left;">
+							<i class="fa fa-check-circle" style="margin-right: 8px; font-size: 18px; color: #27ae60;"></i>
+							<strong>Domain</strong> — biz yönetiyoruz, siz uğraşmıyorsunuz
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 problem-solution-col wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".3s">
+						<div class="solution-tag" style="width: 100%; font-size: 15px; padding: 16px 18px; text-align: left;">
+							<i class="fa fa-check-circle" style="margin-right: 8px; font-size: 18px; color: #27ae60;"></i>
+							<strong>Hızlı hosting</strong> — sitenizin her zaman açık ve hızlı olması
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 problem-solution-col wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".4s">
+						<div class="solution-tag" style="width: 100%; font-size: 15px; padding: 16px 18px; text-align: left;">
+							<i class="fa fa-check-circle" style="margin-right: 8px; font-size: 18px; color: #27ae60;"></i>
+							<strong>Düzenli güncellemeler</strong> — içerik değişikliklerinde yanınızdayız
+						</div>
+					</div>
+				</div>
+				<div class="text-center" style="margin-top: 10px; margin-bottom: 30px; font-size: 15px; color: #636e72; font-weight: 600;">
+					Görünmez maliyetler veya sürpriz faturalar yok.
+				</div>
+				<div class="pricing-highlight-box text-center wow animated fadeInUp" data-wow-duration="1.4s" data-wow-delay=".3s">
+					<span class="label label-success" style="font-size: 14px; padding: 6px 14px; border-radius: 20px;">Sürpriz Masraf Yok</span>
+					<div class="price-tag-big">
+						<span>10.000 TL</span> başlangıç + <span>1.000 TL</span>/ay
+					</div>
+					<hr style="margin: 25px 0;">
+					<ul class="text-left" style="list-style: none; padding-left: 20px; font-size: 16px; line-height: 2.2;">
+						<li><i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i> <strong>Domain:</strong> Biz yönetiyoruz, siz uğraşmıyorsunuz</li>
+						<li><i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i> <strong>Hızlı Hosting:</strong> Sitenizin her zaman açık ve hızlı olması</li>
+						<li><i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i> <strong>Düzenli Güncellemeler:</strong> İçerik değişikliklerinde yanınızdayız</li>
+						<li><i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i> <strong>Şeffaf Fiyatlandırma:</strong> Görünmez maliyetler veya sürpriz faturalar yok</li>
+					</ul>
+					<div class="spce"></div>
+					<a href="https://wa.me/905400333672?text=Merhaba,%20paket%20hakkinda%20detayli%20bilgi%20almak%20istiyorum" target="_blank" class="btn btn-whatsapp-lg">
+						<i class="fa fa-whatsapp"></i> WhatsApp'tan Fiyat Alın
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Call To Action Section -->
+	<section id="iletisim" class="cta sec-pad grdnt-purple bg-trans-2 light text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1 wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".2s">
+					<h2 style="font-size: 36px; font-weight: 800; margin-bottom: 15px;">İşletmeniz İnternette Hak Ettiği Yerde mi?</h2>
+					<p class="large" style="font-size: 20px; color: #ffda79; font-weight: 600;">
+						Bu ay yazan işletmelere: 10.000 TL başlangıç + 1.000 TL/ay
+					</p>
+					<div class="spce"></div>
+					<div>
+						<a href="https://wa.me/905400333672?text=Merhaba,%20fiyat%20bilgisi%20almak%20istiyorum" target="_blank" class="btn btn-whatsapp-lg">
+							<i class="fa fa-whatsapp"></i> WhatsApp'tan Fiyat Alın
+						</a>
+					</div>
+					<div class="spce"></div>
+					<div style="font-size: 24px; font-weight: 700;">
+						<a href="tel:05400333672" style="color: #ffffff; text-decoration: none;">
+							<i class="fa fa-phone" style="margin-right: 8px;"></i> 0540 033 36 72
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="footer-wrapper" style="background: #111420; border-top: 1px solid rgba(255,255,255,0.08); color: #e2e8f0; padding-top: 55px; padding-bottom: 30px;">
+		<div class="container footer-content">
+			<div class="row">
+				<!-- Col 1: Logo & Slogan -->
+				<div class="col-md-4 col-sm-6 res-margin" style="margin-bottom: 25px;">
+					<div style="margin-bottom: 14px;">
+						<img src="/teklif/image/defora-logo.png" alt="DEFORA Digital" loading="lazy" decoding="async" style="max-height: 52px; height: auto; background: rgba(255,255,255,0.95); padding: 6px 14px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+					</div>
+					<p style="font-size: 14px; color: #a0aec0; line-height: 1.6; max-width: 280px;">
+						Antalya'da işletmenize müşteri getiren web siteleri
+					</p>
+				</div>
+				<!-- Col 2: Contact Info -->
+				<div class="col-md-5 col-sm-6 res-margin" style="margin-bottom: 25px;">
+					<h6 style="color: #ffffff; font-weight: 700; font-size: 15px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;">İletişim</h6>
+					<ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; color: #cbd5e0; line-height: 2;">
+						<li><i class="ti-mobile" style="color: #6c5ce7; font-weight: bold; margin-right: 10px;"></i> <a href="tel:+905400333672" style="color: #cbd5e0; text-decoration: none;">+90 540 033 36 72</a></li>
+						<li><i class="ti-email" style="color: #6c5ce7; font-weight: bold; margin-right: 10px;"></i> <a href="mailto:contact@deforadigital.com" style="color: #cbd5e0; text-decoration: none;">contact@deforadigital.com</a></li>
+						<li style="display: flex; align-items: flex-start; margin-top: 4px;"><i class="ti-map-alt" style="color: #6c5ce7; font-weight: bold; margin-right: 10px; margin-top: 4px; flex-shrink: 0;"></i> <span>Kızılarık, Kızılırmak Cd. No:80 Daire 5, Muratpaşa/Antalya</span></li>
+					</ul>
+				</div>
+				<!-- Col 3: WhatsApp CTA Button -->
+				<div class="col-md-3 col-sm-12 res-center-sm" style="margin-bottom: 25px;">
+					<h6 style="color: #ffffff; font-weight: 700; font-size: 15px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;">Hızlı Ulaşın</h6>
+					<a href="https://wa.me/905400333672?text=Merhaba,%20bilgi%20almak%20istiyorum" target="_blank" class="btn btn-whatsapp" style="font-size: 14px; padding: 10px 22px;">
+						<i class="fa fa-whatsapp"></i> WhatsApp'tan Yazın
+					</a>
+				</div>
+			</div>
+			<!-- Divider Line & Copyright -->
+			<div style="border-top: 1px solid rgba(255, 255, 255, 0.08); margin-top: 25px; padding-top: 22px;" class="text-center">
+				<p style="font-size: 13px; color: #718096; margin: 0;">
+					Copyright © 2026 <strong>Defora Digital</strong>. Tüm Hakları Saklıdır.
+				</p>
+			</div>
+		</div>
+	</footer>
+
+	<!-- Floating WhatsApp Button -->
+	<a href="https://wa.me/905400333672?text=Merhaba,%20fiyat%20bilgisi%20almak%20istiyorum" target="_blank" class="float-wa-btn" title="WhatsApp ile İletişime Geçin">
+		<i class="fa fa-whatsapp"></i>
+	</a>
+
+	<!-- Script -->
+	<script src="/teklif/js/vendor.bundle.js"></script>
+	<script src="/teklif/js/script.js"></script>
+
+</body>
+</html>
