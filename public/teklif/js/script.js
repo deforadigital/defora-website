@@ -2,13 +2,9 @@
     "use strict";
 
     /* ==========================================================================
-       Preloader
+       Preloader — removed (was a full-screen div + 1.5MB loading.gif that sat
+       on top of the page until window 'load', inflating LCP for no benefit)
     ========================================================================== */
-    $(window).on('load', function() {
-         $('#status').fadeOut(); 
-        $('#preloader').delay(350).fadeOut('slow');
-        $('body').delay(350).css({'overflow':'visible'});
-    })
 
     
      /* ==========================================================================

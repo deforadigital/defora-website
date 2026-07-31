@@ -549,7 +549,7 @@ input[class*=grdnt-]:hover {
     }
 }
 .style-curve:after {
-    background: url(../image/img-curve.png) bottom right no-repeat;
+    background: url(../image/img-curve.webp) bottom right no-repeat;
     z-index: 1;
     bottom: -10px;
     background-size: 100%;
@@ -1374,27 +1374,6 @@ div[class*=grdnt] .screen .owl-dot.active {
 }
 
 
-#preloader {
-    position:fixed;
-    bottom: 0;
-    top:0;
-    left: 0;
-    right: 0;
-    z-index: 10000;
-    background: #fff;
-}
-
-#status {
-    width: 800px;
-    height: 600px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-image: url(../image/loading.gif);
-    background-repeat: no-repeat;
-    background-position: center;
-}
 .scroll-item {
     position: absolute;
 }
