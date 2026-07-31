@@ -8,7 +8,10 @@
 	<link rel="icon" href="/teklif/image/favicon.svg" type="image/svg+xml">
 	<link rel="alternate icon" href="/teklif/image/favicon.png" type="image/png">
 	<link rel="apple-touch-icon" href="/teklif/image/favicon.svg">
-	<link rel="stylesheet" type="text/css" href="/teklif/css/vendor.bundle.css">
+	<!-- LCP element: hero background shape (.bg-trans-1:before). Preload so paint doesn't wait on CSS. -->
+	<link rel="preload" as="image" href="/teklif/image/bg-trans-1.webp" fetchpriority="high">
+	<link rel="preload" as="image" href="/teklif/image/defora-logo.webp" fetchpriority="high">
+	<link rel="stylesheet" type="text/css" href="/teklif/css/vendor.lean.css">
 	<link rel="stylesheet" type="text/css" href="/teklif/css/style.css">
 	<style>
 		:root {
@@ -618,7 +621,10 @@
 						<div class="col-sm-7">
 							<div class="intro-text light">
 								<div style="margin-bottom: 25px;">
-									<img src="/teklif/image/defora-logo.png" alt="DEFORA Digital" loading="eager" decoding="async" style="max-height: 55px; height: auto; background: rgba(255, 255, 255, 0.95); padding: 8px 18px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+									<picture>
+										<source srcset="/teklif/image/defora-logo.webp" type="image/webp">
+										<img src="/teklif/image/defora-logo-400.png" width="170" height="55" alt="DEFORA Digital" loading="eager" fetchpriority="high" decoding="async" style="max-height: 55px; width: auto; height: auto; background: rgba(255, 255, 255, 0.95); padding: 8px 18px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+									</picture>
 								</div>
 								<h2>Web Siteniz Yoksa, Müşteriniz Rakibinizde.</h2>
 								<div class="spce"></div>
@@ -642,7 +648,7 @@
 									<div class="wa-chat-container">
 										<!-- WhatsApp Header -->
 										<div class="wa-chat-header">
-											<div class="wa-avatar" style="background:#fff; padding:3px;"><img src="/teklif/image/defora-logo.png" alt="DEFORA Logo" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:contain;"></div>
+											<div class="wa-avatar" style="background:#fff; padding:3px;"><picture><source srcset="/teklif/image/defora-logo.webp" type="image/webp"><img src="/teklif/image/defora-logo-400.png" width="34" height="34" alt="DEFORA Logo" loading="eager" decoding="async" style="width:100%; height:100%; object-fit:contain;"></picture></div>
 											<div class="wa-contact-info">
 												<div class="wa-contact-name">DEFORA Destek</div>
 												<div class="wa-status"><i class="fa fa-circle" style="color:#25D366; font-size:8px;"></i> çevrimiçi</div>
@@ -878,7 +884,10 @@
 				<!-- Col 1: Logo & Slogan -->
 				<div class="col-md-4 col-sm-6 res-margin" style="margin-bottom: 25px;">
 					<div style="margin-bottom: 14px;">
-						<img src="/teklif/image/defora-logo.png" alt="DEFORA Digital" loading="lazy" decoding="async" style="max-height: 52px; height: auto; background: rgba(255,255,255,0.95); padding: 6px 14px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+						<picture>
+						<source srcset="/teklif/image/defora-logo.webp" type="image/webp">
+						<img src="/teklif/image/defora-logo-400.png" width="160" height="52" alt="DEFORA Digital" loading="lazy" decoding="async" style="max-height: 52px; width: auto; height: auto; background: rgba(255,255,255,0.95); padding: 6px 14px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+					</picture>
 					</div>
 					<p style="font-size: 14px; color: #a0aec0; line-height: 1.6; max-width: 280px;">
 						Antalya'da işletmenize müşteri getiren web siteleri
@@ -916,8 +925,8 @@
 	</a>
 
 	<!-- Script -->
-	<script src="/teklif/js/vendor.bundle.js"></script>
-	<script src="/teklif/js/script.js"></script>
+	<script src="/teklif/js/vendor.bundle.js" defer></script>
+	<script src="/teklif/js/script.js" defer></script>
 
 </body>
 </html>

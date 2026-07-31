@@ -38,6 +38,7 @@ Version:1.0;
          url('../fonts/roboto/roboto-light-webfont.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
+    font-display: swap;
 
 }
 
@@ -50,6 +51,7 @@ Version:1.0;
          url('../fonts/roboto/roboto-medium-webfont.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
+    font-display: swap;
 
 }
 
@@ -62,6 +64,7 @@ Version:1.0;
          url('../fonts/roboto/roboto-regular-webfont.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
 
 }
 /* ==========================================================================
@@ -471,11 +474,11 @@ input[class*=grdnt-]:hover {
     top: 0;
 }
 .bg-trans-1:before {
-    background: url(../image/bg-trans-1.png) right top no-repeat;
+    background: url(../image/bg-trans-1.webp) right top no-repeat;
     background-size: cover;
 }
 .bg-trans-2:before {
-    background: url(../image/bg-trans-2.png) left center no-repeat;
+    background: url(../image/bg-trans-2.webp) left center no-repeat;
     background-size: cover;
 }
 .bg-trans-3:before {

@@ -12,11 +12,9 @@
 
     
      /* ==========================================================================
-        Skroller js
+        Skroller js — disabled: page has no data-top/data-bottom skrollr elements,
+        this was only running a scroll-bound forced-reflow loop for nothing.
     ========================================================================== */
-    skrollr.init({
-        smoothScrolling: true
-    });
 
     
      /* ==========================================================================
@@ -139,9 +137,10 @@
     }
     
      /* ==========================================================================
-        Wow
+        Wow — disabled: .wow elements are forced visible via CSS (index.html),
+        so WOW's scroll-bound getBoundingClientRect() checks were pure forced-reflow
+        overhead with no visual effect.
     ========================================================================== */
-    new WOW().init();
 
 
     /* ==========================================================================
