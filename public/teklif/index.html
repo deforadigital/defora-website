@@ -979,6 +979,17 @@
 			z-index: 100;
 		}
 
+		@media (max-width: 767px) {
+			.phone-frame {
+				width: 260px;
+				height: 486px;
+			}
+
+			.phone-notch {
+				width: 95px;
+			}
+		}
+
 		.wa-chat-container {
 			display: flex;
 			flex-direction: column;
@@ -1196,6 +1207,14 @@
 		.hero.style-curve {
 			padding-top: 40px;
 			padding-bottom: 60px;
+		}
+
+		/* theme's mobile ".hero:not(.style-angle,.style-flate)" rule hard-caps height:800px,
+		   clipping the phone mockup — override to grow with content instead */
+		@media (max-width: 767px) {
+			.hero.style-curve {
+				height: auto;
+			}
 		}
 
 		.hero .intro-text {
