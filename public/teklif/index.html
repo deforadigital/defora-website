@@ -130,6 +130,79 @@
 			margin-bottom: 20px;
 		}
 
+		/* "Neden site?" section: tighter spacing + calmer heading, scoped */
+		#nasil-calisiyoruz.sec-pad-lg {
+			padding: 60px 0;
+		}
+
+		#nasil-calisiyoruz .section-text {
+			margin-bottom: 28px;
+		}
+
+		#nasil-calisiyoruz .section-text h2 {
+			font-size: 42px;
+			line-height: 1.25;
+			letter-spacing: -0.02em;
+			margin-bottom: 14px;
+		}
+
+		#nasil-calisiyoruz .section-text p {
+			max-width: 650px;
+			color: #5a6a85;
+		}
+
+		#nasil-calisiyoruz .clock-list__text {
+			font-size: 14px;
+		}
+
+		#nasil-calisiyoruz .clock-list {
+			max-width: 700px;
+			margin: 0 auto;
+			display: flex;
+			flex-direction: column;
+			gap: 14px;
+		}
+
+		#nasil-calisiyoruz .clock-list__item {
+			display: flex;
+			align-items: baseline;
+			gap: 16px;
+			background: #ffffff;
+			border-radius: 12px;
+			padding: 16px 22px;
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+			border: 1px solid #eef2f7;
+		}
+
+		#nasil-calisiyoruz .clock-list__item i {
+			flex-shrink: 0;
+			color: #6c5ce7;
+			font-size: 15px;
+			position: relative;
+			top: 1px;
+		}
+
+		#nasil-calisiyoruz .clock-list__time {
+			flex-shrink: 0;
+			min-width: 56px;
+			font-weight: 800;
+			font-size: 16px;
+			color: #6c5ce7;
+		}
+
+		#nasil-calisiyoruz .clock-list__text {
+			color: #4a4f63;
+			font-size: 15px;
+			line-height: 1.5;
+			text-align: left;
+		}
+
+		@media (max-width: 767px) {
+			#nasil-calisiyoruz .clock-list__item {
+				flex-wrap: wrap;
+			}
+		}
+
 		.trust-strip {
 			background: #ffffff;
 			border-top: 1px solid #eef2f7;
@@ -278,126 +351,6 @@
 			padding: 10px 14px;
 			border-radius: 8px;
 			border-left: 3px solid #27ae60;
-		}
-
-		/* Step Cards & Connecting Line */
-		.steps-row-container {
-			position: relative;
-			margin-top: 20px;
-		}
-
-		.steps-connecting-line {
-			position: absolute;
-			top: 60px;
-			left: 18%;
-			right: 18%;
-			height: 3px;
-			background: linear-gradient(90deg, #6c5ce7 0%, #00cec9 100%);
-			z-index: 1;
-		}
-
-		@media (max-width: 767px) {
-			.steps-connecting-line {
-				top: 50px;
-				bottom: 80px;
-				left: 50%;
-				right: auto;
-				width: 3px;
-				height: auto;
-				transform: translateX(-50%);
-				background: linear-gradient(180deg, #6c5ce7 0%, #00cec9 100%);
-			}
-		}
-
-		.step-card {
-			text-align: center;
-			background: #ffffff;
-			padding: 35px 22px 30px 22px;
-			border-radius: 18px;
-			box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-			position: relative;
-			z-index: 2;
-			margin-bottom: 30px;
-			border: 1px solid #eef2f7;
-			height: 100%;
-			transition: transform 0.3s ease, box-shadow 0.3s ease;
-		}
-
-		.step-card:hover {
-			transform: translateY(-5px);
-			box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-		}
-
-		.step-card-start {
-			border: 2px solid #6c5ce7 !important;
-			box-shadow: 0 12px 35px rgba(108, 92, 231, 0.18) !important;
-		}
-
-		.step-card-completed {
-			background: #f0fdf4 !important;
-			border: 2px solid #27ae60 !important;
-			box-shadow: 0 12px 35px rgba(39, 174, 96, 0.15) !important;
-		}
-
-		.step-badge-tag {
-			position: absolute;
-			top: -12px;
-			left: 50%;
-			transform: translateX(-50%);
-			padding: 4px 12px;
-			border-radius: 12px;
-			font-size: 11px;
-			font-weight: 800;
-			text-transform: uppercase;
-			letter-spacing: 0.5px;
-			box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-		}
-
-		.step-badge-start-tag {
-			background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-			color: #ffffff;
-		}
-
-		.step-badge-done-tag {
-			background: #27ae60;
-			color: #ffffff;
-		}
-
-		.step-number {
-			width: 60px;
-			height: 60px;
-			line-height: 56px;
-			background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-			color: #fff;
-			font-size: 22px;
-			font-weight: 800;
-			border-radius: 50%;
-			margin: 0 auto 20px;
-			box-shadow: 0 6px 16px rgba(108, 92, 231, 0.35);
-			position: relative;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		.step-number-num {
-			position: absolute;
-			top: -4px;
-			right: -4px;
-			width: 22px;
-			height: 22px;
-			line-height: 22px;
-			background: #1e1e2d;
-			color: #fff;
-			border-radius: 50%;
-			font-size: 11px;
-			font-weight: 800;
-			border: 2px solid #fff;
-		}
-
-		.step-number-green {
-			background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
-			box-shadow: 0 6px 16px rgba(39, 174, 96, 0.35) !important;
 		}
 
 		.pricing-highlight-box {
@@ -937,52 +890,34 @@
 		<div class="container">
 			<div class="row">
 				<div class="text-center section-text wow animated fadeInUp" data-wow-duration="2s" data-wow-delay=".2s">
-					<h2>Nasıl çalışıyoruz?</h2>
-					<div class="spce"></div>
-					<p class="large fx-wdth">Karmaşık süreçler yok. Sadece 3 basit adımda web siteniz canlıda!</p>
+					<span class="section-eyebrow">Neden site?</span>
+					<h2>Siteniz bir masraf değil. Hiç izin istemeyen bir çalışanınız.</h2>
+					<div class="spce xs"></div>
+					<p class="large fx-wdth">Bu işi yıllarca alın teriyle büyüttünüz. İnternetteki dükkânınız da aynı özeni hak ediyor.</p>
+					<div class="spce xs"></div>
+					<p class="large fx-wdth">Siz işinizin başındayken siteniz sizi arayan müşteriyi karşılar, işinizi anlatır ve telefonunuzu çaldırır. Maaş istemez, izin kullanmaz.</p>
 				</div>
-				<div class="spce"></div>
-				<div class="steps-row-container">
-					<div class="steps-connecting-line"></div>
-					<div class="row">
-						<!-- Card 1: Highlighted Start -->
-						<div class="col-md-4 col-sm-4 wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".2s">
-							<div class="step-card step-card-start">
-								<span class="step-badge-tag step-badge-start-tag"><i class="fa fa-flag"></i> Buradan Başlayın</span>
-								<div class="step-number">
-									<span class="step-number-num">1</span>
-									<i class="fa fa-whatsapp" style="font-size: 26px;"></i>
-								</div>
-								<h4>WhatsApp'tan yazın</h4>
-								<div class="spce sm"></div>
-								<p class="large">Aynı gün dönüş yapıyoruz</p>
-							</div>
-						</div>
-						<!-- Card 2: Regular -->
-						<div class="col-md-4 col-sm-4 wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".3s">
-							<div class="step-card">
-								<div class="step-number">
-									<span class="step-number-num">2</span>
-									<i class="fa fa-clock-o" style="font-size: 26px;"></i>
-								</div>
-								<h4>15 dk görüşme</h4>
-								<div class="spce sm"></div>
-								<p class="large">İhtiyacınızı dinleyip net teklif veriyoruz</p>
-							</div>
-						</div>
-						<!-- Card 3: Highlighted Completed -->
-						<div class="col-md-4 col-sm-4 wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".4s">
-							<div class="step-card step-card-completed">
-								<span class="step-badge-tag step-badge-done-tag"><i class="fa fa-check"></i> Yayında ✅</span>
-								<div class="step-number step-number-green">
-									<span class="step-number-num">3</span>
-									<i class="fa fa-rocket" style="font-size: 26px;"></i>
-								</div>
-								<h4>7 günde yayında</h4>
-								<div class="spce sm"></div>
-								<p class="large">Siteniz hazır, müşterileriniz sizi buluyor</p>
-							</div>
-						</div>
+				<div class="spce xs"></div>
+				<div class="clock-list">
+					<div class="clock-list__item wow animated fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
+						<i class="fa fa-clock-o"></i>
+						<span class="clock-list__time">09:00</span>
+						<span class="clock-list__text">Siz dükkânı açarken siteniz 14 kişiye işinizi anlattı bile.</span>
+					</div>
+					<div class="clock-list__item wow animated fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
+						<i class="fa fa-clock-o"></i>
+						<span class="clock-list__time">13:30</span>
+						<span class="clock-list__text">Öğle yoğunluğundayken bir müşteri sitenizden numaranızı aldı.</span>
+					</div>
+					<div class="clock-list__item wow animated fadeInUp" data-wow-duration="1s" data-wow-delay=".4s">
+						<i class="fa fa-clock-o"></i>
+						<span class="clock-list__time">22:45</span>
+						<span class="clock-list__text">Siz evdeyken biri "Antalya'da kim var?" diye aradı — sizi buldu.</span>
+					</div>
+					<div class="clock-list__item wow animated fadeInUp" data-wow-duration="1s" data-wow-delay=".5s">
+						<i class="fa fa-clock-o"></i>
+						<span class="clock-list__time">Pazar</span>
+						<span class="clock-list__text">Tatil gününüzde bile siteniz çalışıyor, müşteri topluyor.</span>
 					</div>
 				</div>
 			</div>
