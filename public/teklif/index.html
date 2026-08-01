@@ -250,13 +250,13 @@
 
 		.pricing-compare__card--agency {
 			background: #f4f5f7;
-			border: 1px dashed #c3c8d1;
+			border: 1px dashed #9aa1b0;
 		}
 
 		.pricing-compare__card--defora {
 			background: #ffffff;
-			border: 2px solid #6c5ce7;
-			box-shadow: 0 15px 40px rgba(108, 92, 231, 0.12);
+			border: 2px solid #5b3fd6;
+			box-shadow: 0 15px 40px rgba(91, 63, 214, 0.14);
 		}
 
 		.pricing-compare__badge {
@@ -274,7 +274,7 @@
 		}
 
 		.pricing-compare__badge--brand {
-			background: #6c5ce7;
+			background: #5b3fd6;
 			color: #ffffff;
 		}
 
@@ -343,6 +343,89 @@
 			width: 100%;
 			justify-content: center;
 			margin-top: auto;
+		}
+
+		/* "72 saat garanti" section — intentionally its own teal accent, independent of the purple/indigo system */
+		.guarantee-72 {
+			background: #e7f4f6;
+			padding: 56px 0;
+		}
+
+		.guarantee-72__box {
+			max-width: 1080px;
+			margin: 0 auto;
+			background: #ffffff;
+			border-radius: 20px;
+			box-shadow: 0 10px 30px rgba(14, 124, 140, 0.08);
+			padding: 40px 48px;
+			display: flex;
+			align-items: center;
+			gap: 40px;
+		}
+
+		.guarantee-72__number {
+			flex-shrink: 0;
+			text-align: center;
+		}
+
+		.guarantee-72__num {
+			display: block;
+			font-size: 64px;
+			font-weight: 800;
+			line-height: 1;
+			color: #0e7c8c;
+			letter-spacing: -0.02em;
+		}
+
+		.guarantee-72__label {
+			display: block;
+			margin-top: 6px;
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: #5a6a72;
+		}
+
+		.guarantee-72__text {
+			flex: 1;
+		}
+
+		.guarantee-72__text h3 {
+			font-size: 22px;
+			font-weight: 700;
+			line-height: 1.3;
+			letter-spacing: -0.01em;
+			color: #161c2d;
+			margin: 0 0 8px;
+		}
+
+		.guarantee-72__text p {
+			font-size: 15px;
+			line-height: 1.55;
+			color: #4a5a62;
+			margin: 0;
+		}
+
+		.guarantee-72__cta {
+			flex-shrink: 0;
+		}
+
+		.guarantee-72__cta .btn-whatsapp {
+			white-space: nowrap;
+		}
+
+		@media (max-width: 900px) {
+			.guarantee-72__box {
+				flex-direction: column;
+				text-align: center;
+				padding: 36px 28px;
+				gap: 20px;
+			}
+
+			.guarantee-72__text {
+				text-align: center;
+			}
 		}
 
 		.trust-strip {
@@ -495,25 +578,334 @@
 			border-left: 3px solid #27ae60;
 		}
 
-		.pricing-highlight-box {
+		/* "Nasıl çalışıyoruz?" — flat bordered 3-column layout */
+		.howworks-flat {
+			padding: 60px 0;
+		}
+
+		.hf-head {
+			text-align: left;
+			max-width: 700px;
+			margin: 0 0 28px;
+		}
+
+		.hf-eyebrow {
+			display: block;
+			font-size: 13px;
+			font-weight: 700;
+			letter-spacing: .08em;
+			text-transform: uppercase;
+			color: #0e7c8c;
+			margin-bottom: 8px;
+		}
+
+		.hf-head h2 {
+			font-size: 36px;
+			font-weight: 700;
+			line-height: 1.25;
+			letter-spacing: -.02em;
+			color: #161c2d;
+			margin: 0;
+		}
+
+		.hf-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
 			background: #ffffff;
-			border-radius: 20px;
-			padding: 40px;
-			box-shadow: 0 15px 40px rgba(108, 92, 231, 0.12);
-			border: 2px solid #6c5ce7;
-			max-width: 650px;
+			border: 1px solid #e3e6ec;
+			border-radius: 16px;
+			box-shadow: 0 10px 30px rgba(14, 27, 38, .05);
+			overflow: hidden;
+		}
+
+		.hf-col {
+			padding: 36px 32px;
+			border-right: 1px solid #e3e6ec;
+		}
+
+		.hf-col:last-child {
+			border-right: none;
+		}
+
+		.hf-step {
+			display: block;
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: .06em;
+			text-transform: uppercase;
+			color: #0e7c8c;
+			margin-bottom: 10px;
+		}
+
+		.hf-col h3 {
+			font-size: 20px;
+			font-weight: 700;
+			letter-spacing: -.01em;
+			color: #161c2d;
+			margin: 0 0 8px;
+		}
+
+		.hf-col p {
+			font-size: 14px;
+			line-height: 1.55;
+			color: #5a6a85;
+			margin: 0;
+		}
+
+		@media (max-width: 767px) {
+			.hf-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.hf-col {
+				border-right: none;
+				border-bottom: 1px solid #e3e6ec;
+			}
+
+			.hf-col:last-child {
+				border-bottom: none;
+			}
+		}
+
+		/* Callback form */
+		.callback {
+			background: #fbf7f1;
+			padding: 64px 0;
+		}
+
+		.callback__grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 56px;
+			align-items: start;
+			max-width: 1080px;
 			margin: 0 auto;
 		}
 
-		.price-tag-big {
-			font-size: 30px;
-			font-weight: 800;
-			color: #1e1e2d;
-			margin: 20px 0;
+		.callback__eyebrow {
+			display: block;
+			font-size: 13px;
+			font-weight: 700;
+			letter-spacing: .06em;
+			text-transform: uppercase;
+			color: #0e7c8c;
+			margin-bottom: 10px;
 		}
 
-		.price-tag-big span {
-			color: #6c5ce7;
+		.callback__info h2 {
+			font-size: 32px;
+			font-weight: 700;
+			line-height: 1.25;
+			letter-spacing: -.02em;
+			color: #161c2d;
+			margin: 0 0 14px;
+		}
+
+		.callback__info p {
+			font-size: 15px;
+			line-height: 1.6;
+			color: #5a6a72;
+			margin: 0 0 22px;
+		}
+
+		.callback__list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		.callback__list li {
+			display: flex;
+			align-items: flex-start;
+			gap: 8px;
+			font-size: 14px;
+			color: #2b2d42;
+		}
+
+		.callback__list i {
+			color: #27ae60;
+			margin-top: 3px;
+			flex-shrink: 0;
+		}
+
+		.callback__form-wrap {
+			background: #ffffff;
+			border-radius: 16px;
+			padding: 32px;
+			box-shadow: 0 15px 40px rgba(14, 27, 38, .08);
+			border: 1px solid #eee2d0;
+		}
+
+		.callback__row {
+			display: flex;
+			gap: 14px;
+		}
+
+		.callback__field {
+			flex: 1;
+			margin-bottom: 16px;
+		}
+
+		.callback__field label {
+			display: block;
+			font-size: 13px;
+			font-weight: 600;
+			color: #2b2d42;
+			margin-bottom: 6px;
+		}
+
+		.callback__field input,
+		.callback__field select {
+			width: 100%;
+			padding: 11px 14px;
+			border: 1px solid #dfe3ea;
+			border-radius: 8px;
+			font-size: 14px;
+			font-family: 'roboto', sans-serif;
+			color: #161c2d;
+			background: #ffffff;
+		}
+
+		.callback__field input:focus,
+		.callback__field select:focus {
+			outline: none;
+			border-color: #0e7c8c;
+		}
+
+		.callback__submit {
+			width: 100%;
+			background: #0e7c8c;
+			color: #ffffff;
+			border: none;
+			padding: 14px;
+			border-radius: 8px;
+			font-size: 15px;
+			font-weight: 700;
+			cursor: pointer;
+			transition: background .2s ease;
+			font-family: 'roboto', sans-serif;
+		}
+
+		.callback__submit:hover {
+			background: #0b6874;
+		}
+
+		.callback__note {
+			margin: 12px 0 0;
+			font-size: 12px;
+			color: #8a90a2;
+			text-align: center;
+		}
+
+		.callback__submit:disabled {
+			opacity: .65;
+			cursor: not-allowed;
+		}
+
+		.callback__result {
+			margin-top: 14px;
+			padding: 12px 14px;
+			border-radius: 8px;
+			font-size: 13px;
+			line-height: 1.5;
+			text-align: center;
+		}
+
+		.callback__result--success {
+			background: #eafaf1;
+			color: #1e7e42;
+			border: 1px solid #bfe8cf;
+		}
+
+		.callback__result--success i {
+			color: #27ae60;
+			margin-right: 4px;
+		}
+
+		.callback__result--error {
+			background: #fdecea;
+			color: #a33025;
+			border: 1px solid #f5c6c0;
+		}
+
+		.callback__result--error i {
+			color: #e74c3c;
+			margin-right: 4px;
+		}
+
+		.callback__result--error a {
+			display: inline-block;
+			margin-top: 4px;
+			color: #0e7c8c;
+			font-weight: 700;
+			text-decoration: none;
+		}
+
+		.callback__result--error a:hover {
+			text-decoration: underline;
+		}
+
+		@media (max-width: 900px) {
+			.callback__grid {
+				grid-template-columns: 1fr;
+				gap: 32px;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.callback__row {
+				flex-direction: column;
+				gap: 0;
+			}
+		}
+
+		/* Final CTA */
+		.final-cta {
+			background: #111420;
+			padding: 72px 0;
+			text-align: center;
+		}
+
+		.final-cta__inner {
+			max-width: 640px;
+			margin: 0 auto;
+		}
+
+		.final-cta__inner h2 {
+			font-size: 32px;
+			font-weight: 800;
+			line-height: 1.3;
+			letter-spacing: -.02em;
+			color: #ffffff;
+			margin: 0 0 16px;
+		}
+
+		.final-cta__accent {
+			color: #4dd8e0;
+		}
+
+		.final-cta__inner p {
+			font-size: 16px;
+			line-height: 1.6;
+			color: rgba(255, 255, 255, .7);
+			margin: 0 0 28px;
+		}
+
+		.final-cta__phone {
+			margin-top: 18px;
+		}
+
+		.final-cta__phone a {
+			color: rgba(255, 255, 255, .7);
+			font-size: 14px;
+			text-decoration: none;
+		}
+
+		.final-cta__phone a:hover {
+			color: #ffffff;
 		}
 
 		.float-wa-btn {
@@ -835,9 +1227,22 @@
 	<div class="top-announcement-bar">
 		<div class="container">
 			<span class="top-bar-badge"><i class="fa fa-fire"></i> Kampanya</span>
-			<span class="top-bar-text"><strong>Ağustos Kampanyası: 32 Gün Kaldı</strong> — 10.000 TL + 1.000 TL/ay</span>
+			<span class="top-bar-text"><strong id="campaign-countdown">Ağustos Kampanyası: 31 Gün Kaldı</strong> — 10.000 TL + 1.000 TL/ay</span>
 		</div>
 	</div>
+	<script>
+		(function () {
+			var aylar = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+			var bugun = new Date();
+			var ayAdi = aylar[bugun.getMonth()];
+			var ayinSonGunu = new Date(bugun.getFullYear(), bugun.getMonth() + 1, 0).getDate();
+			var kalanGun = Math.max(1, ayinSonGunu - bugun.getDate() + 1);
+			var el = document.getElementById('campaign-countdown');
+			if (el) {
+				el.textContent = ayAdi + ' Kampanyası: ' + kalanGun + ' Gün Kaldı';
+			}
+		})();
+	</script>
 
 		<!-- Hero Banner -->
 		<div class="hero grdnt-purple style-curve bg-trans-1">
@@ -1072,7 +1477,7 @@
 			<div class="row">
 				<div class="text-center section-text wow animated fadeInUp" data-wow-duration="2s" data-wow-delay=".2s">
 					<span class="section-eyebrow">Dürüst fiyat</span>
-					<h2>Piyasa 20–40 bin ister. Biz istemiyoruz.</h2>
+					<h2>Fiyat karmaşası yok. Sadece net bir rakam.</h2>
 					<div class="spce xs"></div>
 					<p class="large fx-wdth">Yeni işletme açarken masraf zaten çok. Biz üstüne yük olmuyoruz — net rakam, her şey dahil.</p>
 				</div>
@@ -1108,78 +1513,186 @@
 		</div>
 	</section>
 
-	<!-- Pricing & Scope Section -->
-	<section id="fiyatlandirma" class="sec-pad-lg">
+	<!-- 72 Hour Guarantee -->
+	<section id="garanti-72" class="guarantee-72">
 		<div class="container">
-			<div class="row">
-				<div class="text-center section-text wow animated fadeInUp" data-wow-duration="2s" data-wow-delay=".2s">
-					<h2>1.000 TL/ay neleri kapsar?</h2>
+			<div class="guarantee-72__box wow animated fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
+				<div class="guarantee-72__number">
+					<span class="guarantee-72__num">72</span>
+					<span class="guarantee-72__label">Saat Garanti</span>
 				</div>
-				<div class="row problem-solution-row" style="margin-top: 25px;">
-					<div class="col-md-4 col-sm-4 problem-solution-col wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".2s">
-						<div class="solution-tag" style="width: 100%; font-size: 15px; padding: 16px 18px; text-align: left;">
-							<i class="fa fa-check-circle" style="margin-right: 8px; font-size: 18px; color: #27ae60;"></i>
-							<strong>Domain</strong> — biz yönetiyoruz, siz uğraşmıyorsunuz
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-4 problem-solution-col wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".3s">
-						<div class="solution-tag" style="width: 100%; font-size: 15px; padding: 16px 18px; text-align: left;">
-							<i class="fa fa-check-circle" style="margin-right: 8px; font-size: 18px; color: #27ae60;"></i>
-							<strong>Hızlı hosting</strong> — sitenizin her zaman açık ve hızlı olması
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-4 problem-solution-col wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".4s">
-						<div class="solution-tag" style="width: 100%; font-size: 15px; padding: 16px 18px; text-align: left;">
-							<i class="fa fa-check-circle" style="margin-right: 8px; font-size: 18px; color: #27ae60;"></i>
-							<strong>Düzenli güncellemeler</strong> — içerik değişikliklerinde yanınızdayız
-						</div>
-					</div>
+				<div class="guarantee-72__text">
+					<h3>Değişiklik mi lazım? Tek bir WhatsApp mesajı yeter.</h3>
+					<p>Telefon trafiği yok, "haftaya bakarız" yok. Genelde 24 saat içinde hallederiz — sözümüz, en geç 72 saat. Aylık 1.000 TL'nin karşılığı tam olarak bu: yanınızda olmak.</p>
 				</div>
-				<div class="text-center" style="margin-top: 10px; margin-bottom: 30px; font-size: 15px; color: #636e72; font-weight: 600;">
-					Görünmez maliyetler veya sürpriz faturalar yok.
-				</div>
-				<div class="pricing-highlight-box text-center wow animated fadeInUp" data-wow-duration="1.4s" data-wow-delay=".3s">
-					<span class="label label-success" style="font-size: 14px; padding: 6px 14px; border-radius: 20px;">Sürpriz Masraf Yok</span>
-					<div class="price-tag-big">
-						<span>10.000 TL</span> + <span>1.000 TL</span>/ay
-					</div>
-					<hr style="margin: 25px 0;">
-					<ul class="text-left" style="list-style: none; padding-left: 20px; font-size: 16px; line-height: 2.2;">
-						<li><i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i> <strong>Domain:</strong> Biz yönetiyoruz, siz uğraşmıyorsunuz</li>
-						<li><i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i> <strong>Hızlı Hosting:</strong> Sitenizin her zaman açık ve hızlı olması</li>
-						<li><i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i> <strong>Düzenli Güncellemeler:</strong> İçerik değişikliklerinde yanınızdayız</li>
-						<li><i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i> <strong>Şeffaf Fiyatlandırma:</strong> Görünmez maliyetler veya sürpriz faturalar yok</li>
-					</ul>
-					<div class="spce"></div>
-					<a href="https://wa.me/905400333672?text=Merhaba,%20paket%20hakkinda%20detayli%20bilgi%20almak%20istiyorum" target="_blank" onclick="gtag('event', 'conversion', {'send_to': 'AW-18342025078/iBwbCPrWv9kcEPaulKpE'});" class="btn btn-whatsapp-lg">
-						<i class="fa fa-whatsapp"></i> WhatsApp'tan Fiyat Alın
+				<div class="guarantee-72__cta">
+					<a href="https://wa.me/905400333672?text=Merhaba,%20fiyat%20bilgisi%20almak%20istiyorum" target="_blank" onclick="gtag('event', 'conversion', {'send_to': 'AW-18342025078/iBwbCPrWv9kcEPaulKpE'});" class="btn btn-whatsapp">
+						<i class="fa fa-whatsapp"></i> Deneyin
 					</a>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Call To Action Section -->
-	<section id="iletisim" class="cta sec-pad grdnt-purple bg-trans-2 light text-center">
+	<!-- Pricing & Scope Section -->
+	<section id="nasil-calisiyoruz-adimlar" class="howworks-flat">
 		<div class="container">
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1 wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".2s">
-					<h2 style="font-size: 36px; font-weight: 800; margin-bottom: 15px;">İşletmeniz İnternette Hak Ettiği Yerde mi?</h2>
-					<p class="large" style="font-size: 20px; color: #ffda79; font-weight: 600;">
-						Bu ay yazan işletmelere: 10.000 TL + 1.000 TL/ay
-					</p>
-					<div class="spce"></div>
-					<div>
-						<a href="https://wa.me/905400333672?text=Merhaba,%20fiyat%20bilgisi%20almak%20istiyorum" target="_blank" onclick="gtag('event', 'conversion', {'send_to': 'AW-18342025078/iBwbCPrWv9kcEPaulKpE'});" class="btn btn-whatsapp-lg">
-							<i class="fa fa-whatsapp"></i> WhatsApp'tan Fiyat Alın
-						</a>
-					</div>
-					<div class="spce"></div>
-					<div style="font-size: 24px; font-weight: 700;">
-						<a href="tel:05400333672" style="color: #ffffff; text-decoration: none;">
-							<i class="fa fa-phone" style="margin-right: 8px;"></i> 0540 033 36 72
-						</a>
-					</div>
+			<div class="hf-head wow animated fadeInUp" data-wow-duration="2s" data-wow-delay=".2s">
+				<span class="hf-eyebrow">Nasıl çalışıyoruz?</span>
+				<h2>Üç adım. Karmaşa yok.</h2>
+			</div>
+			<div class="hf-grid wow animated fadeInUp" data-wow-duration="1.2s" data-wow-delay=".3s">
+				<div class="hf-col">
+					<span class="hf-step">Adım 1</span>
+					<h3>WhatsApp'tan yazın</h3>
+					<p>Aynı gün dönüş yapıyoruz. Satış baskısı yok — sadece işinizi dinliyoruz.</p>
+				</div>
+				<div class="hf-col">
+					<span class="hf-step">Adım 2</span>
+					<h3>15 dakikalık görüşme</h3>
+					<p>İhtiyacınızı anlıyoruz, net teklifimizi veriyoruz. Karar sizin.</p>
+				</div>
+				<div class="hf-col">
+					<span class="hf-step">Adım 3</span>
+					<h3>7 günde yayında</h3>
+					<p>Siteniz hazır. Müşterileriniz artık sizi buluyor — rakibinizi değil.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Call To Action Section -->
+	<!-- Callback Form -->
+	<section id="ara-beni" class="callback">
+		<div class="container">
+			<div class="callback__grid">
+				<div class="callback__info wow animated fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
+					<span class="callback__eyebrow">WhatsApp kullanmıyor musunuz?</span>
+					<h2>Numaranızı bırakın, biz arayalım.</h2>
+					<p>Formu doldurun — mesai saatleri içinde aynı gün sizi arıyoruz. Satış baskısı yok; işinizi dinleyip net teklifimizi söylüyoruz, karar sizin.</p>
+					<ul class="callback__list">
+						<li><i class="fa fa-check-circle"></i> Aynı gün geri dönüş</li>
+						<li><i class="fa fa-check-circle"></i> 15 dakikalık samimi görüşme</li>
+						<li><i class="fa fa-check-circle"></i> Bilgileriniz sadece sizi aramak için kullanılır</li>
+					</ul>
+				</div>
+				<div class="callback__form-wrap wow animated fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
+					<form class="callback__form" id="callback-form">
+						<div class="callback__row">
+							<div class="callback__field">
+								<label for="cb-ad">Adınız</label>
+								<input type="text" id="cb-ad" name="ad" required>
+							</div>
+							<div class="callback__field">
+								<label for="cb-soyad">Soyadınız</label>
+								<input type="text" id="cb-soyad" name="soyad" required>
+							</div>
+						</div>
+						<div class="callback__field">
+							<label for="cb-sektor">Sektörünüz</label>
+							<select id="cb-sektor" name="sektor">
+								<option value="">Seçiniz</option>
+								<option>Restoran / Kafe</option>
+								<option>Kuaför / Güzellik</option>
+								<option>Emlak</option>
+								<option>Sağlık / Klinik</option>
+								<option>Perakende / Mağaza</option>
+								<option>Diğer</option>
+							</select>
+						</div>
+						<div class="callback__field">
+							<label for="cb-tel">Telefon numaranız</label>
+							<input type="tel" id="cb-tel" name="telefon" placeholder="05xx xxx xx xx" required>
+						</div>
+						<button type="submit" class="callback__submit" id="callback-submit-btn">Beni arayın</button>
+						<p class="callback__note" id="callback-note">Gönderdiğinizde bize anında bildirim düşer — aynı gün ararız.</p>
+						<div class="callback__result callback__result--success" id="callback-success" hidden>
+							<i class="fa fa-check-circle"></i> Talebiniz alındı — mesai saatleri içinde aynı gün sizi arıyoruz.
+						</div>
+						<div class="callback__result callback__result--error" id="callback-error" hidden>
+							<i class="fa fa-exclamation-circle"></i> Bir sorun oluştu, lütfen WhatsApp'tan yazın.
+							<a href="https://wa.me/905400333672?text=Merhaba,%20fiyat%20bilgisi%20almak%20istiyorum" target="_blank" onclick="gtag('event', 'conversion', {'send_to': 'AW-18342025078/iBwbCPrWv9kcEPaulKpE'});">WhatsApp'tan yazın →</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script>
+		(function () {
+			var form = document.getElementById('callback-form');
+			if (!form) return;
+
+			var submitBtn = document.getElementById('callback-submit-btn');
+			var note = document.getElementById('callback-note');
+			var successEl = document.getElementById('callback-success');
+			var errorEl = document.getElementById('callback-error');
+			var originalBtnText = submitBtn.textContent;
+
+			function resetMessages() {
+				successEl.hidden = true;
+				errorEl.hidden = true;
+			}
+
+			form.addEventListener('submit', function (event) {
+				event.preventDefault();
+				resetMessages();
+
+				var ad = document.getElementById('cb-ad').value.trim();
+				var soyad = document.getElementById('cb-soyad').value.trim();
+				var sektor = document.getElementById('cb-sektor').value.trim();
+				var telefon = document.getElementById('cb-tel').value.trim();
+
+				if (!ad || !soyad || !telefon) {
+					errorEl.hidden = false;
+					return;
+				}
+
+				submitBtn.disabled = true;
+				submitBtn.textContent = 'Gönderiliyor...';
+				note.hidden = true;
+
+				fetch('/api/callback', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ ad: ad, soyad: soyad, sektor: sektor, telefon: telefon })
+				})
+					.then(function (res) {
+						return res.json().then(function (data) {
+							return { ok: res.ok, data: data };
+						});
+					})
+					.then(function (result) {
+						if (result.ok && result.data && result.data.success) {
+							successEl.hidden = false;
+							form.reset();
+						} else {
+							errorEl.hidden = false;
+						}
+					})
+					.catch(function () {
+						errorEl.hidden = false;
+					})
+					.finally(function () {
+						submitBtn.disabled = false;
+						submitBtn.textContent = originalBtnText;
+					});
+			});
+		})();
+	</script>
+
+	<!-- Final CTA -->
+	<section id="son-cta" class="final-cta">
+		<div class="container">
+			<div class="final-cta__inner wow animated fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
+				<h2>Bir mesaj atın, <span class="final-cta__accent">gerisini biz halledelim.</span></h2>
+				<p>Siz çalışırken size müşteri getiren bir siteniz olsun. Bugün yazın, 7 gün sonra yayındasınız.</p>
+				<a href="https://wa.me/905400333672?text=Merhaba,%20fiyat%20bilgisi%20almak%20istiyorum" target="_blank" onclick="gtag('event', 'conversion', {'send_to': 'AW-18342025078/iBwbCPrWv9kcEPaulKpE'});" class="btn btn-whatsapp-lg">
+					<i class="fa fa-whatsapp"></i> WhatsApp'tan fiyat alın
+				</a>
+				<div class="final-cta__phone">
+					<a href="tel:+905400333672">veya arayın: 0540 033 36 72</a>
 				</div>
 			</div>
 		</div>

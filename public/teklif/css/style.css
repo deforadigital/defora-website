@@ -760,7 +760,7 @@ div[class*=grdnt-] .list-style li:before {
     color: #fff;
     padding: 18px 28px;
     background: 0 0;
-    font-family: 'open sans';
+    font-family: 'roboto', sans-serif;
     font-weight: 600;
     transition: .5s;
     -webkit-transition: .5s;
