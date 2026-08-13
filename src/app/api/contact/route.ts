@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import Netgsm from "@netgsm/sms";
 
-const resendApiKey = process.env.RESEND_API_KEY;
-const resendFrom =
-  process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
-const resendTo = process.env.RESEND_TO_EMAIL || "deforadigital@gmail.com";
-const resend = resendApiKey ? new Resend(resendApiKey) : null;
+const TARGET_PHONE = "5400333672";
+
+const netgsmUserCode = process.env.NETGSM_USERCODE;
+const netgsmPassword = process.env.NETGSM_PASSWORD;
+const netgsmHeader = process.env.NETGSM_HEADER;
 
 type ContactPayload = {
   name?: string;
@@ -23,9 +23,9 @@ export async function POST(request: Request) {
   try {
     console.log("[contact] API route hit");
     console.log("[contact] env presence", {
-      hasResendApiKey: Boolean(resendApiKey),
-      resendFrom,
-      resendTo,
+      hasNetgsmUserCode: Boolean(netgsmUserCode),
+      hasNetgsmPassword: Boolean(netgsmPassword),
+      hasNetgsmHeader: Boolean(netgsmHeader),
     });
 
     const body = (await request.json()) as ContactPayload;
@@ -33,14 +33,12 @@ export async function POST(request: Request) {
     const contact = cleanValue(body.contact);
     const message = cleanValue(body.message);
     const website = cleanValue(body.website);
-    const locale = cleanValue(body.locale) || "tr";
 
     console.log("[contact] payload received", {
       hasName: Boolean(name),
       hasContact: Boolean(contact),
       hasMessage: Boolean(message),
       honeypotFilled: Boolean(website),
-      locale,
     });
 
     if (website) {
@@ -59,45 +57,43 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!resend) {
-      console.error("RESEND_API_KEY is missing");
+    if (!netgsmUserCode || !netgsmPassword || !netgsmHeader) {
+      console.error("[contact] Netgsm env vars missing", {
+        hasUserCode: Boolean(netgsmUserCode),
+        hasPassword: Boolean(netgsmPassword),
+        hasHeader: Boolean(netgsmHeader),
+      });
       return NextResponse.json(
-        { success: false, error: "email_unavailable" },
+        { success: false, error: "sms_unavailable" },
         { status: 500 },
       );
     }
 
-    const submittedAt = new Date().toLocaleString(
-      locale === "en" ? "en-US" : "tr-TR",
-      {
-        dateStyle: "long",
-        timeStyle: "short",
-      },
-    );
-
-    const resendResponse = await resend.emails.send({
-      from: resendFrom,
-      to: [resendTo],
-      replyTo: contact.includes("@") ? contact : undefined,
-      subject:
-        locale === "en" ? "New contact form submission" : "Yeni iletişim formu talebi",
-      text: [
-        `Name: ${name || "-"}`,
-        `Contact: ${contact}`,
-        "",
-        "Message:",
-        message,
-        "",
-        `Submitted: ${submittedAt}`,
-      ].join("\n"),
+    const netgsm = new Netgsm({
+      username: netgsmUserCode,
+      password: netgsmPassword,
+      appname: "defora-website-contact",
     });
 
-    console.log("[contact] resend response", resendResponse);
+    const messageText = [
+      "Yeni iletişim formu talebi",
+      `Ad: ${name || "-"}`,
+      `İletişim: ${contact}`,
+      `Mesaj: ${message}`,
+    ]
+      .join(" | ")
+      .slice(0, 480);
 
-    if (resendResponse.error) {
-      console.error("[contact] resend rejected request", resendResponse.error);
+    const response = await netgsm.sendRestSms({
+      msgheader: netgsmHeader,
+      encoding: "TR",
+      messages: [{ msg: messageText, no: TARGET_PHONE }],
+    });
+
+    if (response.code !== "00") {
+      console.error("[contact] Netgsm rejected request", response);
       return NextResponse.json(
-        { success: false, error: "email_delivery_failed" },
+        { success: false, error: "sms_delivery_failed" },
         { status: 502 },
       );
     }

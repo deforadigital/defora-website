@@ -1260,27 +1260,6 @@
 </head>
 <body data-spy="scroll" data-target="#navbar" data-offset="70">
 
-	<!-- Top Announcement Banner -->
-	<div class="top-announcement-bar">
-		<div class="container">
-			<span class="top-bar-badge"><i class="fa fa-fire"></i> Kampanya</span>
-			<span class="top-bar-text"><strong id="campaign-countdown">Ağustos Kampanyası: 31 Gün Kaldı</strong> — 10.000 TL + 1.000 TL/ay</span>
-		</div>
-	</div>
-	<script>
-		(function () {
-			var aylar = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
-			var bugun = new Date();
-			var ayAdi = aylar[bugun.getMonth()];
-			var ayinSonGunu = new Date(bugun.getFullYear(), bugun.getMonth() + 1, 0).getDate();
-			var kalanGun = Math.max(1, ayinSonGunu - bugun.getDate() + 1);
-			var el = document.getElementById('campaign-countdown');
-			if (el) {
-				el.textContent = ayAdi + ' Kampanyası: ' + kalanGun + ' Gün Kaldı';
-			}
-		})();
-	</script>
-
 		<!-- Hero Banner -->
 		<div class="hero grdnt-purple style-curve bg-trans-1">
 			<div class="hero-content">
@@ -1294,17 +1273,12 @@
 										<img src="/teklif/image/defora-logo-400.png" width="170" height="55" alt="DEFORA Digital" loading="eager" fetchpriority="high" decoding="async" style="max-height: 55px; width: auto; height: auto; background: rgba(255, 255, 255, 0.95); padding: 8px 18px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
 									</picture>
 								</div>
-								<h2>Web siteniz yoksa, müşteriniz rakibinizde.</h2>
-								<p class="hero-kicker">Antalya'da KOBİ'ler için web tasarım hizmeti</p>
-								<div class="spce"></div>
-								<p class="large">Ajanslar 20–40 bin TL ister, aylarca bekletir. Biz 7 günde teslim ederiz: 10.000 TL + ayda 1.000 TL. Sürpriz masraf yok, gizli fatura yok.</p>
+								<h2>Antalya'da Web Sitesi Yaptırın — 7 Günde Teslim</h2>
+								<p class="hero-kicker">10.000 TL + ayda 1.000 TL. Domain, hosting, SEO dahil. Sürpriz masraf yok.</p>
 								<div class="spce"></div>
 								<div class="btn-holder" style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
 									<a href="https://wa.me/905400333672?text=Merhaba,%20sitem%20i%C3%A7in%20g%C3%B6r%C3%BC%C5%9Fme%20ayarlamak%20istiyorum" target="_blank" onclick="gtag('event', 'conversion', {'send_to': 'AW-18342025078/iBwbCPrWv9kcEPaulKpE'});" class="btn btn-whatsapp-lg">
 										<i class="fa fa-whatsapp"></i> WhatsApp'tan fiyat alın
-									</a>
-									<a href="tel:+905400333672" style="color: #fff; opacity: 0.85; font-weight: 600; text-decoration: none;">
-										veya arayın <i class="fa fa-arrow-right" style="margin-left: 4px;"></i>
 									</a>
 								</div>
 								<div class="spce sm"></div>
@@ -1596,127 +1570,6 @@
 		</div>
 	</section>
 
-	<!-- Call To Action Section -->
-	<!-- Callback Form -->
-	<section id="ara-beni" class="callback">
-		<div class="container">
-			<div class="callback__grid">
-				<div class="callback__info wow animated fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
-					<span class="callback__eyebrow">WhatsApp kullanmıyor musunuz?</span>
-					<h2>Numaranızı bırakın, biz arayalım.</h2>
-					<p>Formu doldurun — mesai saatleri içinde aynı gün sizi arıyoruz. Satış baskısı yok; işinizi dinleyip net teklifimizi söylüyoruz, karar sizin.</p>
-					<ul class="callback__list">
-						<li><i class="fa fa-check-circle"></i> Aynı gün geri dönüş</li>
-						<li><i class="fa fa-check-circle"></i> 15 dakikalık samimi görüşme</li>
-						<li><i class="fa fa-check-circle"></i> Bilgileriniz sadece sizi aramak için kullanılır</li>
-					</ul>
-				</div>
-				<div class="callback__form-wrap wow animated fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
-					<form class="callback__form" id="callback-form">
-						<div class="callback__row">
-							<div class="callback__field">
-								<label for="cb-ad">Adınız</label>
-								<input type="text" id="cb-ad" name="ad" required>
-							</div>
-							<div class="callback__field">
-								<label for="cb-soyad">Soyadınız</label>
-								<input type="text" id="cb-soyad" name="soyad" required>
-							</div>
-						</div>
-						<div class="callback__field">
-							<label for="cb-sektor">Sektörünüz</label>
-							<select id="cb-sektor" name="sektor">
-								<option value="">Seçiniz</option>
-								<option>Restoran / Kafe</option>
-								<option>Kuaför / Güzellik</option>
-								<option>Emlak</option>
-								<option>Sağlık / Klinik</option>
-								<option>Perakende / Mağaza</option>
-								<option>Diğer</option>
-							</select>
-						</div>
-						<div class="callback__field">
-							<label for="cb-tel">Telefon numaranız</label>
-							<input type="tel" id="cb-tel" name="telefon" placeholder="05xx xxx xx xx" required>
-						</div>
-						<button type="submit" class="callback__submit" id="callback-submit-btn">Beni arayın</button>
-						<p class="callback__note" id="callback-note">Gönderdiğinizde bize anında bildirim düşer — aynı gün ararız.</p>
-						<div class="callback__result callback__result--success" id="callback-success" hidden>
-							<i class="fa fa-check-circle"></i> Talebiniz alındı — mesai saatleri içinde aynı gün sizi arıyoruz.
-						</div>
-						<div class="callback__result callback__result--error" id="callback-error" hidden>
-							<i class="fa fa-exclamation-circle"></i> Bir sorun oluştu, lütfen WhatsApp'tan yazın.
-							<a href="https://wa.me/905400333672?text=Merhaba,%20sitem%20i%C3%A7in%20g%C3%B6r%C3%BC%C5%9Fme%20ayarlamak%20istiyorum" target="_blank" onclick="gtag('event', 'conversion', {'send_to': 'AW-18342025078/iBwbCPrWv9kcEPaulKpE'});">WhatsApp'tan yazın →</a>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<script>
-		(function () {
-			var form = document.getElementById('callback-form');
-			if (!form) return;
-
-			var submitBtn = document.getElementById('callback-submit-btn');
-			var note = document.getElementById('callback-note');
-			var successEl = document.getElementById('callback-success');
-			var errorEl = document.getElementById('callback-error');
-			var originalBtnText = submitBtn.textContent;
-
-			function resetMessages() {
-				successEl.hidden = true;
-				errorEl.hidden = true;
-			}
-
-			form.addEventListener('submit', function (event) {
-				event.preventDefault();
-				resetMessages();
-
-				var ad = document.getElementById('cb-ad').value.trim();
-				var soyad = document.getElementById('cb-soyad').value.trim();
-				var sektor = document.getElementById('cb-sektor').value.trim();
-				var telefon = document.getElementById('cb-tel').value.trim();
-
-				if (!ad || !soyad || !telefon) {
-					errorEl.hidden = false;
-					return;
-				}
-
-				submitBtn.disabled = true;
-				submitBtn.textContent = 'Gönderiliyor...';
-				note.hidden = true;
-
-				fetch('/api/callback', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ ad: ad, soyad: soyad, sektor: sektor, telefon: telefon })
-				})
-					.then(function (res) {
-						return res.json().then(function (data) {
-							return { ok: res.ok, data: data };
-						});
-					})
-					.then(function (result) {
-						if (result.ok && result.data && result.data.success) {
-							successEl.hidden = false;
-							form.reset();
-						} else {
-							errorEl.hidden = false;
-						}
-					})
-					.catch(function () {
-						errorEl.hidden = false;
-					})
-					.finally(function () {
-						submitBtn.disabled = false;
-						submitBtn.textContent = originalBtnText;
-					});
-			});
-		})();
-	</script>
-
 	<!-- Final CTA -->
 	<section id="son-cta" class="final-cta">
 		<div class="container">
@@ -1726,9 +1579,6 @@
 				<a href="https://wa.me/905400333672?text=Merhaba,%20sitem%20i%C3%A7in%20g%C3%B6r%C3%BC%C5%9Fme%20ayarlamak%20istiyorum" target="_blank" onclick="gtag('event', 'conversion', {'send_to': 'AW-18342025078/iBwbCPrWv9kcEPaulKpE'});" class="btn btn-whatsapp-lg">
 					<i class="fa fa-whatsapp"></i> WhatsApp'tan fiyat alın
 				</a>
-				<div class="final-cta__phone">
-					<a href="tel:+905400333672">veya arayın: 0540 033 36 72</a>
-				</div>
 			</div>
 		</div>
 	</section>
