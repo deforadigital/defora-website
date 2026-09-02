@@ -17,8 +17,6 @@ interface AnalysisResultProps {
   suggestions: string[];
 }
 
-const waNumber = process.env.NEXT_PUBLIC_WA_NUMBER;
-
 function getScoreColor(score: number): string {
   if (score >= 70) return "#22c55e";
   if (score >= 40) return "#f59e0b";
@@ -144,13 +142,6 @@ export default function AnalysisResult({
   problems,
   suggestions,
 }: AnalysisResultProps) {
-  const [phone, setPhone] = useState("");
-
-  const whatsappMessage = `Merhaba, ${url} adresli sitem için ${score} puan aldığım analiz sonucunu görüştüm. Telefon: ${phone || "-"}`;
-  const whatsappHref = waNumber
-    ? `https://wa.me/${waNumber}?text=${encodeURIComponent(whatsappMessage)}`
-    : undefined;
-
   return (
     <div className="mx-auto grid max-w-[64rem] gap-6 px-4 py-10 text-white md:px-0">
       <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(13,23,43,0.92),rgba(9,15,28,0.86))] p-7 shadow-[0_18px_56px_rgba(0,0,0,0.22)] md:p-9">
@@ -228,49 +219,13 @@ export default function AnalysisResult({
 
       <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(13,23,43,0.95),rgba(9,15,28,0.9))] p-7 md:p-8">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,233,255,0.12),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(177,87,253,0.1),transparent_32%)]" />
-        <div className="relative grid gap-4">
+        <div className="relative grid gap-2">
           <h3 className="text-[1.2rem] font-medium tracking-[-0.03em] text-white">
-            Sitenizi birlikte iyileştirelim mi?
+            Bilgileriniz alındı
           </h3>
           <p className="text-[0.94rem] leading-[1.7] text-white/60">
-            Telefon numaranızı bırakın, WhatsApp üzerinden size özel bir yol haritası paylaşalım.
+            Sitenizi birlikte iyileştirmek için ekibimiz en kısa sürede sizinle iletişime geçecek.
           </p>
-
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <input
-              type="tel"
-              value={phone}
-              onChange={(event) => setPhone(event.currentTarget.value)}
-              placeholder="Telefon numaranız"
-              className="h-13 flex-1 rounded-2xl border border-white/10 bg-white/[0.04] px-4 text-sm text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
-            />
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noreferrer"
-              aria-disabled={!whatsappHref}
-              className={`inline-flex h-13 items-center justify-center gap-2.5 rounded-full px-6 text-[0.78rem] font-medium uppercase tracking-[0.16em] transition duration-300 ease-out ${
-                whatsappHref
-                  ? "bg-[#00e9ff] text-[#0d172b] hover:-translate-y-0.5 hover:bg-[#33efff]"
-                  : "pointer-events-none bg-white/10 text-white/40"
-              }`}
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                className="h-4 w-4"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M20 11.2A8 8 0 0 1 8.36 18.3L4 20l1.56-4.14A8 8 0 1 1 20 11.2Z" />
-                <path d="M9 10.2c.18 1.18 1.62 2.62 2.8 2.8" />
-                <path d="M14.55 13.95c-.26.73-1.34.92-2.42.4a6.44 6.44 0 0 1-2.48-2.48c-.52-1.08-.33-2.16.4-2.42" />
-              </svg>
-              WhatsApp&apos;tan Yaz
-            </a>
-          </div>
         </div>
       </div>
     </div>
