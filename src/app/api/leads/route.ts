@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import Netgsm from "@netgsm/sms";
 
+const TARGET_PHONE = "5400333672";
+
 const netgsmUserCode = process.env.NETGSM_USERCODE;
 const netgsmPassword = process.env.NETGSM_PASSWORD;
 const netgsmHeader = process.env.NETGSM_HEADER;
-const netgsmReceiver = process.env.NETGSM_RECEIVER;
 
 type LeadPayload = {
   name?: string;
@@ -18,12 +19,11 @@ function cleanValue(value: unknown) {
 }
 
 async function sendLeadSms(lead: Required<LeadPayload>) {
-  if (!netgsmUserCode || !netgsmPassword || !netgsmHeader || !netgsmReceiver) {
+  if (!netgsmUserCode || !netgsmPassword || !netgsmHeader) {
     console.error("[leads] Netgsm env vars missing", {
       hasUserCode: Boolean(netgsmUserCode),
       hasPassword: Boolean(netgsmPassword),
       hasHeader: Boolean(netgsmHeader),
-      hasReceiver: Boolean(netgsmReceiver),
     });
     return;
   }
@@ -48,7 +48,7 @@ async function sendLeadSms(lead: Required<LeadPayload>) {
     const response = await netgsm.sendRestSms({
       msgheader: netgsmHeader,
       encoding: "TR",
-      messages: [{ msg: messageText, no: netgsmReceiver }],
+      messages: [{ msg: messageText, no: TARGET_PHONE }],
     });
 
     if (response.code !== "00") {
