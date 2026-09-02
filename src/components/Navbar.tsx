@@ -26,6 +26,16 @@ const navLinks: Record<Locale, Array<{ label: string; target: string }>> = {
     { label: "Contact", target: "contact" },
   ],
 };
+const freeAnalysisLinks: Record<Locale, { label: string; href: string }> = {
+  tr: {
+    label: "Ücretsiz Analiz",
+    href: "/ucretsiz-web-site-analizi",
+  },
+  en: {
+    label: "Free Analysis",
+    href: "/ucretsiz-web-site-analizi",
+  },
+};
 const whatsappLinks: Record<Locale, { label: string; href: string; message: string }> = {
   tr: {
     label: "WhatsApp",
@@ -60,6 +70,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
   const linkRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const homePath = localizePathname("/", locale);
   const links = navLinks[locale];
+  const freeAnalysisLink = freeAnalysisLinks[locale];
   const whatsappHref = `${whatsappLinks[locale].href}?text=${encodeURIComponent(
     whatsappLinks[locale].message,
   )}`;
@@ -375,6 +386,16 @@ export default function Navbar({ locale }: { locale: Locale }) {
                     />
                   </Link>
                 ))}
+                <Link
+                  href={freeAnalysisLink.href}
+                  ref={(node) => {
+                    linkRefs.current[links.length] = node;
+                  }}
+                  onClick={() => setIsOpen(false)}
+                  className="group relative w-fit overflow-visible text-[clamp(2.6rem,10vw,4rem)] font-medium leading-[1.02] tracking-[-0.03em] text-white/68 transition duration-200 ease-out hover:-translate-y-0.5 hover:text-white"
+                >
+                  {freeAnalysisLink.label}
+                </Link>
               </div>
             </div>
             <div className="mt-10 flex flex-col items-start gap-3">
@@ -383,7 +404,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
                 target="_blank"
                 rel="noreferrer"
                 ref={(node) => {
-                  linkRefs.current[links.length] = node;
+                  linkRefs.current[links.length + 1] = node;
                 }}
                 className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/16 px-4 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-white/82 transition duration-200 ease-out hover:-translate-y-0.5 hover:border-white/28 hover:bg-white/[0.06] hover:text-white"
               >
@@ -392,7 +413,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
               <a
                 href={phoneHref}
                 ref={(node) => {
-                  linkRefs.current[links.length + 1] = node;
+                  linkRefs.current[links.length + 2] = node;
                 }}
                 className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/12 px-4 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-white/62 transition duration-200 ease-out hover:-translate-y-0.5 hover:border-white/24 hover:bg-white/[0.05] hover:text-white/84"
               >
