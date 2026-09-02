@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { openBooking } from "@/lib/cal";
 
 interface Check {
   name: string;
@@ -219,13 +220,20 @@ export default function AnalysisResult({
 
       <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(13,23,43,0.95),rgba(9,15,28,0.9))] p-7 md:p-8">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,233,255,0.12),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(177,87,253,0.1),transparent_32%)]" />
-        <div className="relative grid gap-2">
+        <div className="relative grid gap-4">
           <h3 className="text-[1.2rem] font-medium tracking-[-0.03em] text-white">
-            Bilgileriniz alındı
+            Sitenizi hemen iyileştirmek için bir görüşme yapalım
           </h3>
           <p className="text-[0.94rem] leading-[1.7] text-white/60">
-            Sitenizi birlikte iyileştirmek için ekibimiz en kısa sürede sizinle iletişime geçecek.
+            Bilgileriniz alındı. Analiz sonucunu birlikte değerlendirmek için ücretsiz bir strateji görüşmesi planlayın.
           </p>
+          <button
+            type="button"
+            onClick={() => void openBooking("tr")}
+            className="inline-flex h-13 w-fit items-center justify-center rounded-full bg-[#00e9ff] px-6 text-[0.78rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff]"
+          >
+            Görüşme Planla
+          </button>
         </div>
       </div>
     </div>
