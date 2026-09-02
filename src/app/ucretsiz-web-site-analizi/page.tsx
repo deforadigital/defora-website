@@ -54,6 +54,20 @@ const loadingMessages = [
   "Rapor hazırlanıyor...",
 ];
 
+function normalizePhone(input: string): string | null {
+  const digitsOnly = input.replace(/\D/g, "");
+  const withoutCountryCode = digitsOnly.startsWith("90")
+    ? digitsOnly.slice(2)
+    : digitsOnly;
+  const local = withoutCountryCode.startsWith("0")
+    ? withoutCountryCode.slice(1)
+    : withoutCountryCode;
+
+  if (!/^5\d{9}$/.test(local)) return null;
+
+  return local;
+}
+
 function normalizeUrl(input: string): string | null {
   const trimmed = input.trim();
   if (!trimmed) return null;
@@ -215,10 +229,15 @@ export default function FreeWebsiteAnalysisPage() {
     if (isSubmittingLead || !pendingResult) return;
 
     const trimmedName = leadName.trim();
-    const trimmedPhone = leadPhone.trim();
+    const normalizedPhone = normalizePhone(leadPhone);
 
-    if (!trimmedName || !trimmedPhone) {
+    if (!trimmedName || !leadPhone.trim()) {
       setLeadErrorMessage("Lütfen ad soyad ve telefon numaranızı girin.");
+      return;
+    }
+
+    if (!normalizedPhone) {
+      setLeadErrorMessage("Lütfen geçerli bir cep telefonu numarası girin (örn. 05XX XXX XX XX).");
       return;
     }
 
@@ -231,7 +250,7 @@ export default function FreeWebsiteAnalysisPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: trimmedName,
-          phone: trimmedPhone,
+          phone: normalizedPhone,
           url: pendingResult.url,
         }),
       });

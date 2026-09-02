@@ -18,6 +18,20 @@ function cleanValue(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function normalizePhone(input: string): string | null {
+  const digitsOnly = input.replace(/\D/g, "");
+  const withoutCountryCode = digitsOnly.startsWith("90")
+    ? digitsOnly.slice(2)
+    : digitsOnly;
+  const local = withoutCountryCode.startsWith("0")
+    ? withoutCountryCode.slice(1)
+    : withoutCountryCode;
+
+  if (!/^5\d{9}$/.test(local)) return null;
+
+  return local;
+}
+
 async function sendLeadSms(lead: Required<LeadPayload>) {
   if (!netgsmUserCode || !netgsmPassword || !netgsmHeader) {
     console.error("[leads] Netgsm env vars missing", {
@@ -63,13 +77,13 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as LeadPayload;
     const name = cleanValue(body.name);
-    const phone = cleanValue(body.phone);
+    const phone = normalizePhone(cleanValue(body.phone));
     const company = cleanValue(body.company);
     const url = cleanValue(body.url);
 
     if (!phone) {
       return NextResponse.json(
-        { success: false, error: "invalid_payload" },
+        { success: false, error: "invalid_phone" },
         { status: 400 },
       );
     }
