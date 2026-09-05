@@ -154,6 +154,7 @@ export default function FreeWebsiteAnalysisPage() {
   const [leadPhone, setLeadPhone] = useState("");
   const [isSubmittingLead, setIsSubmittingLead] = useState(false);
   const [leadErrorMessage, setLeadErrorMessage] = useState("");
+  const [kvkkConsent, setKvkkConsent] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
@@ -191,6 +192,7 @@ export default function FreeWebsiteAnalysisPage() {
     setLeadName("");
     setLeadPhone("");
     setLeadErrorMessage("");
+    setKvkkConsent(false);
     setIsLoading(true);
 
     try {
@@ -238,6 +240,11 @@ export default function FreeWebsiteAnalysisPage() {
 
     if (!normalizedPhone) {
       setLeadErrorMessage("Lütfen geçerli bir cep telefonu numarası girin (örn. 05XX XXX XX XX).");
+      return;
+    }
+
+    if (!kvkkConsent) {
+      setLeadErrorMessage("Devam etmek için KVKK Aydınlatma Metni'ni onaylamanız gerekiyor.");
       return;
     }
 
@@ -311,12 +318,12 @@ export default function FreeWebsiteAnalysisPage() {
                 value={urlInput}
                 onChange={(event) => setUrlInput(event.currentTarget.value)}
                 placeholder="ornek-site.com"
-                className="h-13 flex-1 rounded-2xl border border-white/10 bg-white/[0.04] px-4 text-sm text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                className="h-20 flex-1 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-4 text-xl text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
               />
               <button
                 type="submit"
                 disabled={isLoading}
-                className="inline-flex h-13 items-center justify-center rounded-full bg-[#00e9ff] px-6 text-[0.78rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
+                className="inline-flex h-16 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.84rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
               >
                 {isLoading ? "Analiz Ediliyor" : "Analiz Et"}
               </button>
@@ -345,6 +352,9 @@ export default function FreeWebsiteAnalysisPage() {
                 <h2 className="text-[1.3rem] font-medium tracking-[-0.03em] text-white">
                   Analiz hazır — sonucu görmek için birkaç bilgi
                 </h2>
+                <p className="mt-2 truncate text-[0.9rem] font-medium text-[#00e9ff]">
+                  {pendingResult.url.replace(/^https?:\/\//, "")}
+                </p>
                 <p className="mt-2 text-[0.94rem] leading-[1.7] text-white/60">
                   Raporu size özel değerlendirebilmemiz için ad soyad ve telefon numaranızı bırakın.
                 </p>
@@ -355,15 +365,34 @@ export default function FreeWebsiteAnalysisPage() {
                     value={leadName}
                     onChange={(event) => setLeadName(event.currentTarget.value)}
                     placeholder="Ad Soyad"
-                    className="h-13 rounded-2xl border border-white/10 bg-white/[0.04] px-4 text-sm text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                    className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-lg text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
                   />
                   <input
                     type="tel"
                     value={leadPhone}
                     onChange={(event) => setLeadPhone(event.currentTarget.value)}
                     placeholder="Telefon numaranız"
-                    className="h-13 rounded-2xl border border-white/10 bg-white/[0.04] px-4 text-sm text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                    className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-lg text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
                   />
+
+                  <label className="mt-1 flex items-start gap-3 text-[0.85rem] leading-[1.6] text-white/64">
+                    <input
+                      type="checkbox"
+                      checked={kvkkConsent}
+                      onChange={(event) => setKvkkConsent(event.currentTarget.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.04] accent-[#00e9ff]"
+                    />
+                    <span>
+                      <Link
+                        href="/kvkk-aydinlatma-metni"
+                        target="_blank"
+                        className="font-medium text-[#00e9ff] underline underline-offset-2 hover:text-[#33efff]"
+                      >
+                        Aydınlatma Metni
+                      </Link>
+                      &apos;ni okudum, kişisel verilerimin işlenmesini kabul ediyorum.
+                    </span>
+                  </label>
 
                   {leadErrorMessage ? (
                     <p className="text-sm leading-[1.6] text-[#ef4444]">{leadErrorMessage}</p>
@@ -371,8 +400,8 @@ export default function FreeWebsiteAnalysisPage() {
 
                   <button
                     type="submit"
-                    disabled={isSubmittingLead}
-                    className="mt-1 inline-flex h-13 items-center justify-center rounded-full bg-[#00e9ff] px-6 text-[0.78rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
+                    disabled={isSubmittingLead || !kvkkConsent}
+                    className="mt-1 inline-flex h-16 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.84rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
                   >
                     {isSubmittingLead ? "Gönderiliyor" : "Sonucu Göster"}
                   </button>
