@@ -6,6 +6,7 @@ interface GbpScorePayload {
   businessName?: string;
   city?: string;
   placeId?: string;
+  mapsUrl?: string;
 }
 
 interface PlaceTextSearchResult {
@@ -82,6 +83,27 @@ async function searchPlaceCandidates(query: string): Promise<PlaceCandidate[]> {
     name: place.displayName?.text ?? "",
     address: place.formattedAddress ?? "",
   }));
+}
+
+const PLACE_ID_PATTERN = /!1s(ChIJ[^!]+)/;
+
+async function extractPlaceIdFromMapsUrl(mapsUrl: string): Promise<string> {
+  let finalUrl: string;
+
+  try {
+    const response = await fetch(mapsUrl, { redirect: "follow" });
+    finalUrl = response.url;
+  } catch (error) {
+    throw new Error(`maps_url_fetch_failed: ${getErrorMessage(error)}`);
+  }
+
+  const match = finalUrl.match(PLACE_ID_PATTERN);
+
+  if (!match) {
+    throw new Error("invalid_maps_url");
+  }
+
+  return match[1];
 }
 
 async function fetchPlaceDetails(placeId: string): Promise<PlaceDetailsResult> {
@@ -191,9 +213,11 @@ export async function POST(request: Request) {
 
     const body = (await request.json()) as GbpScorePayload;
     const placeId = cleanValue(body.placeId);
+    const mapsUrl = cleanValue(body.mapsUrl);
 
-    if (placeId) {
-      const place = await fetchPlaceDetails(placeId);
+    if (placeId || mapsUrl) {
+      const resolvedPlaceId = placeId || (await extractPlaceIdFromMapsUrl(mapsUrl));
+      const place = await fetchPlaceDetails(resolvedPlaceId);
       const checks = buildChecks(place);
       const score = checks.reduce((total, check) => total + (check.passed ? check.points : 0), 0);
 

@@ -78,6 +78,9 @@ export default function GoogleIsletmeSkoruPage() {
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [candidates, setCandidates] = useState<PlaceCandidate[]>([]);
+  const [showMapsUrlInput, setShowMapsUrlInput] = useState(false);
+  const [mapsUrl, setMapsUrl] = useState("");
+  const [mapsUrlErrorMessage, setMapsUrlErrorMessage] = useState("");
   const [pendingResult, setPendingResult] = useState<ScoreData | null>(null);
   const [result, setResult] = useState<ScoreData | null>(null);
   const [leadName, setLeadName] = useState("");
@@ -123,6 +126,9 @@ export default function GoogleIsletmeSkoruPage() {
     setResult(null);
     setPendingResult(null);
     setCandidates([]);
+    setShowMapsUrlInput(false);
+    setMapsUrl("");
+    setMapsUrlErrorMessage("");
     setLeadName("");
     setLeadPhone("");
     setLeadErrorMessage("");
@@ -181,6 +187,57 @@ export default function GoogleIsletmeSkoruPage() {
       });
     } catch {
       setErrorMessage("Skor hesaplanırken bir hata oluştu. Lütfen tekrar deneyin.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleMapsUrlSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isLoading) return;
+
+    const trimmedMapsUrl = mapsUrl.trim();
+
+    if (!trimmedMapsUrl) {
+      setMapsUrlErrorMessage("Lütfen Google Haritalar linkini yapıştırın.");
+      return;
+    }
+
+    setMapsUrlErrorMessage("");
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/gbp-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mapsUrl: trimmedMapsUrl }),
+      });
+
+      const data = (await response.json()) as GbpScoreResponse;
+
+      if (!response.ok || !data.success || data.score === undefined || !data.checks) {
+        if (data.error === "invalid_maps_url") {
+          throw new Error("invalid_maps_url");
+        }
+        throw new Error(data.error ?? "score_failed");
+      }
+
+      setCandidates([]);
+      setShowMapsUrlInput(false);
+      setPendingResult({
+        name: data.name ?? "",
+        rating: data.rating ?? null,
+        userRatingsTotal: data.userRatingsTotal ?? 0,
+        score: data.score,
+        checks: data.checks,
+      });
+    } catch (error) {
+      setMapsUrlErrorMessage(
+        error instanceof Error && error.message === "invalid_maps_url"
+          ? "Geçersiz link, lütfen Google Haritalar'dan kopyalayın."
+          : "Skor hesaplanırken bir hata oluştu. Lütfen tekrar deneyin.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -342,6 +399,41 @@ export default function GoogleIsletmeSkoruPage() {
                     </button>
                   ))}
                 </div>
+
+                {!showMapsUrlInput ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowMapsUrlInput(true)}
+                    className="mt-4 text-[0.86rem] font-medium text-white/50 underline underline-offset-2 transition hover:text-white/80"
+                  >
+                    İşletmem bu listede yok
+                  </button>
+                ) : (
+                  <form onSubmit={handleMapsUrlSubmit} className="mt-5 grid gap-3">
+                    <label className="text-[0.86rem] leading-[1.5] text-white/60">
+                      Google Haritalar&apos;dan işletmenizin linkini yapıştırın
+                    </label>
+                    <input
+                      type="text"
+                      value={mapsUrl}
+                      onChange={(event) => setMapsUrl(event.currentTarget.value)}
+                      placeholder="https://maps.app.goo.gl/..."
+                      className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                    />
+
+                    {mapsUrlErrorMessage ? (
+                      <p className="text-sm leading-[1.6] text-[#ef4444]">{mapsUrlErrorMessage}</p>
+                    ) : null}
+
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="inline-flex h-14 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
+                    >
+                      {isLoading ? "Bulunuyor" : "Bul ve Hesapla"}
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
           </section>
