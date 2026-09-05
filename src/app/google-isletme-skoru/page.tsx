@@ -217,8 +217,8 @@ export default function GoogleIsletmeSkoruPage() {
       const data = (await response.json()) as GbpScoreResponse;
 
       if (!response.ok || !data.success || data.score === undefined || !data.checks) {
-        if (data.error === "invalid_maps_url") {
-          throw new Error("invalid_maps_url");
+        if (data.error === "invalid_maps_url" || data.error === "short_maps_link") {
+          throw new Error(data.error);
         }
         throw new Error(data.error ?? "score_failed");
       }
@@ -233,10 +233,13 @@ export default function GoogleIsletmeSkoruPage() {
         checks: data.checks,
       });
     } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "";
       setMapsUrlErrorMessage(
-        error instanceof Error && error.message === "invalid_maps_url"
-          ? "Geçersiz link, lütfen Google Haritalar'dan kopyalayın."
-          : "Skor hesaplanırken bir hata oluştu. Lütfen tekrar deneyin.",
+        errorCode === "short_maps_link"
+          ? "Bu linki tarayıcıda açın, adres çubuğundaki tam linki kopyalayıp yapıştırın."
+          : errorCode === "invalid_maps_url"
+            ? "Geçersiz link, lütfen Google Haritalar'dan kopyalayın."
+            : "Skor hesaplanırken bir hata oluştu. Lütfen tekrar deneyin.",
       );
     } finally {
       setIsLoading(false);

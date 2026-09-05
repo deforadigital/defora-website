@@ -88,18 +88,22 @@ async function searchPlaceCandidates(query: string): Promise<PlaceCandidate[]> {
 }
 
 const PLACE_ID_PATTERN = /!1s(ChIJ[^!]+)/;
+const SHORT_MAPS_LINK_HOSTS = ["share.google", "maps.app.goo.gl"];
 
-async function extractPlaceIdFromMapsUrl(mapsUrl: string): Promise<string> {
-  let finalUrl: string;
+function extractPlaceIdFromMapsUrl(mapsUrl: string): string {
+  let parsedUrl: URL;
 
   try {
-    const response = await fetch(mapsUrl, { redirect: "follow" });
-    finalUrl = response.url;
-  } catch (error) {
-    throw new Error(`maps_url_fetch_failed: ${getErrorMessage(error)}`);
+    parsedUrl = new URL(mapsUrl);
+  } catch {
+    throw new Error("invalid_maps_url");
   }
 
-  const match = finalUrl.match(PLACE_ID_PATTERN);
+  if (SHORT_MAPS_LINK_HOSTS.some((host) => parsedUrl.hostname.includes(host))) {
+    throw new Error("short_maps_link");
+  }
+
+  const match = mapsUrl.match(PLACE_ID_PATTERN);
 
   if (!match) {
     throw new Error("invalid_maps_url");
@@ -218,7 +222,7 @@ export async function POST(request: Request) {
     const mapsUrl = cleanValue(body.mapsUrl);
 
     if (placeId || mapsUrl) {
-      const resolvedPlaceId = placeId || (await extractPlaceIdFromMapsUrl(mapsUrl));
+      const resolvedPlaceId = placeId || extractPlaceIdFromMapsUrl(mapsUrl);
       const place = await fetchPlaceDetails(resolvedPlaceId);
       const checks = buildChecks(place);
       const score = checks.reduce((total, check) => total + (check.passed ? check.points : 0), 0);
