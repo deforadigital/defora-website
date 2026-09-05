@@ -69,6 +69,8 @@ async function searchPlaceCandidates(query: string): Promise<PlaceCandidate[]> {
   });
 
   if (!response.ok) {
+    const bodyText = await response.text().catch(() => "");
+    console.error("[gbp-score] places:searchText rejected", response.status, bodyText);
     throw new Error(`places_text_search_failed_${response.status}`);
   }
 
