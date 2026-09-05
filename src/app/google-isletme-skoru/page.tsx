@@ -1,0 +1,435 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+interface Check {
+  name: string;
+  passed: boolean;
+  points: number;
+  description: string;
+}
+
+interface GbpScoreResponse {
+  success: boolean;
+  name?: string;
+  rating?: number | null;
+  userRatingsTotal?: number;
+  score?: number;
+  checks?: Check[];
+  error?: string;
+}
+
+interface ScoreData {
+  name: string;
+  rating: number | null;
+  userRatingsTotal: number;
+  score: number;
+  checks: Check[];
+}
+
+const loadingMessages = [
+  "İşletmeniz Google'da aranıyor...",
+  "Profil bilgileri toplanıyor...",
+  "Skor hesaplanıyor...",
+  "Rapor hazırlanıyor...",
+];
+
+function normalizePhone(input: string): string | null {
+  const digitsOnly = input.replace(/\D/g, "");
+  const withoutCountryCode = digitsOnly.startsWith("90")
+    ? digitsOnly.slice(2)
+    : digitsOnly;
+  const local = withoutCountryCode.startsWith("0")
+    ? withoutCountryCode.slice(1)
+    : withoutCountryCode;
+
+  if (!/^5\d{9}$/.test(local)) return null;
+
+  return local;
+}
+
+function getScoreColor(score: number): string {
+  if (score >= 70) return "#22c55e";
+  if (score >= 40) return "#f59e0b";
+  return "#ef4444";
+}
+
+function getScoreStatusLabel(score: number): string {
+  if (score >= 70) return "İyi";
+  if (score >= 40) return "Geliştirilmeli";
+  return "Acil Müdahale Gerekiyor";
+}
+
+export default function GoogleIsletmeSkoruPage() {
+  const [businessName, setBusinessName] = useState("");
+  const [city, setCity] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [pendingResult, setPendingResult] = useState<ScoreData | null>(null);
+  const [result, setResult] = useState<ScoreData | null>(null);
+  const [leadName, setLeadName] = useState("");
+  const [leadPhone, setLeadPhone] = useState("");
+  const [isSubmittingLead, setIsSubmittingLead] = useState(false);
+  const [leadErrorMessage, setLeadErrorMessage] = useState("");
+  const [kvkkConsent, setKvkkConsent] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      return;
+    }
+
+    setLoadingMessageIndex(0);
+    intervalRef.current = setInterval(() => {
+      setLoadingMessageIndex((current) => (current + 1) % loadingMessages.length);
+    }, 1800);
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isLoading]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isLoading) return;
+
+    const trimmedName = businessName.trim();
+    const trimmedCity = city.trim();
+
+    if (!trimmedName || !trimmedCity) {
+      setErrorMessage("Lütfen işletme adı ve şehir girin.");
+      setResult(null);
+      return;
+    }
+
+    setErrorMessage("");
+    setResult(null);
+    setPendingResult(null);
+    setLeadName("");
+    setLeadPhone("");
+    setLeadErrorMessage("");
+    setKvkkConsent(false);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/gbp-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ businessName: trimmedName, city: trimmedCity }),
+      });
+
+      const data = (await response.json()) as GbpScoreResponse;
+
+      if (!response.ok || !data.success || data.score === undefined || !data.checks) {
+        throw new Error(data.error ?? "score_failed");
+      }
+
+      setPendingResult({
+        name: data.name ?? trimmedName,
+        rating: data.rating ?? null,
+        userRatingsTotal: data.userRatingsTotal ?? 0,
+        score: data.score,
+        checks: data.checks,
+      });
+    } catch {
+      setErrorMessage(
+        "İşletmeniz bulunamadı veya bir hata oluştu. İşletme adını ve şehri kontrol edip tekrar deneyin.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLeadSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isSubmittingLead || !pendingResult) return;
+
+    const trimmedName = leadName.trim();
+    const normalizedPhone = normalizePhone(leadPhone);
+
+    if (!trimmedName || !leadPhone.trim()) {
+      setLeadErrorMessage("Lütfen ad soyad ve telefon numaranızı girin.");
+      return;
+    }
+
+    if (!normalizedPhone) {
+      setLeadErrorMessage("Lütfen geçerli bir cep telefonu numarası girin (örn. 05XX XXX XX XX).");
+      return;
+    }
+
+    if (!kvkkConsent) {
+      setLeadErrorMessage("Devam etmek için KVKK Aydınlatma Metni'ni onaylamanız gerekiyor.");
+      return;
+    }
+
+    setLeadErrorMessage("");
+    setIsSubmittingLead(true);
+
+    try {
+      await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: trimmedName,
+          phone: normalizedPhone,
+          company: pendingResult.name,
+        }),
+      });
+    } catch (error) {
+      console.error("[google-isletme-skoru] lead submission failed", error);
+    } finally {
+      setIsSubmittingLead(false);
+      setResult(pendingResult);
+      setPendingResult(null);
+    }
+  };
+
+  const scoreColor = result ? getScoreColor(result.score) : "#00e9ff";
+  const whatsappMessage = result
+    ? `Merhaba, ${result.name} işletmem için Google İşletme Skoru analizinde ${result.score} puan aldım. Görüşmek istiyorum.`
+    : "";
+  const whatsappHref = `https://wa.me/905400333672?text=${encodeURIComponent(whatsappMessage)}`;
+
+  return (
+    <main className="relative min-h-screen overflow-hidden bg-[#07101f] text-white">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[url('/brand/defora-abstract-bg.svg')] bg-cover bg-[56%_46%] opacity-40 saturate-[0.68] contrast-[1.08]" />
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(105deg,rgba(3,8,18,0.92)_0%,rgba(7,16,31,0.82)_42%,rgba(6,10,18,0.92)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(circle_at_16%_18%,rgba(0,233,255,0.12),transparent_28%),radial-gradient(circle_at_84%_12%,rgba(177,87,253,0.13),transparent_31%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-px bg-white/8" />
+
+      <div className="relative z-10">
+        <header className="flex flex-col items-center gap-5 px-6 py-14 text-center md:px-10 md:py-20">
+          <Link
+            href="/"
+            aria-label="Defora anasayfa"
+            className="group inline-flex h-12 items-center justify-center rounded-full border border-white/12 bg-[#0D172B]/34 px-5 backdrop-blur-md transition duration-500 ease-out hover:border-white/20 hover:bg-white/[0.06] md:h-14 md:px-6"
+          >
+            <Image
+              src="/brand/defora-navbar-logo.svg"
+              alt="Defora logo"
+              width={2000}
+              height={2000}
+              priority
+              className="h-8 w-auto object-contain transition duration-500 group-hover:scale-[1.01] md:h-[2.5rem]"
+            />
+          </Link>
+          <p className="text-[0.76rem] font-medium uppercase tracking-[0.28em] text-white/42 md:text-[0.8rem]">
+            GOOGLE · İŞLETME PROFİLİ · GÖRÜNÜRLÜK
+          </p>
+          <h1 className="max-w-[24ch] text-[clamp(2rem,5vw,3.4rem)] font-medium leading-[1.02] tracking-[-0.04em] text-white">
+            Google İşletme Skoru
+          </h1>
+          <p className="max-w-[34rem] text-[1rem] leading-[1.75] text-white/64 md:text-[1.06rem]">
+            İşletme adınızı ve şehrinizi girin, Google&apos;daki işletme profilinizin ne kadar güçlü olduğunu birkaç saniyede öğrenin.
+          </p>
+        </header>
+
+        <section className="mx-auto max-w-[40rem] px-4 pb-14 md:px-0">
+          <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(15,24,43,0.92),rgba(10,17,32,0.82))] p-5 shadow-[0_18px_56px_rgba(0,0,0,0.22)] backdrop-blur-[18px] md:p-7">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,233,255,0.14),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(177,87,253,0.1),transparent_32%)] opacity-80" />
+            <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-white/[0.05]" />
+
+            <form onSubmit={handleSubmit} className="relative grid gap-3">
+              <input
+                type="text"
+                value={businessName}
+                onChange={(event) => setBusinessName(event.currentTarget.value)}
+                placeholder="İşletme adı"
+                className="h-20 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-4 text-xl text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+              />
+              <input
+                type="text"
+                value={city}
+                onChange={(event) => setCity(event.currentTarget.value)}
+                placeholder="Şehir"
+                className="h-20 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-4 text-xl text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+              />
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="mt-1 inline-flex h-16 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.84rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
+              >
+                {isLoading ? "Hesaplanıyor" : "Skoru Hesapla"}
+              </button>
+            </form>
+
+            {errorMessage ? (
+              <p className="relative mt-4 text-sm leading-[1.6] text-[#ef4444]">{errorMessage}</p>
+            ) : null}
+
+            {isLoading ? (
+              <div className="relative mt-8 flex flex-col items-center gap-4 py-6">
+                <span className="h-10 w-10 animate-spin rounded-full border-2 border-white/15 border-t-[#00e9ff]" />
+                <p className="text-[0.98rem] text-white/64">{loadingMessages[loadingMessageIndex]}</p>
+              </div>
+            ) : null}
+          </div>
+        </section>
+
+        {pendingResult ? (
+          <section className="mx-auto max-w-[40rem] px-4 pb-14 md:px-0">
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(15,24,43,0.92),rgba(10,17,32,0.82))] p-5 shadow-[0_18px_56px_rgba(0,0,0,0.22)] backdrop-blur-[18px] md:p-7">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,233,255,0.14),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(177,87,253,0.1),transparent_32%)] opacity-80" />
+              <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-white/[0.05]" />
+
+              <div className="relative">
+                <h2 className="text-[1.3rem] font-medium tracking-[-0.03em] text-white">
+                  Skor hazır — sonucu görmek için birkaç bilgi
+                </h2>
+                <p className="mt-2 truncate text-[0.9rem] font-medium text-[#00e9ff]">
+                  {pendingResult.name}
+                </p>
+                <p className="mt-2 text-[0.94rem] leading-[1.7] text-white/60">
+                  Raporu size özel değerlendirebilmemiz için ad soyad ve telefon numaranızı bırakın.
+                </p>
+
+                <form onSubmit={handleLeadSubmit} className="mt-6 grid gap-3">
+                  <input
+                    type="text"
+                    value={leadName}
+                    onChange={(event) => setLeadName(event.currentTarget.value)}
+                    placeholder="Ad Soyad"
+                    className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-lg text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                  />
+                  <input
+                    type="tel"
+                    value={leadPhone}
+                    onChange={(event) => setLeadPhone(event.currentTarget.value)}
+                    placeholder="Telefon numaranız"
+                    className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-lg text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                  />
+
+                  <label className="mt-1 flex items-start gap-3 text-[0.85rem] leading-[1.6] text-white/64">
+                    <input
+                      type="checkbox"
+                      checked={kvkkConsent}
+                      onChange={(event) => setKvkkConsent(event.currentTarget.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.04] accent-[#00e9ff]"
+                    />
+                    <span>
+                      <Link
+                        href="/kvkk-aydinlatma-metni"
+                        target="_blank"
+                        className="font-medium text-[#00e9ff] underline underline-offset-2 hover:text-[#33efff]"
+                      >
+                        Aydınlatma Metni
+                      </Link>
+                      &apos;ni okudum, kişisel verilerimin işlenmesini kabul ediyorum.
+                    </span>
+                  </label>
+
+                  {leadErrorMessage ? (
+                    <p className="text-sm leading-[1.6] text-[#ef4444]">{leadErrorMessage}</p>
+                  ) : null}
+
+                  <button
+                    type="submit"
+                    disabled={isSubmittingLead || !kvkkConsent}
+                    className="mt-1 inline-flex h-16 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.84rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
+                  >
+                    {isSubmittingLead ? "Gönderiliyor" : "Sonucu Göster"}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {result ? (
+          <section className="mx-auto grid max-w-[64rem] gap-6 px-4 pb-14 md:px-0">
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(13,23,43,0.92),rgba(9,15,28,0.86))] p-7 shadow-[0_18px_56px_rgba(0,0,0,0.22)] md:p-9">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,233,255,0.14),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(177,87,253,0.12),transparent_32%)]" />
+              <div className="relative flex flex-col items-center gap-4 text-center">
+                <p className="truncate text-[0.78rem] font-medium uppercase tracking-[0.2em] text-white/42">
+                  {result.name}
+                </p>
+                <div className="flex flex-col items-center gap-2">
+                  <span
+                    className="text-[3.4rem] font-medium leading-none tracking-[-0.03em]"
+                    style={{ color: scoreColor }}
+                  >
+                    {result.score}
+                    <span className="ml-1 text-[1.4rem] text-white/40">/ 100</span>
+                  </span>
+                  <span className="text-[0.94rem] font-medium" style={{ color: scoreColor }}>
+                    {getScoreStatusLabel(result.score)}
+                  </span>
+                </div>
+                {result.rating !== null ? (
+                  <p className="text-[0.9rem] text-white/56">
+                    Google puanı: {result.rating.toFixed(1)} · {result.userRatingsTotal} yorum
+                  </p>
+                ) : null}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {result.checks.map((check) => (
+                <div
+                  key={check.name}
+                  className="flex items-start gap-3.5 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5"
+                  style={{ borderLeft: `4px solid ${check.passed ? "#22c55e" : "#ef4444"}` }}
+                >
+                  <span
+                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[1.1rem]"
+                    style={{
+                      color: check.passed ? "#22c55e" : "#ef4444",
+                      backgroundColor: check.passed ? "rgba(34,197,94,0.12)" : "rgba(239,68,68,0.12)",
+                    }}
+                  >
+                    {check.passed ? "✅" : "❌"}
+                  </span>
+                  <div className="grid gap-1">
+                    <span className="text-[0.92rem] font-medium text-white/86">{check.name}</span>
+                    <span className="text-[0.86rem] leading-[1.5] text-white/56">{check.description}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(13,23,43,0.95),rgba(9,15,28,0.9))] p-7 md:p-8">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,233,255,0.12),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(177,87,253,0.1),transparent_32%)]" />
+              <div className="relative grid gap-4">
+                <h3 className="text-[1.2rem] font-medium tracking-[-0.03em] text-white">
+                  Google İşletme Profilinizi güçlendirelim
+                </h3>
+                <p className="text-[0.94rem] leading-[1.7] text-white/60">
+                  Bilgileriniz alındı. Profilinizi birlikte değerlendirmek için hemen WhatsApp&apos;tan yazın.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex h-13 w-fit items-center justify-center gap-2.5 rounded-full bg-[#00e9ff] px-6 text-[0.78rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff]"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      className="h-4 w-4"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M20 11.2A8 8 0 0 1 8.36 18.3L4 20l1.56-4.14A8 8 0 1 1 20 11.2Z" />
+                      <path d="M9 10.2c.18 1.18 1.62 2.62 2.8 2.8" />
+                      <path d="M14.55 13.95c-.26.73-1.34.92-2.42.4a6.44 6.44 0 0 1-2.48-2.48c-.52-1.08-.33-2.16.4-2.42" />
+                    </svg>
+                    WhatsApp&apos;tan Yaz
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        ) : null}
+      </div>
+    </main>
+  );
+}
