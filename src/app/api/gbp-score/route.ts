@@ -9,14 +9,13 @@ interface GbpScorePayload {
 }
 
 interface PlaceTextSearchResult {
-  place_id: string;
-  name: string;
-  formatted_address?: string;
+  id: string;
+  displayName?: { text?: string };
+  formattedAddress?: string;
 }
 
 interface PlaceTextSearchResponse {
-  status: string;
-  results?: PlaceTextSearchResult[];
+  places?: PlaceTextSearchResult[];
 }
 
 interface PlaceCandidate {
@@ -58,12 +57,15 @@ function getErrorMessage(error: unknown): string {
 }
 
 async function searchPlaceCandidates(query: string): Promise<PlaceCandidate[]> {
-  const searchUrl = new URL("https://maps.googleapis.com/maps/api/place/textsearch/json");
-  searchUrl.searchParams.set("query", query);
-  searchUrl.searchParams.set("key", googlePlacesApiKey!);
-  searchUrl.searchParams.set("language", "tr");
-
-  const response = await fetch(searchUrl.toString());
+  const response = await fetch("https://places.googleapis.com/v1/places:searchText", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Goog-Api-Key": googlePlacesApiKey!,
+      "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress",
+    },
+    body: JSON.stringify({ textQuery: query, languageCode: "tr" }),
+  });
 
   if (!response.ok) {
     throw new Error(`places_text_search_failed_${response.status}`);
@@ -71,14 +73,14 @@ async function searchPlaceCandidates(query: string): Promise<PlaceCandidate[]> {
 
   const data = (await response.json()) as PlaceTextSearchResponse;
 
-  if (data.status !== "OK" || !data.results?.length) {
-    throw new Error(`place_not_found: ${data.status}`);
+  if (!data.places?.length) {
+    throw new Error("place_not_found");
   }
 
-  return data.results.slice(0, 5).map((result) => ({
-    placeId: result.place_id,
-    name: result.name,
-    address: result.formatted_address ?? "",
+  return data.places.slice(0, 5).map((place) => ({
+    placeId: place.id,
+    name: place.displayName?.text ?? "",
+    address: place.formattedAddress ?? "",
   }));
 }
 
