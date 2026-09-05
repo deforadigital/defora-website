@@ -5,15 +5,24 @@ const googlePlacesApiKey = process.env.GOOGLE_PLACES_API_KEY;
 interface GbpScorePayload {
   businessName?: string;
   city?: string;
+  placeId?: string;
 }
 
 interface PlaceTextSearchResult {
   place_id: string;
+  name: string;
+  formatted_address?: string;
 }
 
 interface PlaceTextSearchResponse {
   status: string;
   results?: PlaceTextSearchResult[];
+}
+
+interface PlaceCandidate {
+  placeId: string;
+  name: string;
+  address: string;
 }
 
 interface PlaceDetailsResult {
@@ -48,7 +57,7 @@ function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
-async function findPlaceId(query: string): Promise<string> {
+async function searchPlaceCandidates(query: string): Promise<PlaceCandidate[]> {
   const searchUrl = new URL("https://maps.googleapis.com/maps/api/place/textsearch/json");
   searchUrl.searchParams.set("query", query);
   searchUrl.searchParams.set("key", googlePlacesApiKey!);
@@ -66,7 +75,11 @@ async function findPlaceId(query: string): Promise<string> {
     throw new Error(`place_not_found: ${data.status}`);
   }
 
-  return data.results[0].place_id;
+  return data.results.slice(0, 5).map((result) => ({
+    placeId: result.place_id,
+    name: result.name,
+    address: result.formatted_address ?? "",
+  }));
 }
 
 async function fetchPlaceDetails(placeId: string): Promise<PlaceDetailsResult> {
@@ -175,6 +188,26 @@ export async function POST(request: Request) {
     }
 
     const body = (await request.json()) as GbpScorePayload;
+    const placeId = cleanValue(body.placeId);
+
+    if (placeId) {
+      const place = await fetchPlaceDetails(placeId);
+      const checks = buildChecks(place);
+      const score = checks.reduce((total, check) => total + (check.passed ? check.points : 0), 0);
+
+      return NextResponse.json(
+        {
+          success: true,
+          name: place.name ?? "",
+          rating: place.rating ?? null,
+          userRatingsTotal: place.user_ratings_total ?? 0,
+          score,
+          checks,
+        },
+        { status: 200 },
+      );
+    }
+
     const businessName = cleanValue(body.businessName);
     const city = cleanValue(body.city);
 
@@ -185,22 +218,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const placeId = await findPlaceId(`${businessName} ${city}`);
-    const place = await fetchPlaceDetails(placeId);
-    const checks = buildChecks(place);
-    const score = checks.reduce((total, check) => total + (check.passed ? check.points : 0), 0);
+    const candidates = await searchPlaceCandidates(`${businessName} ${city}`);
 
-    return NextResponse.json(
-      {
-        success: true,
-        name: place.name ?? businessName,
-        rating: place.rating ?? null,
-        userRatingsTotal: place.user_ratings_total ?? 0,
-        score,
-        checks,
-      },
-      { status: 200 },
-    );
+    return NextResponse.json({ success: true, candidates }, { status: 200 });
   } catch (error) {
     console.error("[gbp-score] Google Business Profile score failed", error);
     return NextResponse.json(

@@ -11,6 +11,12 @@ interface Check {
   description: string;
 }
 
+interface PlaceCandidate {
+  placeId: string;
+  name: string;
+  address: string;
+}
+
 interface GbpScoreResponse {
   success: boolean;
   name?: string;
@@ -18,6 +24,7 @@ interface GbpScoreResponse {
   userRatingsTotal?: number;
   score?: number;
   checks?: Check[];
+  candidates?: PlaceCandidate[];
   error?: string;
 }
 
@@ -29,8 +36,9 @@ interface ScoreData {
   checks: Check[];
 }
 
-const loadingMessages = [
-  "İşletmeniz Google'da aranıyor...",
+const searchLoadingMessages = ["İşletmeniz Google'da aranıyor...", "Eşleşmeler bulunuyor..."];
+
+const scoreLoadingMessages = [
   "Profil bilgileri toplanıyor...",
   "Skor hesaplanıyor...",
   "Rapor hazırlanıyor...",
@@ -65,9 +73,11 @@ function getScoreStatusLabel(score: number): string {
 export default function GoogleIsletmeSkoruPage() {
   const [businessName, setBusinessName] = useState("");
   const [city, setCity] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
+  const [candidates, setCandidates] = useState<PlaceCandidate[]>([]);
   const [pendingResult, setPendingResult] = useState<ScoreData | null>(null);
   const [result, setResult] = useState<ScoreData | null>(null);
   const [leadName, setLeadName] = useState("");
@@ -78,25 +88,27 @@ export default function GoogleIsletmeSkoruPage() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isSearching && !isLoading) {
       if (intervalRef.current) clearInterval(intervalRef.current);
       return;
     }
 
+    const messages = isSearching ? searchLoadingMessages : scoreLoadingMessages;
+
     setLoadingMessageIndex(0);
     intervalRef.current = setInterval(() => {
-      setLoadingMessageIndex((current) => (current + 1) % loadingMessages.length);
+      setLoadingMessageIndex((current) => (current + 1) % messages.length);
     }, 1800);
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isLoading]);
+  }, [isSearching, isLoading]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isLoading) return;
+    if (isSearching) return;
 
     const trimmedName = businessName.trim();
     const trimmedCity = city.trim();
@@ -110,11 +122,12 @@ export default function GoogleIsletmeSkoruPage() {
     setErrorMessage("");
     setResult(null);
     setPendingResult(null);
+    setCandidates([]);
     setLeadName("");
     setLeadPhone("");
     setLeadErrorMessage("");
     setKvkkConsent(false);
-    setIsLoading(true);
+    setIsSearching(true);
 
     try {
       const response = await fetch("/api/gbp-score", {
@@ -125,21 +138,49 @@ export default function GoogleIsletmeSkoruPage() {
 
       const data = (await response.json()) as GbpScoreResponse;
 
+      if (!response.ok || !data.success || !data.candidates?.length) {
+        throw new Error(data.error ?? "search_failed");
+      }
+
+      setCandidates(data.candidates);
+    } catch {
+      setErrorMessage(
+        "İşletmeniz bulunamadı. İşletme adını ve şehri kontrol edip tekrar deneyin.",
+      );
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSelectCandidate = async (candidate: PlaceCandidate) => {
+    if (isLoading) return;
+
+    setErrorMessage("");
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/gbp-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ placeId: candidate.placeId }),
+      });
+
+      const data = (await response.json()) as GbpScoreResponse;
+
       if (!response.ok || !data.success || data.score === undefined || !data.checks) {
         throw new Error(data.error ?? "score_failed");
       }
 
+      setCandidates([]);
       setPendingResult({
-        name: data.name ?? trimmedName,
+        name: data.name ?? candidate.name,
         rating: data.rating ?? null,
         userRatingsTotal: data.userRatingsTotal ?? 0,
         score: data.score,
         checks: data.checks,
       });
     } catch {
-      setErrorMessage(
-        "İşletmeniz bulunamadı veya bir hata oluştu. İşletme adını ve şehri kontrol edip tekrar deneyin.",
-      );
+      setErrorMessage("Skor hesaplanırken bir hata oluştu. Lütfen tekrar deneyin.");
     } finally {
       setIsLoading(false);
     }
@@ -252,10 +293,10 @@ export default function GoogleIsletmeSkoruPage() {
               />
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isSearching}
                 className="mt-1 inline-flex h-16 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.84rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
               >
-                {isLoading ? "Hesaplanıyor" : "Skoru Hesapla"}
+                {isSearching ? "Aranıyor" : "Skoru Hesapla"}
               </button>
             </form>
 
@@ -263,14 +304,48 @@ export default function GoogleIsletmeSkoruPage() {
               <p className="relative mt-4 text-sm leading-[1.6] text-[#ef4444]">{errorMessage}</p>
             ) : null}
 
-            {isLoading ? (
+            {isSearching || isLoading ? (
               <div className="relative mt-8 flex flex-col items-center gap-4 py-6">
                 <span className="h-10 w-10 animate-spin rounded-full border-2 border-white/15 border-t-[#00e9ff]" />
-                <p className="text-[0.98rem] text-white/64">{loadingMessages[loadingMessageIndex]}</p>
+                <p className="text-[0.98rem] text-white/64">
+                  {(isSearching ? searchLoadingMessages : scoreLoadingMessages)[loadingMessageIndex]}
+                </p>
               </div>
             ) : null}
           </div>
         </section>
+
+        {candidates.length && !pendingResult && !result ? (
+          <section className="mx-auto max-w-[40rem] px-4 pb-14 md:px-0">
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(15,24,43,0.92),rgba(10,17,32,0.82))] p-5 shadow-[0_18px_56px_rgba(0,0,0,0.22)] backdrop-blur-[18px] md:p-7">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,233,255,0.14),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(177,87,253,0.1),transparent_32%)] opacity-80" />
+              <div className="relative">
+                <h2 className="text-[1.2rem] font-medium tracking-[-0.03em] text-white">
+                  İşletmenizi seçin
+                </h2>
+                <p className="mt-2 text-[0.9rem] leading-[1.6] text-white/60">
+                  Google&apos;da birden fazla eşleşme bulundu. Doğru işletmeyi seçin.
+                </p>
+                <div className="mt-5 grid gap-3">
+                  {candidates.map((candidate) => (
+                    <button
+                      key={candidate.placeId}
+                      type="button"
+                      onClick={() => void handleSelectCandidate(candidate)}
+                      disabled={isLoading}
+                      className="grid gap-1 rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4 text-left transition duration-200 hover:border-white/20 hover:bg-white/[0.07] disabled:opacity-50"
+                    >
+                      <span className="text-[0.98rem] font-medium text-white">{candidate.name}</span>
+                      {candidate.address ? (
+                        <span className="text-[0.84rem] text-white/56">{candidate.address}</span>
+                      ) : null}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         {pendingResult ? (
           <section className="mx-auto max-w-[40rem] px-4 pb-14 md:px-0">
