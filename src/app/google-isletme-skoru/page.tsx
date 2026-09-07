@@ -353,8 +353,8 @@ export default function GoogleIsletmeSkoruPage() {
         </header>
 
         <section className="mx-auto max-w-[40rem] px-4 pb-14 md:px-0">
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(15,24,43,0.92),rgba(10,17,32,0.82))] p-5 shadow-[0_18px_56px_rgba(0,0,0,0.22)] backdrop-blur-[18px] md:p-7">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,233,255,0.14),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(177,87,253,0.1),transparent_32%)] opacity-80" />
+          <div className="relative rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(15,24,43,0.92),rgba(10,17,32,0.82))] p-5 shadow-[0_18px_56px_rgba(0,0,0,0.22)] backdrop-blur-[18px] md:p-7">
+            <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem] bg-[radial-gradient(circle_at_top_left,rgba(0,233,255,0.14),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(177,87,253,0.1),transparent_32%)] opacity-80" />
             <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-white/[0.05]" />
 
             <div className="relative">
