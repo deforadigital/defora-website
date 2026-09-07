@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 interface Check {
   name: string;
@@ -342,22 +342,10 @@ export default function GoogleIsletmeSkoruPage() {
       <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(circle_at_16%_18%,rgba(0,233,255,0.12),transparent_28%),radial-gradient(circle_at_84%_12%,rgba(177,87,253,0.13),transparent_31%)]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-px bg-white/8" />
 
+      <Navbar locale="tr" />
+
       <div className="relative z-10">
-        <header className="flex flex-col items-center gap-5 px-6 py-14 text-center md:px-10 md:py-20">
-          <Link
-            href="/"
-            aria-label="Defora anasayfa"
-            className="group inline-flex h-12 items-center justify-center rounded-full border border-white/12 bg-[#0D172B]/34 px-5 backdrop-blur-md transition duration-500 ease-out hover:border-white/20 hover:bg-white/[0.06] md:h-14 md:px-6"
-          >
-            <Image
-              src="/brand/defora-navbar-logo.svg"
-              alt="Defora logo"
-              width={2000}
-              height={2000}
-              priority
-              className="h-8 w-auto object-contain transition duration-500 group-hover:scale-[1.01] md:h-[2.5rem]"
-            />
-          </Link>
+        <header className="flex flex-col items-center gap-5 px-6 pb-14 pt-28 text-center md:px-10 md:pb-20 md:pt-36">
           <p className="text-[0.76rem] font-medium uppercase tracking-[0.28em] text-white/42 md:text-[0.8rem]">
             GOOGLE · İŞLETME PROFİLİ · GÖRÜNÜRLÜK
           </p>
