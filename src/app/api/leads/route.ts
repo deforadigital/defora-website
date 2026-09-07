@@ -11,6 +11,7 @@ type LeadPayload = {
   name?: string;
   phone?: string;
   company?: string;
+  city?: string;
   url?: string;
 };
 
@@ -54,6 +55,7 @@ async function sendLeadSms(lead: Required<LeadPayload>) {
       `Ad: ${lead.name || "-"}`,
       `Tel: ${lead.phone || "-"}`,
       `Firma: ${lead.company || "-"}`,
+      `Şehir: ${lead.city || "-"}`,
       `Site: ${lead.url || "-"}`,
     ]
       .join("\n")
@@ -79,6 +81,7 @@ export async function POST(request: Request) {
     const name = cleanValue(body.name);
     const phone = normalizePhone(cleanValue(body.phone));
     const company = cleanValue(body.company);
+    const city = cleanValue(body.city);
     const url = cleanValue(body.url);
 
     if (!phone) {
@@ -88,7 +91,7 @@ export async function POST(request: Request) {
       );
     }
 
-    await sendLeadSms({ name, phone, company, url });
+    await sendLeadSms({ name, phone, company, city, url });
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {

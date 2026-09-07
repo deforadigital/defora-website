@@ -90,7 +90,8 @@ export default function GoogleIsletmeSkoruPage() {
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [showNotFoundLead, setShowNotFoundLead] = useState(false);
-  const [notFoundName, setNotFoundName] = useState("");
+  const [notFoundBusinessName, setNotFoundBusinessName] = useState("");
+  const [notFoundCity, setNotFoundCity] = useState("");
   const [notFoundPhone, setNotFoundPhone] = useState("");
   const [notFoundKvkkConsent, setNotFoundKvkkConsent] = useState(false);
   const [notFoundErrorMessage, setNotFoundErrorMessage] = useState("");
@@ -206,7 +207,8 @@ export default function GoogleIsletmeSkoruPage() {
     setSearchInput(suggestion.mainText);
     setResult(null);
     setShowNotFoundLead(false);
-    setNotFoundName("");
+    setNotFoundBusinessName("");
+    setNotFoundCity("");
     setNotFoundPhone("");
     setNotFoundKvkkConsent(false);
     setNotFoundErrorMessage("");
@@ -228,11 +230,12 @@ export default function GoogleIsletmeSkoruPage() {
 
     if (isSubmittingNotFoundLead) return;
 
-    const trimmedName = notFoundName.trim();
+    const trimmedName = notFoundBusinessName.trim();
+    const trimmedCity = notFoundCity.trim();
     const normalizedPhone = normalizePhone(notFoundPhone);
 
-    if (!trimmedName || !notFoundPhone.trim()) {
-      setNotFoundErrorMessage("Lütfen ad soyad ve telefon numaranızı girin.");
+    if (!trimmedName || !trimmedCity || !notFoundPhone.trim()) {
+      setNotFoundErrorMessage("Lütfen işletme adı, şehir ve telefon numaranızı girin.");
       return;
     }
 
@@ -256,7 +259,8 @@ export default function GoogleIsletmeSkoruPage() {
         body: JSON.stringify({
           name: trimmedName,
           phone: normalizedPhone,
-          company: searchInput.trim(),
+          company: trimmedName,
+          city: trimmedCity,
         }),
       });
     } catch (error) {
@@ -374,33 +378,47 @@ export default function GoogleIsletmeSkoruPage() {
                   style={{ transformOrigin: "top", animation: "suggestion-dropdown-in 0.18s ease-out" }}
                   className="absolute inset-x-0 top-[calc(100%+0.625rem)] z-20 overflow-hidden rounded-2xl border border-white/12 bg-[linear-gradient(180deg,rgba(20,31,54,0.98),rgba(13,23,43,0.98))] shadow-[0_24px_56px_rgba(0,0,0,0.5)] backdrop-blur-xl"
                 >
-                  {isFetchingSuggestions ? (
-                    <p className="px-5 py-5 text-[0.9rem] text-white/50">Aranıyor...</p>
-                  ) : suggestions.length ? (
-                    suggestions.map((suggestion) => (
-                      <button
-                        key={suggestion.placeId}
-                        type="button"
-                        onMouseDown={() => handleSelectSuggestion(suggestion)}
-                        className="group flex w-full items-start gap-3.5 border-b border-white/[0.06] px-5 py-4 text-left transition duration-150 last:border-b-0 hover:bg-white/[0.07]"
-                      >
-                        <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/[0.06] text-white/40 transition duration-150 group-hover:bg-[#00e9ff]/12 group-hover:text-[#00e9ff]">
-                          <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M20 10.5c0 5.5-8 11.5-8 11.5s-8-6-8-11.5a8 8 0 1 1 16 0Z" />
-                            <circle cx="12" cy="10.5" r="2.6" />
-                          </svg>
-                        </span>
-                        <span className="grid gap-0.5">
-                          <span className="text-[0.94rem] font-medium text-white">{suggestion.mainText}</span>
-                          {suggestion.secondaryText ? (
-                            <span className="text-[0.8rem] text-white/50">{suggestion.secondaryText}</span>
-                          ) : null}
-                        </span>
-                      </button>
-                    ))
-                  ) : (
-                    <p className="px-5 py-5 text-[0.9rem] text-white/50">Eşleşme bulunamadı.</p>
-                  )}
+                  <div className="max-h-[21rem] overflow-y-auto">
+                    {isFetchingSuggestions ? (
+                      <p className="px-5 py-5 text-[0.9rem] text-white/50">Aranıyor...</p>
+                    ) : suggestions.length ? (
+                      suggestions.map((suggestion) => (
+                        <button
+                          key={suggestion.placeId}
+                          type="button"
+                          onMouseDown={() => handleSelectSuggestion(suggestion)}
+                          className="group flex w-full items-start gap-3.5 border-b border-white/[0.06] px-5 py-4 text-left transition duration-150 hover:bg-white/[0.07]"
+                        >
+                          <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/[0.06] text-white/40 transition duration-150 group-hover:bg-[#00e9ff]/12 group-hover:text-[#00e9ff]">
+                            <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M20 10.5c0 5.5-8 11.5-8 11.5s-8-6-8-11.5a8 8 0 1 1 16 0Z" />
+                              <circle cx="12" cy="10.5" r="2.6" />
+                            </svg>
+                          </span>
+                          <span className="grid gap-0.5">
+                            <span className="text-[0.94rem] font-medium text-white">{suggestion.mainText}</span>
+                            {suggestion.secondaryText ? (
+                              <span className="text-[0.8rem] text-white/50">{suggestion.secondaryText}</span>
+                            ) : null}
+                          </span>
+                        </button>
+                      ))
+                    ) : (
+                      <p className="px-5 py-5 text-[0.9rem] text-white/50">Eşleşme bulunamadı.</p>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onMouseDown={() => {
+                      setShowSuggestions(false);
+                      setShowNotFoundLead(true);
+                      setNotFoundBusinessName(searchInput.trim());
+                    }}
+                    className="w-full border-t border-white/10 bg-white/[0.02] px-5 py-4 text-left text-[0.88rem] font-medium text-white/60 transition duration-150 hover:bg-white/[0.07] hover:text-white"
+                  >
+                    İşletmemi bulamadım
+                  </button>
                 </div>
               ) : null}
             </div>
@@ -409,75 +427,76 @@ export default function GoogleIsletmeSkoruPage() {
               <p className="relative mt-4 text-sm leading-[1.6] text-[#ef4444]">{errorMessage}</p>
             ) : null}
 
-            {!showNotFoundLead ? (
-              <button
-                type="button"
-                onClick={() => setShowNotFoundLead(true)}
-                className="relative mt-4 text-[0.86rem] font-medium text-white/50 underline underline-offset-2 transition hover:text-white/80"
-              >
-                İşletmem listede çıkmıyor
-              </button>
-            ) : notFoundLeadSubmitted ? (
-              <div className="relative mt-5 rounded-2xl border border-[#22c55e]/20 bg-[#22c55e]/[0.06] px-5 py-4">
-                <p className="text-[0.94rem] leading-[1.6] text-white/86">
-                  Teşekkürler! İşletmenizi bulamadık ama ekibimiz sizi arayıp ücretsiz analiz yapacak.
-                </p>
-              </div>
-            ) : (
-              <div className="relative mt-5">
-                <p className="text-[0.86rem] leading-[1.6] text-white/60">
-                  Sorun değil — ad soyad ve telefon numaranızı bırakın, ekibimiz sizi arayıp işletmenizi birlikte inceleyelim.
-                </p>
+            {showNotFoundLead ? (
+              notFoundLeadSubmitted ? (
+                <div className="relative mt-5 rounded-2xl border border-[#22c55e]/20 bg-[#22c55e]/[0.06] px-5 py-4">
+                  <p className="text-[0.94rem] leading-[1.6] text-white/86">
+                    Teşekkürler! İşletmenizi bulamadık ama ekibimiz sizi arayıp ücretsiz analiz yapacak.
+                  </p>
+                </div>
+              ) : (
+                <div className="relative mt-5">
+                  <p className="text-[0.86rem] leading-[1.6] text-white/60">
+                    Sorun değil — işletme adı, şehir ve telefon numaranızı bırakın, ekibimiz sizi arayıp işletmenizi birlikte inceleyelim.
+                  </p>
 
-                <form onSubmit={handleNotFoundLeadSubmit} className="mt-4 grid gap-3">
-                  <input
-                    type="text"
-                    value={notFoundName}
-                    onChange={(event) => setNotFoundName(event.currentTarget.value)}
-                    placeholder="Ad Soyad"
-                    className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
-                  />
-                  <input
-                    type="tel"
-                    value={notFoundPhone}
-                    onChange={(event) => setNotFoundPhone(event.currentTarget.value)}
-                    placeholder="Telefon numaranız"
-                    className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
-                  />
-
-                  <label className="flex items-start gap-3 text-[0.85rem] leading-[1.6] text-white/64">
+                  <form onSubmit={handleNotFoundLeadSubmit} className="mt-4 grid gap-3">
                     <input
-                      type="checkbox"
-                      checked={notFoundKvkkConsent}
-                      onChange={(event) => setNotFoundKvkkConsent(event.currentTarget.checked)}
-                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.04] accent-[#00e9ff]"
+                      type="text"
+                      value={notFoundBusinessName}
+                      onChange={(event) => setNotFoundBusinessName(event.currentTarget.value)}
+                      placeholder="İşletme Adı"
+                      className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
                     />
-                    <span>
-                      <Link
-                        href="/kvkk-aydinlatma-metni"
-                        target="_blank"
-                        className="font-medium text-[#00e9ff] underline underline-offset-2 hover:text-[#33efff]"
-                      >
-                        Aydınlatma Metni
-                      </Link>
-                      &apos;ni okudum, kişisel verilerimin işlenmesini kabul ediyorum.
-                    </span>
-                  </label>
+                    <input
+                      type="text"
+                      value={notFoundCity}
+                      onChange={(event) => setNotFoundCity(event.currentTarget.value)}
+                      placeholder="Şehir"
+                      className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                    />
+                    <input
+                      type="tel"
+                      value={notFoundPhone}
+                      onChange={(event) => setNotFoundPhone(event.currentTarget.value)}
+                      placeholder="Telefon numaranız"
+                      className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                    />
 
-                  {notFoundErrorMessage ? (
-                    <p className="text-sm leading-[1.6] text-[#ef4444]">{notFoundErrorMessage}</p>
-                  ) : null}
+                    <label className="flex items-start gap-3 text-[0.85rem] leading-[1.6] text-white/64">
+                      <input
+                        type="checkbox"
+                        checked={notFoundKvkkConsent}
+                        onChange={(event) => setNotFoundKvkkConsent(event.currentTarget.checked)}
+                        className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.04] accent-[#00e9ff]"
+                      />
+                      <span>
+                        <Link
+                          href="/kvkk-aydinlatma-metni"
+                          target="_blank"
+                          className="font-medium text-[#00e9ff] underline underline-offset-2 hover:text-[#33efff]"
+                        >
+                          Aydınlatma Metni
+                        </Link>
+                        &apos;ni okudum, kişisel verilerimin işlenmesini kabul ediyorum.
+                      </span>
+                    </label>
 
-                  <button
-                    type="submit"
-                    disabled={isSubmittingNotFoundLead || !notFoundKvkkConsent}
-                    className="inline-flex h-14 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
-                  >
-                    {isSubmittingNotFoundLead ? "Gönderiliyor" : "Beni Arayın"}
-                  </button>
-                </form>
-              </div>
-            )}
+                    {notFoundErrorMessage ? (
+                      <p className="text-sm leading-[1.6] text-[#ef4444]">{notFoundErrorMessage}</p>
+                    ) : null}
+
+                    <button
+                      type="submit"
+                      disabled={isSubmittingNotFoundLead || !notFoundKvkkConsent}
+                      className="inline-flex h-14 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
+                    >
+                      {isSubmittingNotFoundLead ? "Gönderiliyor" : "Beni Arayın"}
+                    </button>
+                  </form>
+                </div>
+              )
+            ) : null}
 
             {isLoading ? (
               <div className="relative mt-8 flex flex-col items-center gap-4 py-6">

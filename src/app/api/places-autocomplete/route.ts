@@ -60,7 +60,7 @@ export async function POST(request: Request) {
     const suggestions = (data.suggestions ?? [])
       .map((suggestion) => suggestion.placePrediction)
       .filter((prediction): prediction is PlacePrediction => Boolean(prediction))
-      .slice(0, 6)
+      .slice(0, 5)
       .map((prediction) => ({
         placeId: prediction.placeId,
         mainText: prediction.structuredFormat?.mainText?.text ?? prediction.text?.text ?? "",
