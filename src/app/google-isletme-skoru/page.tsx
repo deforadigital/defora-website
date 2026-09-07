@@ -89,9 +89,13 @@ export default function GoogleIsletmeSkoruPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
-  const [showMapsUrlInput, setShowMapsUrlInput] = useState(false);
-  const [mapsUrl, setMapsUrl] = useState("");
-  const [mapsUrlErrorMessage, setMapsUrlErrorMessage] = useState("");
+  const [showNotFoundLead, setShowNotFoundLead] = useState(false);
+  const [notFoundName, setNotFoundName] = useState("");
+  const [notFoundPhone, setNotFoundPhone] = useState("");
+  const [notFoundKvkkConsent, setNotFoundKvkkConsent] = useState(false);
+  const [notFoundErrorMessage, setNotFoundErrorMessage] = useState("");
+  const [isSubmittingNotFoundLead, setIsSubmittingNotFoundLead] = useState(false);
+  const [notFoundLeadSubmitted, setNotFoundLeadSubmitted] = useState(false);
   const [pendingResult, setPendingResult] = useState<ScoreData | null>(null);
   const [result, setResult] = useState<ScoreData | null>(null);
   const [leadName, setLeadName] = useState("");
@@ -201,9 +205,12 @@ export default function GoogleIsletmeSkoruPage() {
     setSuggestions([]);
     setSearchInput(suggestion.mainText);
     setResult(null);
-    setShowMapsUrlInput(false);
-    setMapsUrl("");
-    setMapsUrlErrorMessage("");
+    setShowNotFoundLead(false);
+    setNotFoundName("");
+    setNotFoundPhone("");
+    setNotFoundKvkkConsent(false);
+    setNotFoundErrorMessage("");
+    setNotFoundLeadSubmitted(false);
     setLeadName("");
     setLeadPhone("");
     setLeadErrorMessage("");
@@ -216,56 +223,47 @@ export default function GoogleIsletmeSkoruPage() {
     });
   };
 
-  const handleMapsUrlSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleNotFoundLeadSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isLoading) return;
+    if (isSubmittingNotFoundLead) return;
 
-    const trimmedMapsUrl = mapsUrl.trim();
+    const trimmedName = notFoundName.trim();
+    const normalizedPhone = normalizePhone(notFoundPhone);
 
-    if (!trimmedMapsUrl) {
-      setMapsUrlErrorMessage("Lütfen Google Haritalar linkini yapıştırın.");
+    if (!trimmedName || !notFoundPhone.trim()) {
+      setNotFoundErrorMessage("Lütfen ad soyad ve telefon numaranızı girin.");
       return;
     }
 
-    setMapsUrlErrorMessage("");
-    setIsLoading(true);
+    if (!normalizedPhone) {
+      setNotFoundErrorMessage("Lütfen geçerli bir cep telefonu numarası girin (örn. 05XX XXX XX XX).");
+      return;
+    }
+
+    if (!notFoundKvkkConsent) {
+      setNotFoundErrorMessage("Devam etmek için KVKK Aydınlatma Metni'ni onaylamanız gerekiyor.");
+      return;
+    }
+
+    setNotFoundErrorMessage("");
+    setIsSubmittingNotFoundLead(true);
 
     try {
-      const response = await fetch("/api/gbp-score", {
+      await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mapsUrl: trimmedMapsUrl }),
-      });
-
-      const data = (await response.json()) as GbpScoreResponse;
-
-      if (!response.ok || !data.success || data.score === undefined || !data.checks) {
-        if (data.error === "invalid_maps_url" || data.error === "short_maps_link") {
-          throw new Error(data.error);
-        }
-        throw new Error(data.error ?? "score_failed");
-      }
-
-      setShowMapsUrlInput(false);
-      setPendingResult({
-        name: data.name ?? "",
-        rating: data.rating ?? null,
-        userRatingsTotal: data.userRatingsTotal ?? 0,
-        score: data.score,
-        checks: data.checks,
+        body: JSON.stringify({
+          name: trimmedName,
+          phone: normalizedPhone,
+          company: searchInput.trim(),
+        }),
       });
     } catch (error) {
-      const errorCode = error instanceof Error ? error.message : "";
-      setMapsUrlErrorMessage(
-        errorCode === "short_maps_link"
-          ? "Bu linki tarayıcıda açın, adres çubuğundaki tam linki kopyalayıp yapıştırın."
-          : errorCode === "invalid_maps_url"
-            ? "Geçersiz link, lütfen Google Haritalar'dan kopyalayın."
-            : "Skor hesaplanırken bir hata oluştu. Lütfen tekrar deneyin.",
-      );
+      console.error("[google-isletme-skoru] not-found lead submission failed", error);
     } finally {
-      setIsLoading(false);
+      setIsSubmittingNotFoundLead(false);
+      setNotFoundLeadSubmitted(true);
     }
   };
 
@@ -400,39 +398,74 @@ export default function GoogleIsletmeSkoruPage() {
               <p className="relative mt-4 text-sm leading-[1.6] text-[#ef4444]">{errorMessage}</p>
             ) : null}
 
-            {!showMapsUrlInput ? (
+            {!showNotFoundLead ? (
               <button
                 type="button"
-                onClick={() => setShowMapsUrlInput(true)}
+                onClick={() => setShowNotFoundLead(true)}
                 className="relative mt-4 text-[0.86rem] font-medium text-white/50 underline underline-offset-2 transition hover:text-white/80"
               >
                 İşletmem listede çıkmıyor
               </button>
+            ) : notFoundLeadSubmitted ? (
+              <div className="relative mt-5 rounded-2xl border border-[#22c55e]/20 bg-[#22c55e]/[0.06] px-5 py-4">
+                <p className="text-[0.94rem] leading-[1.6] text-white/86">
+                  Teşekkürler! İşletmenizi bulamadık ama ekibimiz sizi arayıp ücretsiz analiz yapacak.
+                </p>
+              </div>
             ) : (
-              <form onSubmit={handleMapsUrlSubmit} className="relative mt-5 grid gap-3">
-                <label className="text-[0.86rem] leading-[1.5] text-white/60">
-                  Google Haritalar&apos;dan işletmenizin linkini yapıştırın
-                </label>
-                <input
-                  type="text"
-                  value={mapsUrl}
-                  onChange={(event) => setMapsUrl(event.currentTarget.value)}
-                  placeholder="https://maps.app.goo.gl/..."
-                  className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
-                />
+              <div className="relative mt-5">
+                <p className="text-[0.86rem] leading-[1.6] text-white/60">
+                  Sorun değil — ad soyad ve telefon numaranızı bırakın, ekibimiz sizi arayıp işletmenizi birlikte inceleyelim.
+                </p>
 
-                {mapsUrlErrorMessage ? (
-                  <p className="text-sm leading-[1.6] text-[#ef4444]">{mapsUrlErrorMessage}</p>
-                ) : null}
+                <form onSubmit={handleNotFoundLeadSubmit} className="mt-4 grid gap-3">
+                  <input
+                    type="text"
+                    value={notFoundName}
+                    onChange={(event) => setNotFoundName(event.currentTarget.value)}
+                    placeholder="Ad Soyad"
+                    className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                  />
+                  <input
+                    type="tel"
+                    value={notFoundPhone}
+                    onChange={(event) => setNotFoundPhone(event.currentTarget.value)}
+                    placeholder="Telefon numaranız"
+                    className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                  />
 
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="inline-flex h-14 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
-                >
-                  {isLoading ? "Bulunuyor" : "Bul ve Hesapla"}
-                </button>
-              </form>
+                  <label className="flex items-start gap-3 text-[0.85rem] leading-[1.6] text-white/64">
+                    <input
+                      type="checkbox"
+                      checked={notFoundKvkkConsent}
+                      onChange={(event) => setNotFoundKvkkConsent(event.currentTarget.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.04] accent-[#00e9ff]"
+                    />
+                    <span>
+                      <Link
+                        href="/kvkk-aydinlatma-metni"
+                        target="_blank"
+                        className="font-medium text-[#00e9ff] underline underline-offset-2 hover:text-[#33efff]"
+                      >
+                        Aydınlatma Metni
+                      </Link>
+                      &apos;ni okudum, kişisel verilerimin işlenmesini kabul ediyorum.
+                    </span>
+                  </label>
+
+                  {notFoundErrorMessage ? (
+                    <p className="text-sm leading-[1.6] text-[#ef4444]">{notFoundErrorMessage}</p>
+                  ) : null}
+
+                  <button
+                    type="submit"
+                    disabled={isSubmittingNotFoundLead || !notFoundKvkkConsent}
+                    className="inline-flex h-14 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
+                  >
+                    {isSubmittingNotFoundLead ? "Gönderiliyor" : "Beni Arayın"}
+                  </button>
+                </form>
+              </div>
             )}
 
             {isLoading ? (

@@ -3,26 +3,7 @@ import { NextResponse } from "next/server";
 const googlePlacesApiKey = process.env.GOOGLE_PLACES_API_KEY;
 
 interface GbpScorePayload {
-  businessName?: string;
-  city?: string;
   placeId?: string;
-  mapsUrl?: string;
-}
-
-interface PlaceTextSearchResult {
-  id: string;
-  displayName?: { text?: string };
-  formattedAddress?: string;
-}
-
-interface PlaceTextSearchResponse {
-  places?: PlaceTextSearchResult[];
-}
-
-interface PlaceCandidate {
-  placeId: string;
-  name: string;
-  address: string;
 }
 
 interface PlaceDetailsResult {
@@ -49,61 +30,6 @@ function cleanValue(value: unknown): string {
 
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
-}
-
-async function searchPlaceCandidates(query: string): Promise<PlaceCandidate[]> {
-  const response = await fetch("https://places.googleapis.com/v1/places:searchText", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Goog-Api-Key": googlePlacesApiKey!,
-      "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress",
-    },
-    body: JSON.stringify({ textQuery: query, languageCode: "tr" }),
-  });
-
-  if (!response.ok) {
-    const bodyText = await response.text().catch(() => "");
-    console.error("[gbp-score] places:searchText rejected", response.status, bodyText);
-    throw new Error(`places_text_search_failed_${response.status}`);
-  }
-
-  const data = (await response.json()) as PlaceTextSearchResponse;
-
-  if (!data.places?.length) {
-    throw new Error("place_not_found");
-  }
-
-  return data.places.slice(0, 5).map((place) => ({
-    placeId: place.id,
-    name: place.displayName?.text ?? "",
-    address: place.formattedAddress ?? "",
-  }));
-}
-
-const PLACE_ID_PATTERN = /!1s(ChIJ[^!]+)/;
-const SHORT_MAPS_LINK_HOSTS = ["share.google", "maps.app.goo.gl"];
-
-function extractPlaceIdFromMapsUrl(mapsUrl: string): string {
-  let parsedUrl: URL;
-
-  try {
-    parsedUrl = new URL(mapsUrl);
-  } catch {
-    throw new Error("invalid_maps_url");
-  }
-
-  if (SHORT_MAPS_LINK_HOSTS.some((host) => parsedUrl.hostname.includes(host))) {
-    throw new Error("short_maps_link");
-  }
-
-  const match = mapsUrl.match(PLACE_ID_PATTERN);
-
-  if (!match) {
-    throw new Error("invalid_maps_url");
-  }
-
-  return match[1];
 }
 
 const PLACE_DETAILS_FIELD_MASK = [
@@ -207,40 +133,29 @@ export async function POST(request: Request) {
 
     const body = (await request.json()) as GbpScorePayload;
     const placeId = cleanValue(body.placeId);
-    const mapsUrl = cleanValue(body.mapsUrl);
 
-    if (placeId || mapsUrl) {
-      const resolvedPlaceId = placeId || extractPlaceIdFromMapsUrl(mapsUrl);
-      const place = await fetchPlaceDetails(resolvedPlaceId);
-      const checks = buildChecks(place);
-      const score = checks.reduce((total, check) => total + (check.passed ? check.points : 0), 0);
-
-      return NextResponse.json(
-        {
-          success: true,
-          name: place.displayName?.text ?? "",
-          rating: place.rating ?? null,
-          userRatingsTotal: place.userRatingCount ?? 0,
-          score,
-          checks,
-        },
-        { status: 200 },
-      );
-    }
-
-    const businessName = cleanValue(body.businessName);
-    const city = cleanValue(body.city);
-
-    if (!businessName || !city) {
+    if (!placeId) {
       return NextResponse.json(
         { success: false, error: "invalid_payload" },
         { status: 400 },
       );
     }
 
-    const candidates = await searchPlaceCandidates(`${businessName} ${city}`);
+    const place = await fetchPlaceDetails(placeId);
+    const checks = buildChecks(place);
+    const score = checks.reduce((total, check) => total + (check.passed ? check.points : 0), 0);
 
-    return NextResponse.json({ success: true, candidates }, { status: 200 });
+    return NextResponse.json(
+      {
+        success: true,
+        name: place.displayName?.text ?? "",
+        rating: place.rating ?? null,
+        userRatingsTotal: place.userRatingCount ?? 0,
+        score,
+        checks,
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.error("[gbp-score] Google Business Profile score failed", error);
     return NextResponse.json(
