@@ -503,15 +503,26 @@ export default function GoogleIsletmeSkoruPage() {
                   ))}
                 </div>
 
-                {!showMapsUrlInput ? (
-                  <button
-                    type="button"
-                    onClick={() => setShowMapsUrlInput(true)}
-                    className="mt-4 text-[0.86rem] font-medium text-white/50 underline underline-offset-2 transition hover:text-white/80"
-                  >
-                    İşletmem bu listede yok
-                  </button>
-                ) : (
+                {!showMapsUrlInput && !showPhoneFallback ? (
+                  <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowMapsUrlInput(true)}
+                      className="text-[0.86rem] font-medium text-white/50 underline underline-offset-2 transition hover:text-white/80"
+                    >
+                      İşletmem bu listede yok
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowPhoneFallback(true)}
+                      className="text-[0.86rem] font-medium text-white/50 underline underline-offset-2 transition hover:text-white/80"
+                    >
+                      Telefon numaramla arayayım
+                    </button>
+                  </div>
+                ) : null}
+
+                {showMapsUrlInput ? (
                   <form onSubmit={handleMapsUrlSubmit} className="mt-5 grid gap-3">
                     <label className="text-[0.86rem] leading-[1.5] text-white/60">
                       Google Haritalar&apos;dan işletmenizin linkini yapıştırın
@@ -536,7 +547,40 @@ export default function GoogleIsletmeSkoruPage() {
                       {isLoading ? "Bulunuyor" : "Bul ve Hesapla"}
                     </button>
                   </form>
-                )}
+                ) : null}
+
+                {showPhoneFallback ? (
+                  <div className="mt-5">
+                    <h3 className="text-[1rem] font-medium tracking-[-0.03em] text-white">
+                      Telefon numaranızla arayalım
+                    </h3>
+                    <p className="mt-2 text-[0.86rem] leading-[1.6] text-white/60">
+                      Google&apos;daki işletme telefon numaranızı girin
+                    </p>
+
+                    <form onSubmit={handleFindByPhoneSubmit} className="mt-4 grid gap-3">
+                      <input
+                        type="tel"
+                        value={phoneFallbackInput}
+                        onChange={(event) => setPhoneFallbackInput(event.currentTarget.value)}
+                        placeholder="05XX XXX XX XX veya +90..."
+                        className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                      />
+
+                      {phoneFallbackErrorMessage ? (
+                        <p className="text-sm leading-[1.6] text-[#ef4444]">{phoneFallbackErrorMessage}</p>
+                      ) : null}
+
+                      <button
+                        type="submit"
+                        disabled={isFindingByPhone || isLoading}
+                        className="inline-flex h-14 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
+                      >
+                        {isFindingByPhone || isLoading ? "Aranıyor" : "İşletmemi Bul"}
+                      </button>
+                    </form>
+                  </div>
+                ) : null}
               </div>
             </div>
           </section>
