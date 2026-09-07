@@ -28,6 +28,13 @@ interface GbpScoreResponse {
   error?: string;
 }
 
+interface FindByPhoneResponse {
+  place_id?: string;
+  name?: string;
+  address?: string;
+  error?: string;
+}
+
 interface ScoreData {
   name: string;
   rating: number | null;
@@ -81,6 +88,10 @@ export default function GoogleIsletmeSkoruPage() {
   const [showMapsUrlInput, setShowMapsUrlInput] = useState(false);
   const [mapsUrl, setMapsUrl] = useState("");
   const [mapsUrlErrorMessage, setMapsUrlErrorMessage] = useState("");
+  const [showPhoneFallback, setShowPhoneFallback] = useState(false);
+  const [phoneFallbackInput, setPhoneFallbackInput] = useState("");
+  const [phoneFallbackErrorMessage, setPhoneFallbackErrorMessage] = useState("");
+  const [isFindingByPhone, setIsFindingByPhone] = useState(false);
   const [pendingResult, setPendingResult] = useState<ScoreData | null>(null);
   const [result, setResult] = useState<ScoreData | null>(null);
   const [leadName, setLeadName] = useState("");
@@ -129,6 +140,9 @@ export default function GoogleIsletmeSkoruPage() {
     setShowMapsUrlInput(false);
     setMapsUrl("");
     setMapsUrlErrorMessage("");
+    setShowPhoneFallback(false);
+    setPhoneFallbackInput("");
+    setPhoneFallbackErrorMessage("");
     setLeadName("");
     setLeadPhone("");
     setLeadErrorMessage("");
@@ -243,6 +257,49 @@ export default function GoogleIsletmeSkoruPage() {
       );
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleFindByPhoneSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isFindingByPhone) return;
+
+    const trimmedPhone = phoneFallbackInput.trim();
+
+    if (!trimmedPhone) {
+      setPhoneFallbackErrorMessage("Lütfen telefon numaranızı girin.");
+      return;
+    }
+
+    setPhoneFallbackErrorMessage("");
+    setIsFindingByPhone(true);
+
+    try {
+      const response = await fetch("/api/find-by-phone", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: trimmedPhone }),
+      });
+
+      const data = (await response.json()) as FindByPhoneResponse;
+
+      if (!response.ok || !data.place_id) {
+        throw new Error("not_found");
+      }
+
+      setShowPhoneFallback(false);
+      await handleSelectCandidate({
+        placeId: data.place_id,
+        name: data.name ?? "",
+        address: data.address ?? "",
+      });
+    } catch {
+      setPhoneFallbackErrorMessage(
+        "Bu numara ile Google'da işletme bulunamadı. Lütfen Google'daki kayıtlı numaranızı deneyin.",
+      );
+    } finally {
+      setIsFindingByPhone(false);
     }
   };
 
@@ -362,6 +419,49 @@ export default function GoogleIsletmeSkoruPage() {
 
             {errorMessage ? (
               <p className="relative mt-4 text-sm leading-[1.6] text-[#ef4444]">{errorMessage}</p>
+            ) : null}
+
+            {errorMessage && !showPhoneFallback ? (
+              <button
+                type="button"
+                onClick={() => setShowPhoneFallback(true)}
+                className="relative mt-3 text-[0.86rem] font-medium text-white/50 underline underline-offset-2 transition hover:text-white/80"
+              >
+                İşletmem bu listede yok
+              </button>
+            ) : null}
+
+            {errorMessage && showPhoneFallback ? (
+              <div className="relative mt-6 border-t border-white/10 pt-6">
+                <h2 className="text-[1.1rem] font-medium tracking-[-0.03em] text-white">
+                  Telefon numaranızla arayalım
+                </h2>
+                <p className="mt-2 text-[0.9rem] leading-[1.6] text-white/60">
+                  Google&apos;daki işletme telefon numaranızı girin
+                </p>
+
+                <form onSubmit={handleFindByPhoneSubmit} className="mt-5 grid gap-3">
+                  <input
+                    type="tel"
+                    value={phoneFallbackInput}
+                    onChange={(event) => setPhoneFallbackInput(event.currentTarget.value)}
+                    placeholder="05XX XXX XX XX veya +90..."
+                    className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-lg text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                  />
+
+                  {phoneFallbackErrorMessage ? (
+                    <p className="text-sm leading-[1.6] text-[#ef4444]">{phoneFallbackErrorMessage}</p>
+                  ) : null}
+
+                  <button
+                    type="submit"
+                    disabled={isFindingByPhone || isLoading}
+                    className="inline-flex h-14 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
+                  >
+                    {isFindingByPhone || isLoading ? "Aranıyor" : "İşletmemi Bul"}
+                  </button>
+                </form>
+              </div>
             ) : null}
 
             {isSearching || isLoading ? (
