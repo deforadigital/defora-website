@@ -370,25 +370,36 @@ export default function GoogleIsletmeSkoruPage() {
               />
 
               {showSuggestions && searchInput.trim().length >= 2 ? (
-                <div className="absolute inset-x-0 top-[calc(100%+0.5rem)] z-20 overflow-hidden rounded-2xl border border-white/12 bg-[#0d172b] shadow-[0_18px_44px_rgba(0,0,0,0.4)]">
+                <div
+                  style={{ transformOrigin: "top", animation: "suggestion-dropdown-in 0.18s ease-out" }}
+                  className="absolute inset-x-0 top-[calc(100%+0.625rem)] z-20 overflow-hidden rounded-2xl border border-white/12 bg-[linear-gradient(180deg,rgba(20,31,54,0.98),rgba(13,23,43,0.98))] shadow-[0_24px_56px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+                >
                   {isFetchingSuggestions ? (
-                    <p className="px-5 py-4 text-[0.9rem] text-white/50">Aranıyor...</p>
+                    <p className="px-5 py-5 text-[0.9rem] text-white/50">Aranıyor...</p>
                   ) : suggestions.length ? (
                     suggestions.map((suggestion) => (
                       <button
                         key={suggestion.placeId}
                         type="button"
                         onMouseDown={() => handleSelectSuggestion(suggestion)}
-                        className="grid w-full gap-0.5 border-b border-white/[0.06] px-5 py-3.5 text-left transition duration-150 last:border-b-0 hover:bg-white/[0.06]"
+                        className="group flex w-full items-start gap-3.5 border-b border-white/[0.06] px-5 py-4 text-left transition duration-150 last:border-b-0 hover:bg-white/[0.07]"
                       >
-                        <span className="text-[0.94rem] font-medium text-white">{suggestion.mainText}</span>
-                        {suggestion.secondaryText ? (
-                          <span className="text-[0.8rem] text-white/50">{suggestion.secondaryText}</span>
-                        ) : null}
+                        <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/[0.06] text-white/40 transition duration-150 group-hover:bg-[#00e9ff]/12 group-hover:text-[#00e9ff]">
+                          <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M20 10.5c0 5.5-8 11.5-8 11.5s-8-6-8-11.5a8 8 0 1 1 16 0Z" />
+                            <circle cx="12" cy="10.5" r="2.6" />
+                          </svg>
+                        </span>
+                        <span className="grid gap-0.5">
+                          <span className="text-[0.94rem] font-medium text-white">{suggestion.mainText}</span>
+                          {suggestion.secondaryText ? (
+                            <span className="text-[0.8rem] text-white/50">{suggestion.secondaryText}</span>
+                          ) : null}
+                        </span>
                       </button>
                     ))
                   ) : (
-                    <p className="px-5 py-4 text-[0.9rem] text-white/50">Eşleşme bulunamadı.</p>
+                    <p className="px-5 py-5 text-[0.9rem] text-white/50">Eşleşme bulunamadı.</p>
                   )}
                 </div>
               ) : null}
