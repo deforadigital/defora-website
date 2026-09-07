@@ -10,12 +10,12 @@ interface FindPlaceCandidate {
   place_id: string;
   name?: string;
   formatted_address?: string;
-  formatted_phone_number?: string;
 }
 
 interface FindPlaceResponse {
   status: string;
   candidates?: FindPlaceCandidate[];
+  error_message?: string;
 }
 
 function cleanValue(value: unknown): string {
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
     const url = new URL("https://maps.googleapis.com/maps/api/place/findplacefromtext/json");
     url.searchParams.set("input", normalizedPhone);
     url.searchParams.set("inputtype", "phonenumber");
-    url.searchParams.set("fields", "place_id,name,formatted_address,formatted_phone_number");
+    url.searchParams.set("fields", "place_id,name,formatted_address");
     url.searchParams.set("key", googlePlacesApiKey);
 
     const response = await fetch(url.toString());
@@ -68,6 +68,7 @@ export async function POST(request: Request) {
     const data = (await response.json()) as FindPlaceResponse;
 
     if (data.status !== "OK" || !data.candidates?.length) {
+      console.error("[find-by-phone] no match", data.status, data.error_message);
       return NextResponse.json({ error: "Bulunamadı" }, { status: 200 });
     }
 
