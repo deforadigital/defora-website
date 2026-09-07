@@ -46,6 +46,7 @@ export async function POST(request: Request) {
         input,
         includedRegionCodes: ["tr"],
         languageCode: "tr",
+        includedPrimaryTypes: ["establishment"],
       }),
     });
 
