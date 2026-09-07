@@ -17,6 +17,18 @@ interface PlaceCandidate {
   address: string;
 }
 
+interface Suggestion {
+  placeId: string;
+  mainText: string;
+  secondaryText: string;
+}
+
+interface AutocompleteResponse {
+  success: boolean;
+  suggestions?: Suggestion[];
+  error?: string;
+}
+
 interface GbpScoreResponse {
   success: boolean;
   name?: string;
@@ -24,14 +36,6 @@ interface GbpScoreResponse {
   userRatingsTotal?: number;
   score?: number;
   checks?: Check[];
-  candidates?: PlaceCandidate[];
-  error?: string;
-}
-
-interface FindByPhoneResponse {
-  place_id?: string;
-  name?: string;
-  address?: string;
   error?: string;
 }
 
@@ -43,13 +47,13 @@ interface ScoreData {
   checks: Check[];
 }
 
-const searchLoadingMessages = ["İşletmeniz Google'da aranıyor...", "Eşleşmeler bulunuyor..."];
-
 const scoreLoadingMessages = [
   "Profil bilgileri toplanıyor...",
   "Skor hesaplanıyor...",
   "Rapor hazırlanıyor...",
 ];
+
+const AUTOCOMPLETE_DEBOUNCE_MS = 300;
 
 function normalizePhone(input: string): string | null {
   const digitsOnly = input.replace(/\D/g, "");
@@ -78,20 +82,16 @@ function getScoreStatusLabel(score: number): string {
 }
 
 export default function GoogleIsletmeSkoruPage() {
-  const [businessName, setBusinessName] = useState("");
-  const [city, setCity] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
-  const [candidates, setCandidates] = useState<PlaceCandidate[]>([]);
   const [showMapsUrlInput, setShowMapsUrlInput] = useState(false);
   const [mapsUrl, setMapsUrl] = useState("");
   const [mapsUrlErrorMessage, setMapsUrlErrorMessage] = useState("");
-  const [showPhoneFallback, setShowPhoneFallback] = useState(false);
-  const [phoneFallbackInput, setPhoneFallbackInput] = useState("");
-  const [phoneFallbackErrorMessage, setPhoneFallbackErrorMessage] = useState("");
-  const [isFindingByPhone, setIsFindingByPhone] = useState(false);
   const [pendingResult, setPendingResult] = useState<ScoreData | null>(null);
   const [result, setResult] = useState<ScoreData | null>(null);
   const [leadName, setLeadName] = useState("");
@@ -100,76 +100,67 @@ export default function GoogleIsletmeSkoruPage() {
   const [leadErrorMessage, setLeadErrorMessage] = useState("");
   const [kvkkConsent, setKvkkConsent] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (!isSearching && !isLoading) {
+    if (!isLoading) {
       if (intervalRef.current) clearInterval(intervalRef.current);
       return;
     }
 
-    const messages = isSearching ? searchLoadingMessages : scoreLoadingMessages;
-
     setLoadingMessageIndex(0);
     intervalRef.current = setInterval(() => {
-      setLoadingMessageIndex((current) => (current + 1) % messages.length);
+      setLoadingMessageIndex((current) => (current + 1) % scoreLoadingMessages.length);
     }, 1800);
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isSearching, isLoading]);
+  }, [isLoading]);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
 
-    if (isSearching) return;
+  const fetchSuggestions = async (value: string) => {
+    setIsFetchingSuggestions(true);
 
-    const trimmedName = businessName.trim();
-    const trimmedCity = city.trim();
+    try {
+      const response = await fetch("/api/places-autocomplete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: value }),
+      });
 
-    if (!trimmedName || !trimmedCity) {
-      setErrorMessage("Lütfen işletme adı ve şehir girin.");
-      setResult(null);
+      const data = (await response.json()) as AutocompleteResponse;
+
+      setSuggestions(response.ok && data.success ? (data.suggestions ?? []) : []);
+    } catch {
+      setSuggestions([]);
+    } finally {
+      setIsFetchingSuggestions(false);
+    }
+  };
+
+  const handleSearchInputChange = (value: string) => {
+    setSearchInput(value);
+    setShowSuggestions(true);
+    setErrorMessage("");
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    const trimmed = value.trim();
+
+    if (trimmed.length < 2) {
+      setSuggestions([]);
       return;
     }
 
-    setErrorMessage("");
-    setResult(null);
-    setPendingResult(null);
-    setCandidates([]);
-    setShowMapsUrlInput(false);
-    setMapsUrl("");
-    setMapsUrlErrorMessage("");
-    setShowPhoneFallback(false);
-    setPhoneFallbackInput("");
-    setPhoneFallbackErrorMessage("");
-    setLeadName("");
-    setLeadPhone("");
-    setLeadErrorMessage("");
-    setKvkkConsent(false);
-    setIsSearching(true);
-
-    try {
-      const response = await fetch("/api/gbp-score", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ businessName: trimmedName, city: trimmedCity }),
-      });
-
-      const data = (await response.json()) as GbpScoreResponse;
-
-      if (!response.ok || !data.success || !data.candidates?.length) {
-        throw new Error(data.error ?? "search_failed");
-      }
-
-      setCandidates(data.candidates);
-    } catch {
-      setErrorMessage(
-        "İşletmeniz bulunamadı. İşletme adını ve şehri kontrol edip tekrar deneyin.",
-      );
-    } finally {
-      setIsSearching(false);
-    }
+    debounceRef.current = setTimeout(() => {
+      void fetchSuggestions(trimmed);
+    }, AUTOCOMPLETE_DEBOUNCE_MS);
   };
 
   const handleSelectCandidate = async (candidate: PlaceCandidate) => {
@@ -191,7 +182,6 @@ export default function GoogleIsletmeSkoruPage() {
         throw new Error(data.error ?? "score_failed");
       }
 
-      setCandidates([]);
       setPendingResult({
         name: data.name ?? candidate.name,
         rating: data.rating ?? null,
@@ -204,6 +194,26 @@ export default function GoogleIsletmeSkoruPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSelectSuggestion = (suggestion: Suggestion) => {
+    setShowSuggestions(false);
+    setSuggestions([]);
+    setSearchInput(suggestion.mainText);
+    setResult(null);
+    setShowMapsUrlInput(false);
+    setMapsUrl("");
+    setMapsUrlErrorMessage("");
+    setLeadName("");
+    setLeadPhone("");
+    setLeadErrorMessage("");
+    setKvkkConsent(false);
+
+    void handleSelectCandidate({
+      placeId: suggestion.placeId,
+      name: suggestion.mainText,
+      address: suggestion.secondaryText,
+    });
   };
 
   const handleMapsUrlSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -237,7 +247,6 @@ export default function GoogleIsletmeSkoruPage() {
         throw new Error(data.error ?? "score_failed");
       }
 
-      setCandidates([]);
       setShowMapsUrlInput(false);
       setPendingResult({
         name: data.name ?? "",
@@ -257,49 +266,6 @@ export default function GoogleIsletmeSkoruPage() {
       );
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleFindByPhoneSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (isFindingByPhone) return;
-
-    const trimmedPhone = phoneFallbackInput.trim();
-
-    if (!trimmedPhone) {
-      setPhoneFallbackErrorMessage("Lütfen telefon numaranızı girin.");
-      return;
-    }
-
-    setPhoneFallbackErrorMessage("");
-    setIsFindingByPhone(true);
-
-    try {
-      const response = await fetch("/api/find-by-phone", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: trimmedPhone }),
-      });
-
-      const data = (await response.json()) as FindByPhoneResponse;
-
-      if (!response.ok || !data.place_id) {
-        throw new Error("not_found");
-      }
-
-      setShowPhoneFallback(false);
-      await handleSelectCandidate({
-        placeId: data.place_id,
-        name: data.name ?? "",
-        address: data.address ?? "",
-      });
-    } catch {
-      setPhoneFallbackErrorMessage(
-        "Bu numara ile Google'da işletme bulunamadı. Lütfen Google'daki kayıtlı numaranızı deneyin.",
-      );
-    } finally {
-      setIsFindingByPhone(false);
     }
   };
 
@@ -384,7 +350,7 @@ export default function GoogleIsletmeSkoruPage() {
             Google İşletme Skoru
           </h1>
           <p className="max-w-[34rem] text-[1rem] leading-[1.75] text-white/64 md:text-[1.06rem]">
-            İşletme adınızı ve şehrinizi girin, Google&apos;daki işletme profilinizin ne kadar güçlü olduğunu birkaç saniyede öğrenin.
+            İşletmenizin adını yazmaya başlayın, Google&apos;daki listeden seçin — profilinizin ne kadar güçlü olduğunu birkaç saniyede öğrenin.
           </p>
         </header>
 
@@ -393,198 +359,90 @@ export default function GoogleIsletmeSkoruPage() {
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,233,255,0.14),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(177,87,253,0.1),transparent_32%)] opacity-80" />
             <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-white/[0.05]" />
 
-            <form onSubmit={handleSubmit} className="relative grid gap-3">
+            <div className="relative">
               <input
                 type="text"
-                value={businessName}
-                onChange={(event) => setBusinessName(event.currentTarget.value)}
-                placeholder="İşletme adı"
-                className="h-20 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-4 text-xl text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                value={searchInput}
+                onChange={(event) => handleSearchInputChange(event.currentTarget.value)}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                placeholder="İşletme adınızı yazın..."
+                disabled={isLoading}
+                className="h-20 w-full rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-4 text-xl text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05] disabled:opacity-50"
               />
-              <input
-                type="text"
-                value={city}
-                onChange={(event) => setCity(event.currentTarget.value)}
-                placeholder="Şehir"
-                className="h-20 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-4 text-xl text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
-              />
-              <button
-                type="submit"
-                disabled={isSearching}
-                className="mt-1 inline-flex h-16 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.84rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
-              >
-                {isSearching ? "Aranıyor" : "Skoru Hesapla"}
-              </button>
-            </form>
+
+              {showSuggestions && searchInput.trim().length >= 2 ? (
+                <div className="absolute inset-x-0 top-[calc(100%+0.5rem)] z-20 overflow-hidden rounded-2xl border border-white/12 bg-[#0d172b] shadow-[0_18px_44px_rgba(0,0,0,0.4)]">
+                  {isFetchingSuggestions ? (
+                    <p className="px-5 py-4 text-[0.9rem] text-white/50">Aranıyor...</p>
+                  ) : suggestions.length ? (
+                    suggestions.map((suggestion) => (
+                      <button
+                        key={suggestion.placeId}
+                        type="button"
+                        onMouseDown={() => handleSelectSuggestion(suggestion)}
+                        className="grid w-full gap-0.5 border-b border-white/[0.06] px-5 py-3.5 text-left transition duration-150 last:border-b-0 hover:bg-white/[0.06]"
+                      >
+                        <span className="text-[0.94rem] font-medium text-white">{suggestion.mainText}</span>
+                        {suggestion.secondaryText ? (
+                          <span className="text-[0.8rem] text-white/50">{suggestion.secondaryText}</span>
+                        ) : null}
+                      </button>
+                    ))
+                  ) : (
+                    <p className="px-5 py-4 text-[0.9rem] text-white/50">Eşleşme bulunamadı.</p>
+                  )}
+                </div>
+              ) : null}
+            </div>
 
             {errorMessage ? (
               <p className="relative mt-4 text-sm leading-[1.6] text-[#ef4444]">{errorMessage}</p>
             ) : null}
 
-            {errorMessage && !showPhoneFallback ? (
+            {!showMapsUrlInput ? (
               <button
                 type="button"
-                onClick={() => setShowPhoneFallback(true)}
-                className="relative mt-3 text-[0.86rem] font-medium text-white/50 underline underline-offset-2 transition hover:text-white/80"
+                onClick={() => setShowMapsUrlInput(true)}
+                className="relative mt-4 text-[0.86rem] font-medium text-white/50 underline underline-offset-2 transition hover:text-white/80"
               >
-                İşletmem bu listede yok
+                İşletmem listede çıkmıyor
               </button>
-            ) : null}
+            ) : (
+              <form onSubmit={handleMapsUrlSubmit} className="relative mt-5 grid gap-3">
+                <label className="text-[0.86rem] leading-[1.5] text-white/60">
+                  Google Haritalar&apos;dan işletmenizin linkini yapıştırın
+                </label>
+                <input
+                  type="text"
+                  value={mapsUrl}
+                  onChange={(event) => setMapsUrl(event.currentTarget.value)}
+                  placeholder="https://maps.app.goo.gl/..."
+                  className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
+                />
 
-            {errorMessage && showPhoneFallback ? (
-              <div className="relative mt-6 border-t border-white/10 pt-6">
-                <h2 className="text-[1.1rem] font-medium tracking-[-0.03em] text-white">
-                  Telefon numaranızla arayalım
-                </h2>
-                <p className="mt-2 text-[0.9rem] leading-[1.6] text-white/60">
-                  Google&apos;daki işletme telefon numaranızı girin
-                </p>
+                {mapsUrlErrorMessage ? (
+                  <p className="text-sm leading-[1.6] text-[#ef4444]">{mapsUrlErrorMessage}</p>
+                ) : null}
 
-                <form onSubmit={handleFindByPhoneSubmit} className="mt-5 grid gap-3">
-                  <input
-                    type="tel"
-                    value={phoneFallbackInput}
-                    onChange={(event) => setPhoneFallbackInput(event.currentTarget.value)}
-                    placeholder="05XX XXX XX XX veya +90..."
-                    className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-lg text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
-                  />
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="inline-flex h-14 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
+                >
+                  {isLoading ? "Bulunuyor" : "Bul ve Hesapla"}
+                </button>
+              </form>
+            )}
 
-                  {phoneFallbackErrorMessage ? (
-                    <p className="text-sm leading-[1.6] text-[#ef4444]">{phoneFallbackErrorMessage}</p>
-                  ) : null}
-
-                  <button
-                    type="submit"
-                    disabled={isFindingByPhone || isLoading}
-                    className="inline-flex h-14 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
-                  >
-                    {isFindingByPhone || isLoading ? "Aranıyor" : "İşletmemi Bul"}
-                  </button>
-                </form>
-              </div>
-            ) : null}
-
-            {isSearching || isLoading ? (
+            {isLoading ? (
               <div className="relative mt-8 flex flex-col items-center gap-4 py-6">
                 <span className="h-10 w-10 animate-spin rounded-full border-2 border-white/15 border-t-[#00e9ff]" />
-                <p className="text-[0.98rem] text-white/64">
-                  {(isSearching ? searchLoadingMessages : scoreLoadingMessages)[loadingMessageIndex]}
-                </p>
+                <p className="text-[0.98rem] text-white/64">{scoreLoadingMessages[loadingMessageIndex]}</p>
               </div>
             ) : null}
           </div>
         </section>
-
-        {candidates.length && !pendingResult && !result ? (
-          <section className="mx-auto max-w-[40rem] px-4 pb-14 md:px-0">
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(15,24,43,0.92),rgba(10,17,32,0.82))] p-5 shadow-[0_18px_56px_rgba(0,0,0,0.22)] backdrop-blur-[18px] md:p-7">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,233,255,0.14),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(177,87,253,0.1),transparent_32%)] opacity-80" />
-              <div className="relative">
-                <h2 className="text-[1.2rem] font-medium tracking-[-0.03em] text-white">
-                  İşletmenizi seçin
-                </h2>
-                <p className="mt-2 text-[0.9rem] leading-[1.6] text-white/60">
-                  Google&apos;da birden fazla eşleşme bulundu. Doğru işletmeyi seçin.
-                </p>
-                <div className="mt-5 grid gap-3">
-                  {candidates.map((candidate) => (
-                    <button
-                      key={candidate.placeId}
-                      type="button"
-                      onClick={() => void handleSelectCandidate(candidate)}
-                      disabled={isLoading}
-                      className="grid gap-1 rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4 text-left transition duration-200 hover:border-white/20 hover:bg-white/[0.07] disabled:opacity-50"
-                    >
-                      <span className="text-[0.98rem] font-medium text-white">{candidate.name}</span>
-                      {candidate.address ? (
-                        <span className="text-[0.84rem] text-white/56">{candidate.address}</span>
-                      ) : null}
-                    </button>
-                  ))}
-                </div>
-
-                {!showMapsUrlInput && !showPhoneFallback ? (
-                  <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
-                    <button
-                      type="button"
-                      onClick={() => setShowMapsUrlInput(true)}
-                      className="text-[0.86rem] font-medium text-white/50 underline underline-offset-2 transition hover:text-white/80"
-                    >
-                      İşletmem bu listede yok
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setShowPhoneFallback(true)}
-                      className="text-[0.86rem] font-medium text-white/50 underline underline-offset-2 transition hover:text-white/80"
-                    >
-                      Telefon numaramla arayayım
-                    </button>
-                  </div>
-                ) : null}
-
-                {showMapsUrlInput ? (
-                  <form onSubmit={handleMapsUrlSubmit} className="mt-5 grid gap-3">
-                    <label className="text-[0.86rem] leading-[1.5] text-white/60">
-                      Google Haritalar&apos;dan işletmenizin linkini yapıştırın
-                    </label>
-                    <input
-                      type="text"
-                      value={mapsUrl}
-                      onChange={(event) => setMapsUrl(event.currentTarget.value)}
-                      placeholder="https://maps.app.goo.gl/..."
-                      className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
-                    />
-
-                    {mapsUrlErrorMessage ? (
-                      <p className="text-sm leading-[1.6] text-[#ef4444]">{mapsUrlErrorMessage}</p>
-                    ) : null}
-
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="inline-flex h-14 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
-                    >
-                      {isLoading ? "Bulunuyor" : "Bul ve Hesapla"}
-                    </button>
-                  </form>
-                ) : null}
-
-                {showPhoneFallback ? (
-                  <div className="mt-5">
-                    <h3 className="text-[1rem] font-medium tracking-[-0.03em] text-white">
-                      Telefon numaranızla arayalım
-                    </h3>
-                    <p className="mt-2 text-[0.86rem] leading-[1.6] text-white/60">
-                      Google&apos;daki işletme telefon numaranızı girin
-                    </p>
-
-                    <form onSubmit={handleFindByPhoneSubmit} className="mt-4 grid gap-3">
-                      <input
-                        type="tel"
-                        value={phoneFallbackInput}
-                        onChange={(event) => setPhoneFallbackInput(event.currentTarget.value)}
-                        placeholder="05XX XXX XX XX veya +90..."
-                        className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-base text-white outline-none placeholder:text-white/28 transition duration-200 focus:border-white/20 focus:bg-white/[0.05]"
-                      />
-
-                      {phoneFallbackErrorMessage ? (
-                        <p className="text-sm leading-[1.6] text-[#ef4444]">{phoneFallbackErrorMessage}</p>
-                      ) : null}
-
-                      <button
-                        type="submit"
-                        disabled={isFindingByPhone || isLoading}
-                        className="inline-flex h-14 items-center justify-center rounded-full bg-[#00e9ff] px-8 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#0d172b] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#33efff] disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
-                      >
-                        {isFindingByPhone || isLoading ? "Aranıyor" : "İşletmemi Bul"}
-                      </button>
-                    </form>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          </section>
-        ) : null}
 
         {pendingResult ? (
           <section className="mx-auto max-w-[40rem] px-4 pb-14 md:px-0">
