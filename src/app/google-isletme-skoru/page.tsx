@@ -104,8 +104,20 @@ export default function GoogleIsletmeSkoruPage() {
   const [isSubmittingLead, setIsSubmittingLead] = useState(false);
   const [leadErrorMessage, setLeadErrorMessage] = useState("");
   const [kvkkConsent, setKvkkConsent] = useState(false);
+  const [dropdownAlignment, setDropdownAlignment] = useState<"below" | "above">("below");
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
+
+  const DROPDOWN_ESTIMATED_HEIGHT = 340;
+
+  const updateDropdownAlignment = () => {
+    const input = searchInputRef.current;
+    if (!input) return;
+
+    const spaceBelow = window.innerHeight - input.getBoundingClientRect().bottom;
+    setDropdownAlignment(spaceBelow < DROPDOWN_ESTIMATED_HEIGHT ? "above" : "below");
+  };
 
   useEffect(() => {
     if (!isLoading) {
@@ -153,6 +165,7 @@ export default function GoogleIsletmeSkoruPage() {
     setSearchInput(value);
     setShowSuggestions(true);
     setErrorMessage("");
+    updateDropdownAlignment();
 
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
@@ -363,10 +376,14 @@ export default function GoogleIsletmeSkoruPage() {
 
             <div className="relative">
               <input
+                ref={searchInputRef}
                 type="text"
                 value={searchInput}
                 onChange={(event) => handleSearchInputChange(event.currentTarget.value)}
-                onFocus={() => setShowSuggestions(true)}
+                onFocus={() => {
+                  setShowSuggestions(true);
+                  updateDropdownAlignment();
+                }}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
                 placeholder="İşletme adınızı yazın..."
                 disabled={isLoading}
@@ -375,10 +392,17 @@ export default function GoogleIsletmeSkoruPage() {
 
               {showSuggestions && searchInput.trim().length >= 2 ? (
                 <div
-                  style={{ transformOrigin: "top", animation: "suggestion-dropdown-in 0.18s ease-out" }}
-                  className="absolute inset-x-0 top-[calc(100%+0.625rem)] z-20 overflow-hidden rounded-2xl border border-white/12 bg-[linear-gradient(180deg,rgba(20,31,54,0.98),rgba(13,23,43,0.98))] shadow-[0_24px_56px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+                  style={{
+                    transformOrigin: dropdownAlignment === "below" ? "top" : "bottom",
+                    animation: "suggestion-dropdown-in 0.18s ease-out",
+                  }}
+                  className={`absolute inset-x-0 z-20 overflow-hidden rounded-2xl border border-white/12 bg-[linear-gradient(180deg,rgba(20,31,54,0.98),rgba(13,23,43,0.98))] shadow-[0_24px_56px_rgba(0,0,0,0.5)] backdrop-blur-xl ${
+                    dropdownAlignment === "below"
+                      ? "top-[calc(100%+0.625rem)]"
+                      : "bottom-[calc(100%+0.625rem)]"
+                  }`}
                 >
-                  <div className="max-h-[21rem] overflow-y-auto">
+                  <div className="max-h-[min(21rem,45vh)] overflow-y-auto">
                     {isFetchingSuggestions ? (
                       <p className="px-5 py-5 text-[0.9rem] text-white/50">Aranıyor...</p>
                     ) : suggestions.length ? (
