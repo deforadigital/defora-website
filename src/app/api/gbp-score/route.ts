@@ -26,20 +26,14 @@ interface PlaceCandidate {
 }
 
 interface PlaceDetailsResult {
-  name?: string;
+  displayName?: { text?: string };
   rating?: number;
-  user_ratings_total?: number;
-  opening_hours?: { weekday_text?: string[] };
-  photos?: { photo_reference: string }[];
-  website?: string;
-  formatted_phone_number?: string;
-  types?: string[];
-  editorial_summary?: { overview?: string };
-}
-
-interface PlaceDetailsResponse {
-  status: string;
-  result?: PlaceDetailsResult;
+  userRatingCount?: number;
+  regularOpeningHours?: { weekdayDescriptions?: string[] };
+  photos?: { name: string }[];
+  websiteUri?: string;
+  internationalPhoneNumber?: string;
+  editorialSummary?: { text?: string };
 }
 
 interface Check {
@@ -112,49 +106,43 @@ function extractPlaceIdFromMapsUrl(mapsUrl: string): string {
   return match[1];
 }
 
+const PLACE_DETAILS_FIELD_MASK = [
+  "displayName",
+  "rating",
+  "userRatingCount",
+  "regularOpeningHours",
+  "photos",
+  "websiteUri",
+  "internationalPhoneNumber",
+  "editorialSummary",
+].join(",");
+
 async function fetchPlaceDetails(placeId: string): Promise<PlaceDetailsResult> {
-  const fields = [
-    "name",
-    "rating",
-    "user_ratings_total",
-    "opening_hours",
-    "photos",
-    "website",
-    "formatted_phone_number",
-    "types",
-    "editorial_summary",
-  ].join(",");
-
-  const detailsUrl = new URL("https://maps.googleapis.com/maps/api/place/details/json");
-  detailsUrl.searchParams.set("place_id", placeId);
-  detailsUrl.searchParams.set("fields", fields);
-  detailsUrl.searchParams.set("key", googlePlacesApiKey!);
-  detailsUrl.searchParams.set("language", "tr");
-
-  const response = await fetch(detailsUrl.toString());
+  const response = await fetch(`https://places.googleapis.com/v1/places/${placeId}`, {
+    headers: {
+      "X-Goog-Api-Key": googlePlacesApiKey!,
+      "X-Goog-FieldMask": PLACE_DETAILS_FIELD_MASK,
+    },
+  });
 
   if (!response.ok) {
+    const bodyText = await response.text().catch(() => "");
+    console.error("[gbp-score] places.get rejected", response.status, bodyText);
     throw new Error(`place_details_failed_${response.status}`);
   }
 
-  const data = (await response.json()) as PlaceDetailsResponse;
-
-  if (data.status !== "OK" || !data.result) {
-    throw new Error(`place_details_not_ok: ${data.status}`);
-  }
-
-  return data.result;
+  return (await response.json()) as PlaceDetailsResult;
 }
 
 function buildChecks(place: PlaceDetailsResult): Check[] {
-  const hasOpeningHours = Boolean(place.opening_hours?.weekday_text?.length);
+  const hasOpeningHours = Boolean(place.regularOpeningHours?.weekdayDescriptions?.length);
   const photoCount = place.photos?.length ?? 0;
   const hasEnoughPhotos = photoCount >= 5;
-  const hasPhone = Boolean(place.formatted_phone_number);
-  const hasWebsite = Boolean(place.website);
-  const ratingsCount = place.user_ratings_total ?? 0;
+  const hasPhone = Boolean(place.internationalPhoneNumber);
+  const hasWebsite = Boolean(place.websiteUri);
+  const ratingsCount = place.userRatingCount ?? 0;
   const hasEnoughRatings = ratingsCount >= 10;
-  const hasEditorialSummary = Boolean(place.editorial_summary?.overview);
+  const hasEditorialSummary = Boolean(place.editorialSummary?.text);
 
   return [
     {
@@ -230,9 +218,9 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: true,
-          name: place.name ?? "",
+          name: place.displayName?.text ?? "",
           rating: place.rating ?? null,
-          userRatingsTotal: place.user_ratings_total ?? 0,
+          userRatingsTotal: place.userRatingCount ?? 0,
           score,
           checks,
         },
