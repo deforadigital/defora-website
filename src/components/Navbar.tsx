@@ -29,11 +29,11 @@ const navLinks: Record<Locale, Array<{ label: string; target: string }>> = {
 const freeAnalysisLinks: Record<Locale, { label: string; href: string }> = {
   tr: {
     label: "Ücretsiz Analiz",
-    href: "/ucretsiz-web-site-analizi",
+    href: "/ucretsiz-analiz",
   },
   en: {
     label: "Free Analysis",
-    href: "/ucretsiz-web-site-analizi",
+    href: "/ucretsiz-analiz",
   },
 };
 const whatsappLinks: Record<Locale, { label: string; href: string; message: string }> = {
